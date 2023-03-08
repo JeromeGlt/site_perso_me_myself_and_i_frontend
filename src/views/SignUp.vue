@@ -20,14 +20,14 @@
 </template>
 
 <script>
-    // import { mapState } from 'vuex'
+  import { mapState } from 'vuex'
 
   export default {
     name: 'SignUp',
     computed: {
-  //         ...mapState({
-  //             message: state => state.message
-  //         }),
+      ...mapState({
+        message: state => state.message
+      }),
     },
     data: () => ({
       username: '',
@@ -52,13 +52,13 @@
       },
       submit() {
 
-        let values = {
+        let signupData = {
           username: this.username,
           password: this.password
         }
-        console.log(values)
+        console.log(signupData)
 
-        this.$store.dispatch('submitSignup', values)
+        this.$store.dispatch('submitSignup', signupData)
       }
     }
   }
