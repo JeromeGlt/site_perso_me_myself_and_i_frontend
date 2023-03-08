@@ -2,6 +2,11 @@ import { createStore } from 'vuex'
 
 export default createStore({
   state: {
+    username: '',
+    userId: '',
+    token: '',
+    message_movie:'',
+    message_user: ''
   },
   getters: {
   },
@@ -55,9 +60,23 @@ export default createStore({
         localStorage.setItem('token', data.token)
     })
     .catch(err => console.log(err))
-}
-
   },
+
+  getUser({ commit }) {
+    let storageToken = localStorage.getItem('token')
+
+    fetch('http://localhost:3000/api/user/', {
+      headers: {
+        'Accept': 'application/json',
+        'Authorization': 'Bearer ' + storageToken
+      }
+    })
+    .then(res => res.json())
+    .then(data => commit('USER', data))
+    .catch(err => console.log(err))
+  }
+
+},
   modules: {
   }
 })

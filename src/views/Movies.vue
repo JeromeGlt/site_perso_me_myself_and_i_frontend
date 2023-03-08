@@ -3,7 +3,7 @@
     <div>
       <h1>Cinéma français</h1>
       <div>
-        <p>Vous pouvez créer ici vos tableaux de visionnages</p>
+        <p>{{ username }}, vous pouvez créer ici vos tableaux de visionnages</p>
         <p>Voici le mien :</p>
         <p>TABLEAU</p>
       </div>
@@ -20,9 +20,24 @@
 </template>
 
 <script>
+  import { mapState } from 'vuex'
 
   export default {
-    name: 'WatchedMovies'
+    name: 'WatchedMovies',
+    computed: {
+      ...mapState({
+        username: state => state.username,
+        userId: state => state.userId
+      }),
+    },
+    methods: {
+      getUser() {
+        this.$store.dispatch('getUser')
+      }
+    },
+    mounted() {
+      this.getUser()
+    }
   }
 </script>
 
