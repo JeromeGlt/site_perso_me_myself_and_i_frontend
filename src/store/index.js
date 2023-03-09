@@ -5,6 +5,7 @@ export default createStore({
     username: '',
     userId: '',
     token: '',
+    imageUrl: '',
     message_movie:'',
     message_user: ''
   },
@@ -14,17 +15,21 @@ export default createStore({
     USER (state, data) {
       state.username = data.username,
       state.userId = data.userId,
+      state.imageUrl = data.imageUrl,
       state.token = data.token,
       state.message = data.message
     },
     UPDATE_USERNAME (state, username) {
       state.username = username
+    },
+    UPDATE_IMAGEURL (state, imageUrl) {
+      state.imageUrl = imageUrl
     }
   },
   actions: {
 
     submitSignup({ commit }, signupData) {
-      fetch('http://localhost:3000/api/user/signup', {
+      fetch('http://localhost:3001/api/user/signup', {
         method: 'post',
         headers: {
           'Accept': 'application/json',
@@ -44,7 +49,7 @@ export default createStore({
     },
 
     submitLogin({ commit }, loginData) {
-      fetch('http://localhost:3000/api/user/login', {
+      fetch('http://localhost:3001/api/user/login', {
         method: 'post',
         headers: {
           'Accept': 'application/json',
@@ -67,7 +72,7 @@ export default createStore({
     getUser({ commit }) {
       let storageToken = localStorage.getItem('token')
 
-      fetch('http://localhost:3000/api/user/', {
+      fetch('http://localhost:3001/api/user/', {
         headers: {
           'Accept': 'application/json',
           'Authorization': 'Bearer ' + storageToken
@@ -78,19 +83,40 @@ export default createStore({
       .catch(err => console.log(err))
     },
 
-    modifyUser({ dispatch }, { modifyData, userId }) {
-      fetch('http://localhost:3000/api/user/' + userId, {
+    modifyUsername({ dispatch }, { modifyData, userId }) {
+
+      let storageToken = localStorage.getItem('token')
+
+      fetch('http://localhost:3001/api/user/' + userId, {
         method: 'put',
         headers: {
           'Accept': 'application/json',
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + storageToken
         },
         body: JSON.stringify(modifyData)
       })
       .then(res => res.json())
       .then(data => dispatch('getUser', data))
       .catch(err => console.log(err))
-    }
+    },
+
+    modifyImage({ dispatch }, { modifyImage, userId }) {
+
+      let storageToken = localStorage.getItem('token')
+
+      fetch('http://localhost:3001/api/user/modifyImage/' + userId, {
+          method: 'put',
+          headers: {
+              'Accept': 'application/json',
+              'Authorization': 'Bearer ' + storageToken
+          },
+          body: modifyImage
+      })
+      .then(res => res.json())
+      .then(data => dispatch('getUser', data))
+      .catch(err => console.log(err))
+  },
 
   },
   modules: {

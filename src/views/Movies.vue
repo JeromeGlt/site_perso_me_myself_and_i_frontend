@@ -3,11 +3,14 @@
     <div>
       <h1>Cinéma français</h1>
       <div v-if="userId">
-        <p @click="modifyUser_input">Modifier le profil</p>
-        <div v-if="modify_user_section">
-          <label for="username">Pseudo</label>
-          <input type="text" name="user_name" v-model="username" @change="modifyUsername">
-          <button @click="modifyUser(userId)"></button>
+        <p @click="modify_username_input">Modifier le nom d'utilisateur</p>
+        <div v-if="modify_username_section">
+          <div>
+            <label for="username">Pseudo</label>
+            <input type="text" name="username" v-model="username" @input="commitUsername">
+            <div v-if="alertUsername">Le pseudo doit contenir entre 5 et 40 caractères. Seuls les lettres, points et tirets sont autorisés</div>
+            <button @click="modifyUsername(userId)">Enregistrer</button>
+          </div>
         </div>
         <p @click="deleteUser_alert">Supprimer le profil</p>
         <div v-if="delete_user_section">
@@ -15,6 +18,18 @@
         </div>
       </div>
       <div>
+        <div>
+          <img :src="imageUrl" alt="image de l'utilisateur"/>
+        </div>
+        <p @click="modify_image_input">Modifier l'image du profil</p>
+        <div v-if="modify_image_section">
+          <label for="user_imageUrl_modify">Choisir une image...</label>
+          <input type="file" name="imageUrl_modify" @change="commitImageProfile">
+          <div>
+            <button @click="modifyImage(userId)">Envoyer</button>
+            <button title="Annuler" @click="no_modify_image_section">X</button>
+          </div>
+        </div>
         <p>{{ username }}, vous pouvez créer ici vos tableaux de visionnages</p>
         <p>Voici le mien :</p>
         <p>TABLEAU</p>
@@ -40,30 +55,58 @@
       ...mapState({
         username: state => state.username,
         userId: state => state.userId,
+        imageUrl: state => state.imageUrl,
         isAdmin: state => state.isAdmin
       }),
     },
     data: () => ({
-      modify_user_section: false,
-      delete_user_section: false
+      modify_username_section: false,
+      modify_image_section: false,
+      delete_user_section: false,
+      alertUsername: false
     }),
     methods: {
       getUser() {
         this.$store.dispatch('getUser')
       },
-      modifyUser_input() {
-        this.modify_user_section = true
+      modify_username_input() {
+        this.modify_username_section = true
       },
-      modifyUsername(event) {
+      commitUsername(event) {
         this.$store.commit('UPDATE_USERNAME', event.target.value)
       },
-      modifyUser(userId) {
+      modify_image_input() {
+        this.modify_image_section = true
+      },
+      commitImageProfile(event) {
+        this.$store.commit('UPDATE_IMAGEURL', event.target.files[0])
+      },
+      modifyUsername(userId) {
+
+        if(/[^a-zA-Z-_.]/i.test(this.username) || this.username.length < 5 || this.username.length > 40) {
+          return this.alertUsername = true
+        } else {
+          this.alertUsername = false
+        }
+
         let modifyData = {
           username: this.username
         }
 
-        this.$store.dispatch('modifyUser', { modifyData, userId })
-        this.modify_user_section = false
+        this.$store.dispatch('modifyUsername', { modifyData, userId })
+        this.modify_username_section = false
+      },
+      modifyImage(userId) {
+
+        let modifyImage = new FormData()
+        modifyImage.append('imageUrl', this.imageUrl)
+
+        this.$store.dispatch('modifyImage', { modifyImage, userId })
+        this.$store.dispatch('getUser')
+        this.modify_image_section = !this.modify_image_section
+      },
+      no_modify_image_section() {
+        this.modify_image_section = false
       },
       deleteUser_alert() {
         this.delete_user_section = true
