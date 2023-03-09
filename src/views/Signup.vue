@@ -12,6 +12,10 @@
         <input type="password" name="password" v-model="password" @input="passwordInput">
         <div v-if="alertPassword">Le mot de passe doit contenir entre 8 et 100 caractères dont une minuscule, une majuscule et un chiffre</div>
       </div>
+      <div>
+        <label for="user_imageUrl">Ajouter votre image</label>
+        <input type="file" name="imageUrl" @change="uploadFile($event)">
+      </div>
       <p v-if="!this.username || !this.password || alertUsername || alertPassword">Veuillez remplir les deux champs</p>
       <button v-if="this.username && this.password && !alertUsername && !alertPassword" @click="submit">Créer mon compte</button>
       <p >Si vous avez déjà un compte, <router-link to="/login">cliquez ici !</router-link></p>
@@ -52,13 +56,17 @@
       },
       submit() {
 
-        let signupData = {
-          username: this.username,
-          password: this.password
-        }
+        let signupData = new FormData()
+        signupData.append('username', this.username)
+        signupData.append('password', this.password)
+        signupData.append('imageUrl', this.imageUrl)
+
         console.log(signupData)
 
         this.$store.dispatch('submitSignup', signupData)
+      },
+      uploadFile(event) {
+        this.imageUrl = event.target.files[0]
       }
     }
   }
