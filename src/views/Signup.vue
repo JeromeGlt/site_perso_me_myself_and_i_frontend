@@ -3,17 +3,17 @@
     <div>
       <p>Remplissez les deux champs afin de créer votre compte</p>
       <div>
-        <label for='username'>Pseudo</label>
+        <label>Pseudo</label>
         <input type="text" name="username" v-model="username" @input="usernameInput">
         <div v-if="alertUsername">Le pseudo doit contenir entre 5 et 40 caractères. Seuls les lettres, points et tirets sont autorisés</div>
       </div>
       <div>
-        <label for='password'>Mot de passe</label>
+        <label>Mot de passe</label>
         <input type="password" name="password" v-model="password" @input="passwordInput">
         <div v-if="alertPassword">Le mot de passe doit contenir entre 8 et 100 caractères dont une minuscule, une majuscule et un chiffre</div>
       </div>
       <div>
-        <label for="user_imageUrl">Ajouter votre image</label>
+        <label>Ajouter votre image</label>
         <input type="file" name="imageUrl" @change="uploadFile($event)">
         <div v-if="!this.imageUrl">Veuillez choisir une image de profil</div>
       </div>

@@ -3,11 +3,11 @@
     <div>
       <h1>BIENVENUE</h1>
       <div>
-        <label for='username'>Pseudo</label>
+        <label>Pseudo</label>
         <input type="text" name="user_name" v-model="username">
       </div>
       <div>
-        <label for='password'>Mot de passe</label>
+        <label>Mot de passe</label>
         <input type="password" name="user_password" v-model="password">
       </div>
       <p v-if="!this.username || !this.password">Veuillez remplir les champs pour vous connecter</p>
