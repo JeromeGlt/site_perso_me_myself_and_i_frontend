@@ -73,7 +73,7 @@
         this.modify_username_section = true
       },
       commitUsername(event) {
-        if(/[^a-zA-Z-_.]/i.test(event.target.value) || event.target.value.length < 5 || event.target.value.length > 40) {
+        if(/[^a-zA-Z-_.âàäçéêèëîïôöûü]/i.test(event.target.value) || event.target.value.length < 5 || event.target.value.length > 40) {
           return this.alertUsername = true
         } else {
           this.alertUsername = false

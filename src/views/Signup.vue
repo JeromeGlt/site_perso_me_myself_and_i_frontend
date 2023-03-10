@@ -15,9 +15,10 @@
       <div>
         <label for="user_imageUrl">Ajouter votre image</label>
         <input type="file" name="imageUrl" @change="uploadFile($event)">
+        <div v-if="!this.imageUrl">Veuillez choisir une image de profil</div>
       </div>
-      <p v-if="!this.username || !this.password || alertUsername || alertPassword">Veuillez remplir les deux champs</p>
-      <button v-if="this.username && this.password && !alertUsername && !alertPassword" @click="submit">Créer mon compte</button>
+      <p v-if="!this.username || !this.password || !this.imageUrl || alertUsername || alertPassword">Veuillez remplir les trois champs</p>
+      <button v-if="this.username && this.password && this.imageUrl && !alertUsername && !alertPassword" @click="submit">Créer mon compte</button>
       <p >Si vous avez déjà un compte, <router-link to="/login">cliquez ici !</router-link></p>
     </div>
   </div>
@@ -36,19 +37,20 @@
     data: () => ({
       username: '',
       password: '',
+      imageUrl: '',
       alertUsername: false,
       alertPassword: false
     }),
     methods: {
       usernameInput() {
-        if(/[^a-zA-Z-_.]/i.test(this.username) || this.username.length < 5 || this.username.length > 40) {
+        if(/[^a-zA-Z-.âàäçéêèëîïôöûü]/i.test(this.username) || this.username.length < 5 || this.username.length > 40) {
           return this.alertUsername = true
         } else {
           this.alertUsername = false
         }
       },
       passwordInput() {
-        if(!/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,100}$/.test(this.password)) {
+        if(!/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z-_.!?,;:^"'()=+ç@âàäçéêèëîïôöûü\d]{8,100}$/.test(this.password)) {
           return this.alertPassword = true
         } else {
           this.alertPassword = false
