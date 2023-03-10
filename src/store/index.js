@@ -8,7 +8,8 @@ export default createStore({
     token: '',
     imageUrl: '',
     message_movie:'',
-    message_user: ''
+    message_user: '',
+    movies: []
   },
   getters: {
   },
@@ -25,11 +26,15 @@ export default createStore({
     },
     UPDATE_IMAGEURL (state, imageUrl) {
       state.imageUrl = imageUrl
+    },
+    MOVIE (state, data) {
+      state.movies = data
     }
   },
   actions: {
 
     submitSignup({ commit }, signupData) {
+      
       fetch('http://localhost:3001/api/user/signup', {
         method: 'post',
         headers: {
@@ -50,13 +55,14 @@ export default createStore({
     },
 
     submitLogin({ commit }, loginData) {
+
       fetch('http://localhost:3001/api/user/login', {
         method: 'post',
         headers: {
           'Accept': 'application/json',
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify(loginData),
+        body: JSON.stringify(loginData)
       })
       .then(res => res.json())
       .then(data => {
@@ -71,6 +77,7 @@ export default createStore({
     },
 
     getUser({ commit }) {
+
       let storageToken = localStorage.getItem('token')
 
       fetch('http://localhost:3001/api/user/', {
@@ -117,22 +124,42 @@ export default createStore({
       .then(res => res.json())
       .then(data => dispatch('getUser', data))
       .catch(err => console.log(err))
-  },
+    },
 
-  deleteUser({ state }) {
+    deleteUser({ state }) {
 
-    let storageToken = localStorage.getItem('token')
+      let storageToken = localStorage.getItem('token')
 
-    fetch('http://localhost:3001/api/user/' + state.userId, {
+      fetch('http://localhost:3001/api/user/' + state.userId, {
         method: 'delete',
         headers: {
-            'Accept': 'application/json',
-            'Authorization': 'Bearer ' + storageToken
+          'Accept': 'application/json',
+          'Authorization': 'Bearer ' + storageToken
         }
-    })
-    .then(res => res.json())
-    .then(data => console.log(data))
-    .catch(err => console.log(err))
+      })
+      .then(res => res.json())
+      .then(data => console.log(data))
+      .catch(err => console.log(err))
+    },
+
+    createMovie({ commit }, movieData) {
+
+      console.log(movieData)
+
+      fetch('http://localhost:3001/api/movie/', {
+        method: 'post',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(movieData)
+      })
+      .then(res => res.json())
+      .then(data => {
+        commit('MOVIE', data)
+        console.log(data)
+      })
+      .catch(err => console.log(err))
 }
 
   },

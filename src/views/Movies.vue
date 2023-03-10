@@ -6,7 +6,7 @@
         <p @click="modify_username_input">Modifier le nom d'utilisateur</p>
         <div v-if="modify_username_section">
           <div>
-            <label for="username">Pseudo</label>
+            <label>Pseudo</label>
             <input type="text" name="username" v-model="username" @input="commitUsername">
             <div v-if="alertUsername">Le pseudo doit contenir entre 5 et 40 caractères. Seuls les lettres, points et tirets sont autorisés</div>
             <button @click="modifyUsername(userId)">Enregistrer</button>
@@ -23,10 +23,11 @@
         </div>
         <p @click="modify_image_input">Modifier l'image du profil</p>
         <div v-if="modify_image_section">
-          <label for="user_imageUrl_modify">Choisir une image...</label>
+          <label>Choisir une image...</label>
           <input type="file" name="imageUrl_modify" @change="commitImageProfile">
           <div>
-            <button @click="modifyImage(userId)">Envoyer</button>
+            <p v-if="!this.imageUrl_modify">Veuillez sélectionner une nouvelle image</p>
+            <button v-if="this.imageUrl_modify" @click="modifyImage(userId)">Envoyer</button>
             <button title="Annuler" @click="no_modify_image_section">X</button>
           </div>
         </div>
@@ -39,9 +40,31 @@
     <div v-if="userId">
         Choisissez votre acteur
     </div>
-    <div v-if="isAdmin">
-        <label></label>
-        <input>
+    <!-- ce qui sera en v-if="isAdmin" -->
+    <div>
+        <label>Acteur</label>
+        <select v-model="actor">
+          <option>Belmondo</option>
+          <option>Clavier</option>
+        </select>
+        <label>Titre</label>
+        <input type="text" v-model="title">
+        <label>Réalisateur</label>
+        <input type="text" v-model="director">
+        <label>Année</label>
+        <input type="number" v-model="year">
+        <label>Décennie</label>
+        <select v-model="decade">
+          <option>50</option>
+          <option>60</option>
+          <option>70</option>
+          <option>80</option>
+          <option>90</option>
+          <option>2000</option>
+          <option>10</option>
+          <option>20</option>
+        </select>
+        <button @click="submitMovie"></button>
     </div>
   </div>
 </template>
@@ -63,7 +86,13 @@
       modify_username_section: false,
       modify_image_section: false,
       delete_user_section: false,
-      alertUsername: false
+      alertUsername: false,
+      imageUrl_modify: '',
+      actor: '',
+      title: '',
+      director: '',
+      year: null,
+      decade: null
     }),
     methods: {
       getUser() {
@@ -85,6 +114,7 @@
       },
       commitImageProfile(event) {
         this.$store.commit('UPDATE_IMAGEURL', event.target.files[0])
+        this.imageUrl_modify = this.imageUrl
       },
       modifyUsername(userId) {
 
@@ -115,6 +145,20 @@
       },
       deleteUser() {
         this.$store.dispatch('deleteUser')
+      },
+      submitMovie() {
+
+        let movieData = {
+          title: this.title,
+          director: this.director,
+          actor: this.actor,
+          year: this.year,
+          decade: this.decade
+        }
+
+        console.log(movieData)
+
+        this.$store.dispatch('createMovie', movieData)
       }
     },
     mounted() {
