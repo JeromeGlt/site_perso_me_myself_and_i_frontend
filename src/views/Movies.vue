@@ -14,7 +14,7 @@
         </div>
         <p @click="deleteUser_alert">Supprimer le profil</p>
         <div v-if="delete_user_section">
-          <p>Etes-vous sûr ? <span @click="deleteUser">Oui</span> <span @click="no_deleteUser_alert">Non</span></p>
+          <p>Etes-vous sûr ? <span @click="deleteUser(userId)">Oui</span> <span @click="no_deleteUser_alert">Non</span></p>
         </div>
       </div>
       <div>
@@ -73,7 +73,12 @@
         this.modify_username_section = true
       },
       commitUsername(event) {
-        this.$store.commit('UPDATE_USERNAME', event.target.value)
+        if(/[^a-zA-Z-_.]/i.test(event.target.value) || event.target.value.length < 5 || event.target.value.length > 40) {
+          return this.alertUsername = true
+        } else {
+          this.alertUsername = false
+          this.$store.commit('UPDATE_USERNAME', event.target.value)
+        }
       },
       modify_image_input() {
         this.modify_image_section = true
@@ -82,12 +87,6 @@
         this.$store.commit('UPDATE_IMAGEURL', event.target.files[0])
       },
       modifyUsername(userId) {
-
-        if(/[^a-zA-Z-_.]/i.test(this.username) || this.username.length < 5 || this.username.length > 40) {
-          return this.alertUsername = true
-        } else {
-          this.alertUsername = false
-        }
 
         let modifyData = {
           username: this.username

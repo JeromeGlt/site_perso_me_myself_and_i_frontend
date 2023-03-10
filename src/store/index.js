@@ -1,4 +1,5 @@
 import { createStore } from 'vuex'
+import router from '../router/index'
 
 export default createStore({
   state: {
@@ -39,9 +40,9 @@ export default createStore({
       .then(res => res.json())
       .then(data => {
         commit('USER', data)
-        // if(!data.message) {
-          // router.push('/posts')
-        // }
+        if(!data.message) {
+          router.push('/movies')
+        }
         console.log(data)
         localStorage.setItem('token', data.token)
       })
@@ -60,9 +61,9 @@ export default createStore({
       .then(res => res.json())
       .then(data => {
         commit('USER', data)
-        // if(!data.message) {
-        //     router.push('/posts')
-        // }
+        if(!data.message) {
+            router.push('/movies')
+        }
         console.log(data)
         localStorage.setItem('token', data.token)
       })
@@ -117,6 +118,22 @@ export default createStore({
       .then(data => dispatch('getUser', data))
       .catch(err => console.log(err))
   },
+
+  deleteUser({ state }) {
+
+    let storageToken = localStorage.getItem('token')
+
+    fetch('http://localhost:3001/api/user/' + state.userId, {
+        method: 'delete',
+        headers: {
+            'Accept': 'application/json',
+            'Authorization': 'Bearer ' + storageToken
+        }
+    })
+    .then(res => res.json())
+    .then(data => console.log(data))
+    .catch(err => console.log(err))
+}
 
   },
   modules: {
