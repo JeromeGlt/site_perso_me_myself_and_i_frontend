@@ -171,10 +171,16 @@
         console.log(movieData)
 
         this.$store.dispatch('createMovie', movieData)
+      },
+      getAllMovies() {
+        let actor = 'Belmondo'
+
+        this.$store.dispatch('getAllMovies', actor)
       }
     },
     mounted() {
       this.getUser()
+      this.getAllMovies()
     }
   }
 </script>

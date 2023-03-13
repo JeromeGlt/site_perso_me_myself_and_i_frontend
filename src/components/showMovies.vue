@@ -1,7 +1,7 @@
 <template>
-  <div>
-    <p>{{ movieData.year }}</p>
-    <p>{{ movieData.title }}</p>
+  <div class="flexbox">
+    <p>{{ movieData.year }} -</p>
+    <p>{{ movieData.title }} -</p>
     <p>{{ movieData.director }}</p>
   </div>
 </template>
@@ -16,5 +16,7 @@ export default {
 </script>
 
 <style scoped lang="scss">
-
+  .flexbox {
+    display: flex;
+  }
 </style>

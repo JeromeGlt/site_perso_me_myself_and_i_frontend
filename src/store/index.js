@@ -142,9 +142,7 @@ export default createStore({
       .catch(err => console.log(err))
     },
 
-    createMovie({ commit }, movieData) {
-
-      console.log(movieData)
+    createMovie({ dispatch }, movieData) {
 
       fetch('http://localhost:3001/api/movie/', {
         method: 'post',
@@ -154,13 +152,28 @@ export default createStore({
         },
         body: JSON.stringify(movieData)
       })
+      .then(() => {
+        dispatch('getAllMovies')
+      })
+      .catch(err => console.log(err))
+    },
+
+    getAllMovies({ commit }, actor) {
+
+      let storageToken = localStorage.getItem('token')
+
+      fetch('http://localhost:3001/api/movie/' + actor, {
+        headers: {
+          'Accept': 'application/json',
+          'Authorization': 'Bearer ' + storageToken
+        }
+      })
       .then(res => res.json())
       .then(data => {
         commit('MOVIE', data)
-        console.log(data)
       })
       .catch(err => console.log(err))
-}
+    }
 
   },
   modules: {
