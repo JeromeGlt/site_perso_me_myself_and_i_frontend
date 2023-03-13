@@ -66,20 +66,32 @@
         </select>
         <button @click="submitMovie"></button>
     </div>
+    <div>
+      <ul>
+        <li v-for="movie in movies" :key="movie.title">
+          <showMovies :movieData="movie"/>
+        </li>
+      </ul>
+    </div>
   </div>
 </template>
 
 <script>
   import { mapState } from 'vuex'
+  import showMovies from '../components/showMovies.vue'
 
   export default {
     name: 'WatchedMovies',
+    component: {
+      showMovies
+    },
     computed: {
       ...mapState({
         username: state => state.username,
         userId: state => state.userId,
         imageUrl: state => state.imageUrl,
-        isAdmin: state => state.isAdmin
+        isAdmin: state => state.isAdmin,
+        movies: state => state.movies
       }),
     },
     data: () => ({
