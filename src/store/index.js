@@ -144,6 +144,7 @@ export default createStore({
       .catch(err => console.log(err))
     },
 
+    // movies functions
     createMovie({ dispatch }, movieData) {
 
       let actor = movieData.actor
@@ -162,8 +163,6 @@ export default createStore({
       .catch(err => console.log(err))
     },
 
-    // movies functions
-
     getAllMovies({ commit }, actor) {
 
       fetch('http://localhost:3001/api/movie/' + actor, {
@@ -174,6 +173,22 @@ export default createStore({
       .then(res => res.json())
       .then(data => {
         commit('MOVIE', data)
+      })
+      .catch(err => console.log(err))
+    },
+
+    modifyMovie({ dispatch }, { movieData, id }) {
+
+      fetch('http://localhost:3001/api/movie/' + id, {
+        method: 'put',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(movieData)
+      })
+      .then(() => {
+        dispatch('getAllMovies', movieData.actor)
       })
       .catch(err => console.log(err))
     },
