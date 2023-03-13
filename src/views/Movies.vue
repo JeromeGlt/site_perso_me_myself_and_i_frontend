@@ -168,8 +168,6 @@
           decade: this.decade
         }
 
-        console.log(movieData)
-
         this.$store.dispatch('createMovie', movieData)
       },
       getAllMovies() {

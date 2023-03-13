@@ -33,6 +33,8 @@ export default createStore({
   },
   actions: {
 
+    // users functions
+
     submitSignup({ commit }, signupData) {
       
       fetch('http://localhost:3001/api/user/signup', {
@@ -144,6 +146,8 @@ export default createStore({
 
     createMovie({ dispatch }, movieData) {
 
+      let actor = movieData.actor
+
       fetch('http://localhost:3001/api/movie/', {
         method: 'post',
         headers: {
@@ -153,24 +157,37 @@ export default createStore({
         body: JSON.stringify(movieData)
       })
       .then(() => {
-        dispatch('getAllMovies')
+        dispatch('getAllMovies', actor)
       })
       .catch(err => console.log(err))
     },
 
-    getAllMovies({ commit }, actor) {
+    // movies functions
 
-      let storageToken = localStorage.getItem('token')
+    getAllMovies({ commit }, actor) {
 
       fetch('http://localhost:3001/api/movie/' + actor, {
         headers: {
-          'Accept': 'application/json',
-          'Authorization': 'Bearer ' + storageToken
+          'Accept': 'application/json'
         }
       })
       .then(res => res.json())
       .then(data => {
         commit('MOVIE', data)
+      })
+      .catch(err => console.log(err))
+    },
+
+    deleteMovie({ dispatch }, { id, actor }) {
+
+      fetch('http://localhost:3001/api/movie/' + id, {
+        method: 'delete',
+        headers: {
+          'Accept': 'application/json'
+        }
+      })
+      .then(() => {
+        dispatch('getAllMovies', actor)
       })
       .catch(err => console.log(err))
     }
