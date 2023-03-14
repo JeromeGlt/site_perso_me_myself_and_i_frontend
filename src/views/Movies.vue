@@ -169,6 +169,10 @@
         }
 
         this.$store.dispatch('createMovie', movieData)
+
+        this.title = ''
+        this.director = ''
+        this.year = ''
       },
       getAllMovies() {
         let actor = 'Belmondo'

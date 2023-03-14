@@ -9,7 +9,8 @@ export default createStore({
     imageUrl: '',
     message_movie:'',
     message_user: '',
-    movies: []
+    movies: [],
+    viewed_movies: []
   },
   getters: {
   },
@@ -29,12 +30,14 @@ export default createStore({
     },
     MOVIE (state, data) {
       state.movies = data
+    },
+    VIEWED_MOVIES (state, data) {
+      state.viewed_movies = data
     }
   },
   actions: {
 
     // users functions
-
     submitSignup({ commit }, signupData) {
       
       fetch('http://localhost:3001/api/user/signup', {
@@ -203,6 +206,35 @@ export default createStore({
       })
       .then(() => {
         dispatch('getAllMovies', actor)
+      })
+      .catch(err => console.log(err))
+    },
+
+    //associations functions
+    create_viewed_movie({ dispatch }, { userId, movieId }) {
+
+      fetch('http://localhost:3001/api/viewed_movie/' + userId + '/' + movieId, {
+        method: 'post',
+        headers: {
+          'Accept': 'application/json'
+        }
+      })
+      .then(() =>{
+        dispatch('get_viewed_movies', userId)
+      })
+      .catch(err => console.log(err))
+    },
+
+    get_viewed_movies({ commit }, userId) {
+
+      fetch('http://localhost:3001/api/viewed_movie/' + userId, {
+        headers: {
+          'Accept': 'application/json'
+        }
+      })
+      .then(res => res.json())
+      .then(data => {
+        commit('VIEWED_MOVIES', data)
       })
       .catch(err => console.log(err))
     }
