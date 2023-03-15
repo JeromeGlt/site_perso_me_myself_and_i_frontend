@@ -51,7 +51,7 @@ export default createStore({
       .then(data => {
         commit('USER', data)
         if(!data.message) {
-          router.push('/movies')
+          router.push('/movies/' + data.userId)
         }
         console.log(data)
         localStorage.setItem('token', data.token)
@@ -73,7 +73,7 @@ export default createStore({
       .then(data => {
         commit('USER', data)
         if(!data.message) {
-            router.push('/movies')
+            router.push('/movies/' + data.userId)
         }
         console.log(data)
         localStorage.setItem('token', data.token)
