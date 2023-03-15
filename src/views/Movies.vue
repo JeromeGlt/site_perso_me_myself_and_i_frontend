@@ -107,9 +107,21 @@
       decade: null
     }),
     methods: {
+
+      // get functions
       getUser() {
         this.$store.dispatch('getUser')
       },
+      get_viewed_movies() {
+        this.$store.dispatch('get_viewed_movies', 1)
+      },
+      getAllMovies() {
+        let actor = 'Belmondo'
+
+        this.$store.dispatch('getAllMovies', actor)
+      },
+
+      //user modifications functions
       modify_username_input() {
         this.modify_username_section = true
       },
@@ -129,7 +141,6 @@
         this.imageUrl_modify = this.imageUrl
       },
       modifyUsername(userId) {
-
         let modifyData = {
           username: this.username
         }
@@ -138,7 +149,6 @@
         this.modify_username_section = false
       },
       modifyImage(userId) {
-
         let modifyImage = new FormData()
         modifyImage.append('imageUrl', this.imageUrl)
 
@@ -149,6 +159,8 @@
       no_modify_image_section() {
         this.modify_image_section = false
       },
+
+      // user deletion functions
       deleteUser_alert() {
         this.delete_user_section = true
       },
@@ -158,8 +170,9 @@
       deleteUser() {
         this.$store.dispatch('deleteUser')
       },
-      submitMovie() {
 
+      // movie creation function
+      submitMovie() {
         let movieData = {
           title: this.title,
           director: this.director,
@@ -173,15 +186,11 @@
         this.title = ''
         this.director = ''
         this.year = ''
-      },
-      getAllMovies() {
-        let actor = 'Belmondo'
-
-        this.$store.dispatch('getAllMovies', actor)
       }
     },
-    mounted() {
-      this.getUser()
+    created() {
+      this.get_viewed_movies(),
+      this.getUser(),
       this.getAllMovies()
     }
   }

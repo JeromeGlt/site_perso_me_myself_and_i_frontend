@@ -237,6 +237,20 @@ export default createStore({
         commit('VIEWED_MOVIES', data)
       })
       .catch(err => console.log(err))
+    },
+
+    destroy_viewed_movie({ dispatch }, { userId, movieId }) {
+
+      fetch('http://localhost:3001/api/viewed_movie/destroy/' + userId + '/' + movieId, {
+        method: 'delete',
+        headers: {
+          'Accept': 'application/json'
+        }
+      })
+      .then(() => {
+        dispatch('get_viewed_movies', userId)
+      })
+      .catch(err => console.log(err))
     }
 
   },

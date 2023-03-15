@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="flexbox" v-if="no_viewed_movie" @click="create_viewed_movie(this.userId, this.movieData.id)">
+    <div class="flexbox" :id="this.movieData.id" v-if="no_viewed_movie" @click="create_viewed_movie(this.userId, this.movieData.id)">
       <p>{{ movieData.year }} -</p>
       <p>{{ movieData.title }} -</p>
       <p>{{ movieData.director }} -</p>
@@ -33,7 +33,7 @@
         <button @click="modifyMovie(movieData.id)"></button>
       </div>
     </div>
-    <div class="flexbox viewed_text" v-if="viewed_movie" @click="destroy_viewed_movie">
+    <div class="flexbox viewed_text" v-if="viewed_movie" @click="destroy_viewed_movie(this.userId, this.movieData.id)">
       <p>{{ movieData.year }} -</p>
       <p>{{ movieData.title }} -</p>
       <p>{{ movieData.director }} -</p>
@@ -59,13 +59,25 @@ export default {
   }),
   computed: {
     ...mapState({
-      userId: state => state.userId
-    }),
+      userId: state => state.userId,
+      viewed_movies: state => state.viewed_movies,
+      movies: state => state.movies
+    })
   },
   props: [
     'movieData'
   ],
   methods: {
+    check_viewed_movies() {
+
+      for(let i = 0; i < this.viewed_movies.length; i++) {
+        if(this.movieData.id === this.viewed_movies[i].movieId) {
+          this.viewed_movie = true
+          this.no_viewed_movie = false
+        }
+      }
+      // console.log(this.viewed_movies[0].movieId)
+    },
     deleteMovie(id) {
 
       let actor = this.movieData.actor
@@ -88,12 +100,26 @@ export default {
       this.$store.dispatch('modifyMovie', { movieData, id })
       this.modify_movie_section = false
     },
+    // get_viewed_movies() {
+
+    //   this.$store.dispatch('get_viewed_movies', this.userId)
+    // },
     create_viewed_movie(userId, movieId) {
 
       this.$store.dispatch('create_viewed_movie', { userId, movieId })
       this.no_viewed_movie = false
       this.viewed_movie = true
+    },
+    destroy_viewed_movie(userId, movieId) {
+
+      this.$store.dispatch('destroy_viewed_movie', { userId, movieId })
+      this.viewed_movie = false
+      this.no_viewed_movie = true
     }
+  },
+  mounted() {
+    // this.get_viewed_movies(),
+    this.check_viewed_movies()
   }
 }
 </script>
