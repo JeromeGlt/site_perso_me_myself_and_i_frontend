@@ -5,6 +5,7 @@ export default createStore({
   state: {
     username: '',
     userId: '',
+    isAdmin: '',
     token: '',
     imageUrl: '',
     message_movie:'',
@@ -18,6 +19,7 @@ export default createStore({
     USER (state, data) {
       state.username = data.username,
       state.userId = data.userId,
+      state.isAdmin = data.isAdmin,
       state.imageUrl = data.imageUrl,
       state.token = data.token,
       state.message = data.message
