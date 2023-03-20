@@ -76,7 +76,7 @@ export default {
           this.no_viewed_movie = false
         }
       }
-      // console.log(this.viewed_movies[0].movieId)
+      // console.log(this.viewed_movies[0])
     },
     deleteMovie(id) {
 

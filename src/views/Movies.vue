@@ -39,7 +39,7 @@
     </div>
     <div v-if="userId">
         <label>Choisissez votre acteur</label>
-        <select v-model="actor" @input="getAllMovies">
+        <select v-model="actor" @input="get_datas">
           <option>Belmondo</option>
           <option>Clavier</option>
         </select>
@@ -71,48 +71,51 @@
       <button @click="submitMovie"></button>
     </div>
     <!-- Affichage du tableau -->
-    <table v-if="array_belmondo">
-      <tr>
-        <td>Décennies</td>
-        <td>Films tournés</td>
-        <td>Films vus</td>
-      </tr>
-      <tr>
-        <td>Années 50</td>
-        <td>7</td>
-        <td></td>
-      </tr>
-      <tr>
-        <td>Années 60</td>
-        <td>39</td>
-        <td></td>
-      </tr>
-      <tr>
-        <td>Années 70</td>
-        <td>14</td>
-        <td></td>
-      </tr>
-      <tr>
-        <td>Années 80</td>
-        <td>9</td>
-        <td></td>
-      </tr>
-      <tr>
-        <td>Années 90</td>
-        <td>6</td>
-        <td></td>
-      </tr>
-      <tr>
-        <td>Années 2000</td>
-        <td>3</td>
-        <td></td>
-      </tr>
-      <tr>
-        <td>Total</td>
-        <td>78</td>
-        <td></td>
-      </tr>
-    </table>
+    <div v-if="array_belmondo">
+      <table>
+        <tr>
+          <td>Décennies</td>
+          <td>Films tournés</td>
+          <td>Films vus</td>
+        </tr>
+        <tr>
+          <td>Années 50</td>
+          <td>{{ total_movies_50 }}</td>
+          <td>{{ total_viewed_50 }} - {{ fifties_percent }}%</td>
+        </tr>
+        <tr>
+          <td>Années 60</td>
+          <td>{{ total_movies_60 }}</td>
+          <td>{{ total_viewed_60 }} - {{ sixties_percent }}%</td>
+        </tr>
+        <tr>
+          <td>Années 70</td>
+          <td>{{ total_movies_70 }}</td>
+          <td>{{ total_viewed_70 }} - {{ seventies_percent }}%</td>
+        </tr>
+        <tr>
+          <td>Années 80</td>
+          <td>{{ total_movies_80 }}</td>
+          <td>{{ total_viewed_80 }} - {{ eighties_percent }}%</td>
+        </tr>
+        <tr>
+          <td>Années 90</td>
+          <td>{{ total_movies_90 }}</td>
+          <td>{{ total_viewed_90 }} - {{ nineties_percent }}%</td>
+        </tr>
+        <tr>
+          <td>Années 2000</td>
+          <td>{{ total_movies_2000 }}</td>
+          <td>{{ total_viewed_2000 }} - {{ millenial_percent }}%</td>
+        </tr>
+        <tr>
+          <td>Total</td>
+          <td>{{ total_movies }}</td>
+          <td>{{ total_viewed }} - {{ total_percent }}%</td>
+        </tr>
+      </table>
+      <button @click="calculate">Rafraichir</button>
+    </div>
     <!-- Affichage des films -->
     <div>
       <ul>
@@ -139,7 +142,8 @@
         userId: state => state.userId,
         imageUrl: state => state.imageUrl,
         isAdmin: state => state.isAdmin,
-        movies: state => state.movies
+        movies: state => state.movies,
+        viewed_movies: state => state.viewed_movies
       }),
     },
     data: () => ({
@@ -148,10 +152,37 @@
       delete_user_section: false,
       alertUsername: false,
       array_belmondo: false,
+      array_clavier: false,
       imageUrl_modify: '',
       actor: '',
       title: '',
       director: '',
+
+      total_movies_50: 7,
+      total_movies_60: 39,
+      total_movies_70: 14,
+      total_movies_80: 9,
+      total_movies_90: 6,
+      total_movies_2000: 3,
+      total_movies: 78,
+
+      total_viewed_50: 0,
+      total_viewed_60: 0,
+      total_viewed_70: 0,
+      total_viewed_80: 0,
+      total_viewed_90: 0,
+      total_viewed_2000: 0,
+
+      fifties_percent: 0,
+      sixties_percent: 0,
+      seventies_percent: 0,
+      eighties_percent: 0,
+      nineties_percent: 0,
+      millenial_percent: 0,
+
+      total_viewed: 0,
+      total_percent: 0,
+
       year: null,
       decade: null
     }),
@@ -167,11 +198,61 @@
 
         this.$store.dispatch('get_viewed_movies', userId_url[1])
       },
-      getAllMovies(event) {
+      get_datas(event) {
         let actor = event.target.value
 
         this.$store.dispatch('getAllMovies', actor)
-        this.array_belmondo = true
+        // variabiliser quel array doit s'afficher en fonction de la valeur de actor
+        if(event.target.value === 'Belmondo') {
+          this.array_belmondo = true
+          this.array_clavier = false
+        } else if(event.target.value === 'Clavier') {
+          this.array_belmondo = false
+          this.array_clavier = true
+        }
+
+        this.calculate()
+      },
+      calculate() {
+        let total_viewed_50_array = []
+        let total_viewed_60_array = []
+        let total_viewed_70_array = []
+        let total_viewed_80_array = []
+        let total_viewed_90_array = []
+        let total_viewed_2000_array = []
+
+        for(let i = 0; i < this.viewed_movies.length; i++) {
+          if(this.viewed_movies[i].decade === 50) {
+            total_viewed_50_array.push(this.viewed_movies[i])
+          }else if(this.viewed_movies[i].decade === 60) {
+            total_viewed_60_array.push(this.viewed_movies[i])
+          }else if(this.viewed_movies[i].decade === 70) {
+            total_viewed_70_array.push(this.viewed_movies[i])
+          }else if(this.viewed_movies[i].decade === 80) {
+            total_viewed_80_array.push(this.viewed_movies[i])
+          }else if(this.viewed_movies[i].decade === 90) {
+            total_viewed_90_array.push(this.viewed_movies[i])
+          }else if(this.viewed_movies[i].decade === 2000) {
+            total_viewed_2000_array.push(this.viewed_movies[i])
+          }
+        }
+
+        this.total_viewed_50 = total_viewed_50_array.length
+        this.total_viewed_60 = total_viewed_60_array.length
+        this.total_viewed_70 = total_viewed_70_array.length
+        this.total_viewed_80 = total_viewed_80_array.length
+        this.total_viewed_90 = total_viewed_90_array.length
+        this.total_viewed_2000 = total_viewed_2000_array.length
+
+        this.fifties_percent = (this.total_viewed_50 / this.total_movies_50 * 100).toFixed(1)
+        this.sixties_percent = (this.total_viewed_60 / this.total_movies_60 * 100).toFixed(1)
+        this.seventies_percent = (this.total_viewed_70 / this.total_movies_70 * 100).toFixed(1)
+        this.eighties_percent = (this.total_viewed_80 / this.total_movies_80 * 100).toFixed(1)
+        this.nineties_percent = (this.total_viewed_90 / this.total_movies_90 * 100).toFixed(1)
+        this.millenial_percent = (this.total_viewed_2000 / this.total_movies_2000 * 100).toFixed(1)
+
+        this.total_viewed = this.total_viewed_50 + this.total_viewed_60 + this.total_viewed_70 + this.total_viewed_80 + this.total_viewed_90 + this.total_viewed_2000
+        this.total_percent = (this.total_viewed / this.total_movies * 100).toFixed(1)
       },
 
       //user modifications functions
