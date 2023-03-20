@@ -38,34 +38,82 @@
       <p v-if="!userId">Vous voulez créer le vôtre ? Faut se co et tout</p>
     </div>
     <div v-if="userId">
-        Choisissez votre acteur
-    </div>
-    <!-- ce qui sera en v-if="isAdmin" -->
-    <div>
-        <label>Acteur</label>
-        <select v-model="actor">
+        <label>Choisissez votre acteur</label>
+        <select v-model="actor" @input="getAllMovies">
           <option>Belmondo</option>
           <option>Clavier</option>
         </select>
-        <label>Titre</label>
-        <input type="text" v-model="title">
-        <label>Réalisateur</label>
-        <input type="text" v-model="director">
-        <label>Année</label>
-        <input type="number" v-model="year">
-        <label>Décennie</label>
-        <select v-model="decade">
-          <option>50</option>
-          <option>60</option>
-          <option>70</option>
-          <option>80</option>
-          <option>90</option>
-          <option>2000</option>
-          <option>10</option>
-          <option>20</option>
-        </select>
-        <button @click="submitMovie"></button>
     </div>
+    <!-- ce qui sera en v-if="isAdmin" -->
+    <div v-if="isAdmin">
+      <label>Acteur</label>
+      <select v-model="actor">
+        <option>Belmondo</option>
+        <option>Clavier</option>
+      </select>
+      <label>Titre</label>
+      <input type="text" v-model="title">
+      <label>Réalisateur</label>
+      <input type="text" v-model="director">
+      <label>Année</label>
+      <input type="number" v-model="year">
+      <label>Décennie</label>
+      <select v-model="decade">
+        <option>50</option>
+        <option>60</option>
+        <option>70</option>
+        <option>80</option>
+        <option>90</option>
+        <option>2000</option>
+        <option>10</option>
+        <option>20</option>
+      </select>
+      <button @click="submitMovie"></button>
+    </div>
+    <!-- Affichage du tableau -->
+    <table v-if="array_belmondo">
+      <tr>
+        <td>Décennies</td>
+        <td>Films tournés</td>
+        <td>Films vus</td>
+      </tr>
+      <tr>
+        <td>Années 50</td>
+        <td>7</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>Années 60</td>
+        <td>39</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>Années 70</td>
+        <td>14</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>Années 80</td>
+        <td>9</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>Années 90</td>
+        <td>6</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>Années 2000</td>
+        <td>3</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>Total</td>
+        <td>78</td>
+        <td></td>
+      </tr>
+    </table>
+    <!-- Affichage des films -->
     <div>
       <ul>
         <li v-for="movie in movies" :key="movie.title">
@@ -99,6 +147,7 @@
       modify_image_section: false,
       delete_user_section: false,
       alertUsername: false,
+      array_belmondo: false,
       imageUrl_modify: '',
       actor: '',
       title: '',
@@ -113,12 +162,16 @@
         this.$store.dispatch('getUser')
       },
       get_viewed_movies() {
-        this.$store.dispatch('get_viewed_movies', 1)
+
+        let userId_url = window.location.href.split('http://localhost:8080/#/movies/')
+
+        this.$store.dispatch('get_viewed_movies', userId_url[1])
       },
-      getAllMovies() {
-        let actor = 'Belmondo'
+      getAllMovies(event) {
+        let actor = event.target.value
 
         this.$store.dispatch('getAllMovies', actor)
+        this.array_belmondo = true
       },
 
       //user modifications functions
@@ -190,8 +243,7 @@
     },
     created() {
       this.get_viewed_movies(),
-      this.getUser(),
-      this.getAllMovies()
+      this.getUser()
     }
   }
 </script>
