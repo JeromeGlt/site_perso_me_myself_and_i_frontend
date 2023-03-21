@@ -4,9 +4,9 @@
       <p>{{ movieData.year }} -</p>
       <p>{{ movieData.title }} -</p>
       <p>{{ movieData.director }} -</p>
-      <p @click="deleteMovie(movieData.id)">X</p>
+      <p @click="deleteMovie(movieData.id)" v-if="isAdmin">X</p>
       <p>-</p>
-      <p @click="modify_movie_section_open">M</p>
+      <p @click="modify_movie_section_open" v-if="isAdmin">M</p>
       <div v-if="modify_movie_section">
         <label>Acteur</label>
         <select v-model="actor">
@@ -61,7 +61,8 @@ export default {
     ...mapState({
       userId: state => state.userId,
       viewed_movies: state => state.viewed_movies,
-      movies: state => state.movies
+      movies: state => state.movies,
+      isAdmin: state => state.isAdmin
     })
   },
   props: [
