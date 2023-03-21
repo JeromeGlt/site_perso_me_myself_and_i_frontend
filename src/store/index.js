@@ -213,9 +213,9 @@ export default createStore({
     },
 
     //associations functions
-    create_viewed_movie({ dispatch }, { userId, movieId, decade }) {
+    create_viewed_movie({ dispatch }, { userId, movieId, decade, actor }) {
 
-      fetch('http://localhost:3001/api/viewed_movie/' + userId + '/' + movieId + '/' + decade, {
+      fetch('http://localhost:3001/api/viewed_movie/' + userId + '/' + movieId + '/' + decade + '/' + actor, {
         method: 'post',
         headers: {
           'Accept': 'application/json'

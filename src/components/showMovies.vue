@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="flexbox" :id="this.movieData.id" v-if="no_viewed_movie" @click="create_viewed_movie(this.userId, this.movieData.id, this.movieData.decade)">
+    <div class="flexbox" :id="this.movieData.id" v-if="no_viewed_movie" @click="create_viewed_movie(this.userId, this.movieData.id, this.movieData.decade, this.movieData.actor)">
       <p>{{ movieData.year }} -</p>
       <p>{{ movieData.title }} -</p>
       <p>{{ movieData.director }} -</p>
@@ -101,9 +101,9 @@ export default {
       this.$store.dispatch('modifyMovie', { movieData, id })
       this.modify_movie_section = false
     },
-    create_viewed_movie(userId, movieId, decade) {
+    create_viewed_movie(userId, movieId, decade, actor) {
 
-      this.$store.dispatch('create_viewed_movie', { userId, movieId, decade })
+      this.$store.dispatch('create_viewed_movie', { userId, movieId, decade, actor })
       this.no_viewed_movie = false
       this.viewed_movie = true
     },
