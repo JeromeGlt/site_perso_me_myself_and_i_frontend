@@ -37,14 +37,15 @@
       </div>
       <p v-if="!userId">Vous voulez créer le vôtre ? Faut se co et tout</p>
     </div>
+    <!-- Select pour choisir l'acteur -->
     <div v-if="userId">
-        <label>Choisissez votre acteur</label>
-        <select v-model="actor" @input="get_datas">
-          <option>Belmondo</option>
-          <option>Clavier</option>
-        </select>
+      <label>Choisissez votre acteur</label>
+      <select v-model="actor" @input="get_datas">
+        <option>Belmondo</option>
+        <option>Clavier</option>
+      </select>
     </div>
-    <!-- ce qui sera en v-if="isAdmin" -->
+    <!-- Seulement visible par l'administrateur -->
     <div v-if="isAdmin">
       <label>Acteur</label>
       <select v-model="actor">
@@ -72,6 +73,7 @@
     </div>
     <!-- Affichage du tableau -->
     <div v-if="array_belmondo">
+      <p @click="close_belmondo">fermer</p>
       <table>
         <tr>
           <td>Décennies</td>
@@ -80,41 +82,87 @@
         </tr>
         <tr>
           <td>Années 50</td>
-          <td>{{ total_movies_50 }}</td>
-          <td>{{ total_viewed_50 }} - {{ fifties_percent }}%</td>
+          <td>{{ total_movies_50_belmondo }}</td>
+          <td>{{ total_viewed_50_belmondo }} - {{ fifties_percent_belmondo }}%</td>
         </tr>
         <tr>
           <td>Années 60</td>
-          <td>{{ total_movies_60 }}</td>
-          <td>{{ total_viewed_60 }} - {{ sixties_percent }}%</td>
+          <td>{{ total_movies_60_belmondo }}</td>
+          <td>{{ total_viewed_60_belmondo }} - {{ sixties_percent_belmondo }}%</td>
         </tr>
         <tr>
           <td>Années 70</td>
-          <td>{{ total_movies_70 }}</td>
-          <td>{{ total_viewed_70 }} - {{ seventies_percent }}%</td>
+          <td>{{ total_movies_70_belmondo }}</td>
+          <td>{{ total_viewed_70_belmondo }} - {{ seventies_percent_belmondo }}%</td>
         </tr>
         <tr>
           <td>Années 80</td>
-          <td>{{ total_movies_80 }}</td>
-          <td>{{ total_viewed_80 }} - {{ eighties_percent }}%</td>
+          <td>{{ total_movies_80_belmondo }}</td>
+          <td>{{ total_viewed_80_belmondo }} - {{ eighties_percent_belmondo }}%</td>
         </tr>
         <tr>
           <td>Années 90</td>
-          <td>{{ total_movies_90 }}</td>
-          <td>{{ total_viewed_90 }} - {{ nineties_percent }}%</td>
+          <td>{{ total_movies_90_belmondo }}</td>
+          <td>{{ total_viewed_90_belmondo }} - {{ nineties_percent_belmondo }}%</td>
         </tr>
         <tr>
           <td>Années 2000</td>
-          <td>{{ total_movies_2000 }}</td>
-          <td>{{ total_viewed_2000 }} - {{ millenial_percent }}%</td>
+          <td>{{ total_movies_2000_belmondo }}</td>
+          <td>{{ total_viewed_2000_belmondo }} - {{ millenial_percent_belmondo }}%</td>
         </tr>
         <tr>
           <td>Total</td>
-          <td>{{ total_movies }}</td>
-          <td>{{ total_viewed }} - {{ total_percent }}%</td>
+          <td>{{ total_movies_belmondo }}</td>
+          <td>{{ total_viewed_belmondo }} - {{ total_percent_belmondo }}%</td>
         </tr>
       </table>
-      <button @click="calculate">Rafraichir</button>
+      <button @click="calculate_belmondo">Rafraichir</button>
+    </div>
+    <div v-if="array_clavier">
+      <p @click="close_clavier">fermer</p>
+      <table>
+        <tr>
+          <td>Décennies</td>
+          <td>Films tournés</td>
+          <td>Films vus</td>
+        </tr>
+        <tr>
+          <td>Années 70</td>
+          <td>{{ total_movies_70_clavier }}</td>
+          <td>{{ total_viewed_70_clavier }} - {{ seventies_percent_clavier }}%</td>
+        </tr>
+        <tr>
+          <td>Années 80</td>
+          <td>{{ total_movies_80_clavier }}</td>
+          <td>{{ total_viewed_80_clavier }} - {{ eighties_percent_clavier }}%</td>
+        </tr>
+        <tr>
+          <td>Années 90</td>
+          <td>{{ total_movies_90_clavier }}</td>
+          <td>{{ total_viewed_90_clavier }} - {{ nineties_percent_clavier }}%</td>
+        </tr>
+        <tr>
+          <td>Années 2000</td>
+          <td>{{ total_movies_2000_clavier }}</td>
+          <td>{{ total_viewed_2000_clavier }} - {{ millenial_percent_clavier }}%</td>
+        </tr>
+        <tr>
+          <td>Années 2010</td>
+          <td>{{ total_movies_2010_clavier }}</td>
+          <td>{{ total_viewed_2010_clavier }} - {{ tens_percent_clavier }}%</td>
+        </tr>
+        <tr>
+          <td>Années 2020</td>
+          <td>{{ total_movies_2020_clavier }}</td>
+          <td>{{ total_viewed_2020_clavier }} - {{ twenties_percent_clavier }}%</td>
+        </tr>
+        <tr>
+          <td>Total</td>
+          <td>{{ total_movies_clavier }}</td>
+          <td>{{ total_viewed_clavier }} - {{ total_percent_clavier }}%</td>
+        </tr>
+      </table>
+      <button @click="calculate_clavier">Rafraichir</button>
     </div>
     <!-- Affichage des films -->
     <div>
@@ -158,30 +206,55 @@
       title: '',
       director: '',
 
-      total_movies_50: 7,
-      total_movies_60: 39,
-      total_movies_70: 14,
-      total_movies_80: 9,
-      total_movies_90: 6,
-      total_movies_2000: 3,
-      total_movies: 78,
+      total_movies_50_belmondo: 7,
+      total_movies_60_belmondo: 39,
+      total_movies_70_belmondo: 14,
+      total_movies_80_belmondo: 9,
+      total_movies_90_belmondo: 6,
+      total_movies_2000_belmondo: 3,
+      total_movies_belmondo: 78,
 
-      total_viewed_50: 0,
-      total_viewed_60: 0,
-      total_viewed_70: 0,
-      total_viewed_80: 0,
-      total_viewed_90: 0,
-      total_viewed_2000: 0,
+      total_movies_70_clavier: 15,
+      total_movies_80_clavier: 13,
+      total_movies_90_clavier: 10,
+      total_movies_2000_clavier: 11,
+      total_movies_2010_clavier: 16,
+      total_movies_2020_clavier: 4,
+      total_movies_clavier: 69,
 
-      fifties_percent: 0,
-      sixties_percent: 0,
-      seventies_percent: 0,
-      eighties_percent: 0,
-      nineties_percent: 0,
-      millenial_percent: 0,
+      total_viewed_50_belmondo: 0,
+      total_viewed_60_belmondo: 0,
+      total_viewed_70_belmondo: 0,
+      total_viewed_80_belmondo: 0,
+      total_viewed_90_belmondo: 0,
+      total_viewed_2000_belmondo: 0,
 
-      total_viewed: 0,
-      total_percent: 0,
+      total_viewed_70_clavier: 0,
+      total_viewed_80_clavier: 0,
+      total_viewed_90_clavier: 0,
+      total_viewed_2000_clavier: 0,
+      total_viewed_2010_clavier: 0,
+      total_viewed_2020_clavier: 0,
+
+      fifties_percent_belmondo: 0,
+      sixties_percent_belmondo: 0,
+      seventies_percent_belmondo: 0,
+      eighties_percent_belmondo: 0,
+      nineties_percent_belmondo: 0,
+      millenial_percent_belmondo: 0,
+
+      seventies_percent_clavier: 0,
+      eighties_percent_clavier: 0,
+      nineties_percent_clavier: 0,
+      millenial_percent_clavier: 0,
+      tens_percent_clavier: 0,
+      twenties_percent_clavier: 0,
+
+      total_viewed_belmondo: 0,
+      total_percent_belmondo: 0,
+
+      total_viewed_clavier: 0,
+      total_percent_clavier: 0,
 
       year: null,
       decade: null
@@ -205,54 +278,101 @@
         // variabiliser quel array doit s'afficher en fonction de la valeur de actor
         if(event.target.value === 'Belmondo') {
           this.array_belmondo = true
-          this.array_clavier = false
+          this.calculate_belmondo()
         } else if(event.target.value === 'Clavier') {
-          this.array_belmondo = false
           this.array_clavier = true
+          this.calculate_clavier()
         }
-
-        this.calculate()
       },
-      calculate() {
-        let total_viewed_50_array = []
-        let total_viewed_60_array = []
-        let total_viewed_70_array = []
-        let total_viewed_80_array = []
-        let total_viewed_90_array = []
-        let total_viewed_2000_array = []
+      close_belmondo() {
+        this.array_belmondo = false
+      },
+      close_clavier() {
+        this.array_clavier = false
+      },
+      calculate_belmondo() {
+
+        let total_viewed_50_array_belmondo = []
+        let total_viewed_60_array_belmondo = []
+        let total_viewed_70_array_belmondo = []
+        let total_viewed_80_array_belmondo = []
+        let total_viewed_90_array_belmondo = []
+        let total_viewed_2000_array_belmondo = []
 
         for(let i = 0; i < this.viewed_movies.length; i++) {
-          if(this.viewed_movies[i].decade === 50) {
-            total_viewed_50_array.push(this.viewed_movies[i])
-          }else if(this.viewed_movies[i].decade === 60) {
-            total_viewed_60_array.push(this.viewed_movies[i])
-          }else if(this.viewed_movies[i].decade === 70) {
-            total_viewed_70_array.push(this.viewed_movies[i])
-          }else if(this.viewed_movies[i].decade === 80) {
-            total_viewed_80_array.push(this.viewed_movies[i])
-          }else if(this.viewed_movies[i].decade === 90) {
-            total_viewed_90_array.push(this.viewed_movies[i])
-          }else if(this.viewed_movies[i].decade === 2000) {
-            total_viewed_2000_array.push(this.viewed_movies[i])
+          if(this.viewed_movies[i].decade === 50 && this.viewed_movies[i].actor === 'Belmondo') {
+            total_viewed_50_array_belmondo.push(this.viewed_movies[i])
+          }else if(this.viewed_movies[i].decade === 60 && this.viewed_movies[i].actor === 'Belmondo') {
+            total_viewed_60_array_belmondo.push(this.viewed_movies[i])
+          }else if(this.viewed_movies[i].decade === 70 && this.viewed_movies[i].actor === 'Belmondo') {
+            total_viewed_70_array_belmondo.push(this.viewed_movies[i])
+          }else if(this.viewed_movies[i].decade === 80 && this.viewed_movies[i].actor === 'Belmondo') {
+            total_viewed_80_array_belmondo.push(this.viewed_movies[i])
+          }else if(this.viewed_movies[i].decade === 90 && this.viewed_movies[i].actor === 'Belmondo') {
+            total_viewed_90_array_belmondo.push(this.viewed_movies[i])
+          }else if(this.viewed_movies[i].decade === 2000 && this.viewed_movies[i].actor === 'Belmondo') {
+            total_viewed_2000_array_belmondo.push(this.viewed_movies[i])
           }
         }
 
-        this.total_viewed_50 = total_viewed_50_array.length
-        this.total_viewed_60 = total_viewed_60_array.length
-        this.total_viewed_70 = total_viewed_70_array.length
-        this.total_viewed_80 = total_viewed_80_array.length
-        this.total_viewed_90 = total_viewed_90_array.length
-        this.total_viewed_2000 = total_viewed_2000_array.length
+        this.total_viewed_50_belmondo = total_viewed_50_array_belmondo.length
+        this.total_viewed_60_belmondo = total_viewed_60_array_belmondo.length
+        this.total_viewed_70_belmondo = total_viewed_70_array_belmondo.length
+        this.total_viewed_80_belmondo = total_viewed_80_array_belmondo.length
+        this.total_viewed_90_belmondo = total_viewed_90_array_belmondo.length
+        this.total_viewed_2000_belmondo = total_viewed_2000_array_belmondo.length
 
-        this.fifties_percent = (this.total_viewed_50 / this.total_movies_50 * 100).toFixed(1)
-        this.sixties_percent = (this.total_viewed_60 / this.total_movies_60 * 100).toFixed(1)
-        this.seventies_percent = (this.total_viewed_70 / this.total_movies_70 * 100).toFixed(1)
-        this.eighties_percent = (this.total_viewed_80 / this.total_movies_80 * 100).toFixed(1)
-        this.nineties_percent = (this.total_viewed_90 / this.total_movies_90 * 100).toFixed(1)
-        this.millenial_percent = (this.total_viewed_2000 / this.total_movies_2000 * 100).toFixed(1)
+        this.fifties_percent_belmondo = (this.total_viewed_50_belmondo / this.total_movies_50_belmondo * 100).toFixed(1)
+        this.sixties_percent_belmondo = (this.total_viewed_60_belmondo / this.total_movies_60_belmondo * 100).toFixed(1)
+        this.seventies_percent_belmondo = (this.total_viewed_70_belmondo / this.total_movies_70_belmondo * 100).toFixed(1)
+        this.eighties_percent_belmondo = (this.total_viewed_80_belmondo / this.total_movies_80_belmondo * 100).toFixed(1)
+        this.nineties_percent_belmondo = (this.total_viewed_90_belmondo / this.total_movies_90_belmondo * 100).toFixed(1)
+        this.millenial_percent_belmondo = (this.total_viewed_2000_belmondo / this.total_movies_2000_belmondo * 100).toFixed(1)
 
-        this.total_viewed = this.total_viewed_50 + this.total_viewed_60 + this.total_viewed_70 + this.total_viewed_80 + this.total_viewed_90 + this.total_viewed_2000
-        this.total_percent = (this.total_viewed / this.total_movies * 100).toFixed(1)
+        this.total_viewed_belmondo = this.total_viewed_50_belmondo + this.total_viewed_60_belmondo + this.total_viewed_70_belmondo + this.total_viewed_80_belmondo + this.total_viewed_90_belmondo + this.total_viewed_2000_belmondo
+        this.total_percent_belmondo = (this.total_viewed_belmondo / this.total_movies_belmondo * 100).toFixed(1)
+      },
+      calculate_clavier() {
+
+        let total_viewed_70_array_clavier = []
+        let total_viewed_80_array_clavier = []
+        let total_viewed_90_array_clavier = []
+        let total_viewed_2000_array_clavier = []
+        let total_viewed_2010_array_clavier = []
+        let total_viewed_2020_array_clavier = []
+
+        for(let i = 0; i < this.viewed_movies.length; i++) {
+          if(this.viewed_movies[i].decade === 70 && this.viewed_movies[i].actor === 'Clavier') {
+            total_viewed_70_array_clavier.push(this.viewed_movies[i])
+          }else if(this.viewed_movies[i].decade === 80 && this.viewed_movies[i].actor === 'Clavier') {
+            total_viewed_80_array_clavier.push(this.viewed_movies[i])
+          }else if(this.viewed_movies[i].decade === 90 && this.viewed_movies[i].actor === 'Clavier') {
+            total_viewed_90_array_clavier.push(this.viewed_movies[i])
+          }else if(this.viewed_movies[i].decade === 2000 && this.viewed_movies[i].actor === 'Clavier') {
+            total_viewed_2000_array_clavier.push(this.viewed_movies[i])
+          }else if(this.viewed_movies[i].decade === 2010 && this.viewed_movies[i].actor === 'Clavier') {
+            total_viewed_2010_array_clavier.push(this.viewed_movies[i])
+          }else if(this.viewed_movies[i].decade === 2020 && this.viewed_movies[i].actor === 'Clavier') {
+            total_viewed_2020_array_clavier.push(this.viewed_movies[i])
+          }
+        }
+
+        this.total_viewed_70_clavier = total_viewed_70_array_clavier.length
+        this.total_viewed_80_clavier = total_viewed_80_array_clavier.length
+        this.total_viewed_90_clavier = total_viewed_90_array_clavier.length
+        this.total_viewed_2000_clavier = total_viewed_2000_array_clavier.length
+        this.total_viewed_2010_clavier = total_viewed_2010_array_clavier.length
+        this.total_viewed_2020_clavier = total_viewed_2020_array_clavier.length
+
+        this.seventies_percent_clavier = (this.total_viewed_70_clavier / this.total_movies_70_clavier * 100).toFixed(1)
+        this.eighties_percent_clavier = (this.total_viewed_80_clavier / this.total_movies_80_clavier * 100).toFixed(1)
+        this.nineties_percent_clavier = (this.total_viewed_90_clavier / this.total_movies_90_clavier * 100).toFixed(1)
+        this.millenial_percent_clavier = (this.total_viewed_2000_clavier / this.total_movies_2000_clavier * 100).toFixed(1)
+        this.tens_percent_clavier = (this.total_viewed_2010_clavier / this.total_movies_2010_clavier * 100).toFixed(1)
+        this.twenties_percent_clavier = (this.total_viewed_2020_clavier / this.total_movies_2020_clavier * 100).toFixed(1)
+
+        this.total_viewed_clavier = this.total_viewed_70_clavier + this.total_viewed_80_clavier + this.total_viewed_90_clavier + this.total_viewed_2000_clavier + this.total_viewed_2010_clavier + this.total_viewed_2020_clavier
+        this.total_percent_clavier = (this.total_viewed_clavier / this.total_movies_clavier * 100).toFixed(1)
       },
 
       //user modifications functions
