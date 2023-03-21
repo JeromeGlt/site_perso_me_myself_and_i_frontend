@@ -2,7 +2,54 @@
   <div>
     <div>
       <h1>Cinéma français</h1>
-      <div v-if="userId">
+      <div>
+        <p v-if="!userId_url">Ici, vous pourrez créer votre propre tableau de visionnages</p>
+        <p>Par exemple, voici le mien avec les films de Depardieu :</p>
+        <table>
+          <tr>
+            <td>Décennies</td>
+            <td>Films tournés</td>
+            <td>Films vus</td>
+          </tr>
+          <tr>
+            <td>Années 70</td>
+            <td>37</td>
+            <td>29 - 78%</td>
+          </tr>
+          <tr>
+            <td>Années 80</td>
+            <td>29</td>
+            <td>26 - 90%</td>
+          </tr>
+          <tr>
+            <td>Années 90</td>
+            <td>31</td>
+            <td>26 - 84%</td>
+          </tr>
+          <tr>
+            <td>Années 2000</td>
+            <td>50</td>
+            <td>37 - 74%</td>
+          </tr>
+          <tr>
+            <td>Années 2010</td>
+            <td>44</td>
+            <td>27 - 61%</td>
+          </tr>
+          <tr>
+            <td>Années 2020</td>
+            <td>10</td>
+            <td>8 - 80%</td>
+          </tr>
+          <tr>
+            <td>Total</td>
+            <td>201</td>
+            <td>153 - 76%</td>
+          </tr>
+        </table>
+        <p v-if="!userId_url">Vous voulez créer les vôtres ? <router-link to="/login">Connectez-vous</router-link> ou <router-link to="/signup">créez un compte</router-link></p>
+      </div>
+      <div v-if="userId_url">
         <p @click="modify_username_input">Modifier le nom d'utilisateur</p>
         <div v-if="modify_username_section">
           <div>
@@ -17,7 +64,7 @@
           <p>Etes-vous sûr ? <span @click="deleteUser(userId)">Oui</span> <span @click="no_deleteUser_alert">Non</span></p>
         </div>
       </div>
-      <div>
+      <div v-if="userId_url">
         <div>
           <img :src="imageUrl" alt="image de l'utilisateur"/>
         </div>
@@ -32,13 +79,10 @@
           </div>
         </div>
         <p>{{ username }}, vous pouvez créer ici vos tableaux de visionnages</p>
-        <p>Voici le mien :</p>
-        <p>TABLEAU</p>
       </div>
-      <p v-if="!userId">Vous voulez créer le vôtre ? Faut se co et tout</p>
     </div>
     <!-- Select pour choisir l'acteur -->
-    <div v-if="userId">
+    <div v-if="userId_url">
       <label>Choisissez votre acteur</label>
       <select v-model="actor" @input="get_datas">
         <option>Belmondo</option>
@@ -206,6 +250,7 @@
       }),
     },
     data: () => ({
+      userId_url:'',
       modify_username_section: false,
       modify_image_section: false,
       delete_user_section: false,
@@ -216,6 +261,8 @@
       actor: '',
       title: '',
       director: '',
+      year: null,
+      decade: null,
 
       total_movies_50_belmondo: 7,
       total_movies_60_belmondo: 39,
@@ -265,10 +312,7 @@
       total_percent_belmondo: 0,
 
       total_viewed_clavier: 0,
-      total_percent_clavier: 0,
-
-      year: null,
-      decade: null
+      total_percent_clavier: 0
     }),
     methods: {
 
@@ -278,9 +322,11 @@
       },
       get_viewed_movies() {
 
-        let userId_url = window.location.href.split('http://localhost:8080/#/movies/')
+        let url = window.location.href.split('http://localhost:8080/#/movies/')
 
-        this.$store.dispatch('get_viewed_movies', userId_url[1])
+        this.userId_url = url[1]
+
+        this.$store.dispatch('get_viewed_movies', this.userId_url)
       },
       get_datas(event) {
         let actor = event.target.value
