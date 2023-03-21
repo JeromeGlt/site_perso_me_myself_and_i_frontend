@@ -61,7 +61,8 @@ export default {
     ...mapState({
       userId: state => state.userId,
       viewed_movies: state => state.viewed_movies,
-      movies: state => state.movies,
+      movies_belmondo: state => state.movies_belmondo,
+      movies_clavier: state => state.movies_clavier,
       isAdmin: state => state.isAdmin
     })
   },

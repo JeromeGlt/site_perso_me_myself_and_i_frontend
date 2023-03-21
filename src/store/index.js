@@ -10,7 +10,8 @@ export default createStore({
     imageUrl: '',
     message_movie:'',
     message_user: '',
-    movies: [],
+    movies_belmondo: [],
+    movies_clavier: [],
     viewed_movies: []
   },
   getters: {
@@ -30,8 +31,11 @@ export default createStore({
     UPDATE_IMAGEURL (state, imageUrl) {
       state.imageUrl = imageUrl
     },
-    MOVIE (state, data) {
-      state.movies = data
+    MOVIES_BELMONDO (state, data) {
+      state.movies_belmondo = data
+    },
+    MOVIES_CLAVIER (state, data) {
+      state.movies_clavier = data
     },
     VIEWED_MOVIES (state, data) {
       state.viewed_movies = data
@@ -177,7 +181,13 @@ export default createStore({
       })
       .then(res => res.json())
       .then(data => {
-        commit('MOVIE', data)
+        for(let i = 0; i < data.length; i++) {
+          if(data[i].actor === 'Belmondo') {
+            commit('MOVIES_BELMONDO', data)
+          }else if(data[i].actor === 'Clavier') {
+            commit('MOVIES_CLAVIER', data)
+          }
+        }
       })
       .catch(err => console.log(err))
     },

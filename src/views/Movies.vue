@@ -71,106 +71,116 @@
       </select>
       <button @click="submitMovie"></button>
     </div>
-    <!-- Affichage du tableau -->
-    <div v-if="array_belmondo">
-      <p @click="close_belmondo">fermer</p>
-      <table>
-        <tr>
-          <td>Décennies</td>
-          <td>Films tournés</td>
-          <td>Films vus</td>
-        </tr>
-        <tr>
-          <td>Années 50</td>
-          <td>{{ total_movies_50_belmondo }}</td>
-          <td>{{ total_viewed_50_belmondo }} - {{ fifties_percent_belmondo }}%</td>
-        </tr>
-        <tr>
-          <td>Années 60</td>
-          <td>{{ total_movies_60_belmondo }}</td>
-          <td>{{ total_viewed_60_belmondo }} - {{ sixties_percent_belmondo }}%</td>
-        </tr>
-        <tr>
-          <td>Années 70</td>
-          <td>{{ total_movies_70_belmondo }}</td>
-          <td>{{ total_viewed_70_belmondo }} - {{ seventies_percent_belmondo }}%</td>
-        </tr>
-        <tr>
-          <td>Années 80</td>
-          <td>{{ total_movies_80_belmondo }}</td>
-          <td>{{ total_viewed_80_belmondo }} - {{ eighties_percent_belmondo }}%</td>
-        </tr>
-        <tr>
-          <td>Années 90</td>
-          <td>{{ total_movies_90_belmondo }}</td>
-          <td>{{ total_viewed_90_belmondo }} - {{ nineties_percent_belmondo }}%</td>
-        </tr>
-        <tr>
-          <td>Années 2000</td>
-          <td>{{ total_movies_2000_belmondo }}</td>
-          <td>{{ total_viewed_2000_belmondo }} - {{ millenial_percent_belmondo }}%</td>
-        </tr>
-        <tr>
-          <td>Total</td>
-          <td>{{ total_movies_belmondo }}</td>
-          <td>{{ total_viewed_belmondo }} - {{ total_percent_belmondo }}%</td>
-        </tr>
-      </table>
-      <button @click="calculate_belmondo">Rafraichir</button>
-    </div>
-    <div v-if="array_clavier">
-      <p @click="close_clavier">fermer</p>
-      <table>
-        <tr>
-          <td>Décennies</td>
-          <td>Films tournés</td>
-          <td>Films vus</td>
-        </tr>
-        <tr>
-          <td>Années 70</td>
-          <td>{{ total_movies_70_clavier }}</td>
-          <td>{{ total_viewed_70_clavier }} - {{ seventies_percent_clavier }}%</td>
-        </tr>
-        <tr>
-          <td>Années 80</td>
-          <td>{{ total_movies_80_clavier }}</td>
-          <td>{{ total_viewed_80_clavier }} - {{ eighties_percent_clavier }}%</td>
-        </tr>
-        <tr>
-          <td>Années 90</td>
-          <td>{{ total_movies_90_clavier }}</td>
-          <td>{{ total_viewed_90_clavier }} - {{ nineties_percent_clavier }}%</td>
-        </tr>
-        <tr>
-          <td>Années 2000</td>
-          <td>{{ total_movies_2000_clavier }}</td>
-          <td>{{ total_viewed_2000_clavier }} - {{ millenial_percent_clavier }}%</td>
-        </tr>
-        <tr>
-          <td>Années 2010</td>
-          <td>{{ total_movies_2010_clavier }}</td>
-          <td>{{ total_viewed_2010_clavier }} - {{ tens_percent_clavier }}%</td>
-        </tr>
-        <tr>
-          <td>Années 2020</td>
-          <td>{{ total_movies_2020_clavier }}</td>
-          <td>{{ total_viewed_2020_clavier }} - {{ twenties_percent_clavier }}%</td>
-        </tr>
-        <tr>
-          <td>Total</td>
-          <td>{{ total_movies_clavier }}</td>
-          <td>{{ total_viewed_clavier }} - {{ total_percent_clavier }}%</td>
-        </tr>
-      </table>
-      <button @click="calculate_clavier">Rafraichir</button>
-    </div>
-    <!-- Affichage des films -->
-    <div>
-      <ul>
-        <li v-for="movie in movies" :key="movie.title">
-          <showMovies :movieData="movie"/>
-        </li>
-      </ul>
+    <div class="flexbox">
+      <!-- Affichage du tableau -->
+      <div v-if="array_belmondo">
+        <p @click="close_belmondo">fermer</p>
+        <table>
+          <tr>
+            <td>Décennies</td>
+            <td>Films tournés</td>
+            <td>Films vus</td>
+          </tr>
+          <tr>
+            <td>Années 50</td>
+            <td>{{ total_movies_50_belmondo }}</td>
+            <td>{{ total_viewed_50_belmondo }} - {{ fifties_percent_belmondo }}%</td>
+          </tr>
+          <tr>
+            <td>Années 60</td>
+            <td>{{ total_movies_60_belmondo }}</td>
+            <td>{{ total_viewed_60_belmondo }} - {{ sixties_percent_belmondo }}%</td>
+          </tr>
+          <tr>
+            <td>Années 70</td>
+            <td>{{ total_movies_70_belmondo }}</td>
+            <td>{{ total_viewed_70_belmondo }} - {{ seventies_percent_belmondo }}%</td>
+          </tr>
+          <tr>
+            <td>Années 80</td>
+            <td>{{ total_movies_80_belmondo }}</td>
+            <td>{{ total_viewed_80_belmondo }} - {{ eighties_percent_belmondo }}%</td>
+          </tr>
+          <tr>
+            <td>Années 90</td>
+            <td>{{ total_movies_90_belmondo }}</td>
+            <td>{{ total_viewed_90_belmondo }} - {{ nineties_percent_belmondo }}%</td>
+          </tr>
+          <tr>
+            <td>Années 2000</td>
+            <td>{{ total_movies_2000_belmondo }}</td>
+            <td>{{ total_viewed_2000_belmondo }} - {{ millenial_percent_belmondo }}%</td>
+          </tr>
+          <tr>
+            <td>Total</td>
+            <td>{{ total_movies_belmondo }}</td>
+            <td>{{ total_viewed_belmondo }} - {{ total_percent_belmondo }}%</td>
+          </tr>
+        </table>
+        <button @click="calculate_belmondo">Rafraichir</button>
+        <!-- films -->
+        <div>
+          <ul>
+            <li v-for="movie in movies_belmondo" :key="movie.title">
+              <showMovies :movieData="movie"/>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div v-if="array_clavier">
+        <p @click="close_clavier">fermer</p>
+        <table>
+          <tr>
+            <td>Décennies</td>
+            <td>Films tournés</td>
+            <td>Films vus</td>
+          </tr>
+          <tr>
+            <td>Années 70</td>
+            <td>{{ total_movies_70_clavier }}</td>
+            <td>{{ total_viewed_70_clavier }} - {{ seventies_percent_clavier }}%</td>
+          </tr>
+          <tr>
+            <td>Années 80</td>
+            <td>{{ total_movies_80_clavier }}</td>
+            <td>{{ total_viewed_80_clavier }} - {{ eighties_percent_clavier }}%</td>
+          </tr>
+          <tr>
+            <td>Années 90</td>
+            <td>{{ total_movies_90_clavier }}</td>
+            <td>{{ total_viewed_90_clavier }} - {{ nineties_percent_clavier }}%</td>
+          </tr>
+          <tr>
+            <td>Années 2000</td>
+            <td>{{ total_movies_2000_clavier }}</td>
+            <td>{{ total_viewed_2000_clavier }} - {{ millenial_percent_clavier }}%</td>
+          </tr>
+          <tr>
+            <td>Années 2010</td>
+            <td>{{ total_movies_2010_clavier }}</td>
+            <td>{{ total_viewed_2010_clavier }} - {{ tens_percent_clavier }}%</td>
+          </tr>
+          <tr>
+            <td>Années 2020</td>
+            <td>{{ total_movies_2020_clavier }}</td>
+            <td>{{ total_viewed_2020_clavier }} - {{ twenties_percent_clavier }}%</td>
+          </tr>
+          <tr>
+            <td>Total</td>
+            <td>{{ total_movies_clavier }}</td>
+            <td>{{ total_viewed_clavier }} - {{ total_percent_clavier }}%</td>
+          </tr>
+        </table>
+        <button @click="calculate_clavier">Rafraichir</button>
+        <!-- films -->
+        <div>
+          <ul>
+            <li v-for="movie in movies_clavier" :key="movie.title">
+              <showMovies :movieData="movie"/>
+            </li>
+          </ul>
+        </div>
+      </div> 
     </div>
   </div>
 </template>
@@ -190,7 +200,8 @@
         userId: state => state.userId,
         imageUrl: state => state.imageUrl,
         isAdmin: state => state.isAdmin,
-        movies: state => state.movies,
+        movies_belmondo: state => state.movies_belmondo,
+        movies_clavier: state => state.movies_clavier,
         viewed_movies: state => state.viewed_movies
       }),
     },
@@ -322,15 +333,15 @@
         this.total_viewed_90_belmondo = total_viewed_90_array_belmondo.length
         this.total_viewed_2000_belmondo = total_viewed_2000_array_belmondo.length
 
-        this.fifties_percent_belmondo = (this.total_viewed_50_belmondo / this.total_movies_50_belmondo * 100).toFixed(1)
-        this.sixties_percent_belmondo = (this.total_viewed_60_belmondo / this.total_movies_60_belmondo * 100).toFixed(1)
-        this.seventies_percent_belmondo = (this.total_viewed_70_belmondo / this.total_movies_70_belmondo * 100).toFixed(1)
-        this.eighties_percent_belmondo = (this.total_viewed_80_belmondo / this.total_movies_80_belmondo * 100).toFixed(1)
-        this.nineties_percent_belmondo = (this.total_viewed_90_belmondo / this.total_movies_90_belmondo * 100).toFixed(1)
-        this.millenial_percent_belmondo = (this.total_viewed_2000_belmondo / this.total_movies_2000_belmondo * 100).toFixed(1)
+        this.fifties_percent_belmondo = (this.total_viewed_50_belmondo / this.total_movies_50_belmondo * 100).toFixed(0)
+        this.sixties_percent_belmondo = (this.total_viewed_60_belmondo / this.total_movies_60_belmondo * 100).toFixed(0)
+        this.seventies_percent_belmondo = (this.total_viewed_70_belmondo / this.total_movies_70_belmondo * 100).toFixed(0)
+        this.eighties_percent_belmondo = (this.total_viewed_80_belmondo / this.total_movies_80_belmondo * 100).toFixed(0)
+        this.nineties_percent_belmondo = (this.total_viewed_90_belmondo / this.total_movies_90_belmondo * 100).toFixed(0)
+        this.millenial_percent_belmondo = (this.total_viewed_2000_belmondo / this.total_movies_2000_belmondo * 100).toFixed(0)
 
         this.total_viewed_belmondo = this.total_viewed_50_belmondo + this.total_viewed_60_belmondo + this.total_viewed_70_belmondo + this.total_viewed_80_belmondo + this.total_viewed_90_belmondo + this.total_viewed_2000_belmondo
-        this.total_percent_belmondo = (this.total_viewed_belmondo / this.total_movies_belmondo * 100).toFixed(1)
+        this.total_percent_belmondo = (this.total_viewed_belmondo / this.total_movies_belmondo * 100).toFixed(0)
       },
       calculate_clavier() {
 
@@ -364,15 +375,15 @@
         this.total_viewed_2010_clavier = total_viewed_2010_array_clavier.length
         this.total_viewed_2020_clavier = total_viewed_2020_array_clavier.length
 
-        this.seventies_percent_clavier = (this.total_viewed_70_clavier / this.total_movies_70_clavier * 100).toFixed(1)
-        this.eighties_percent_clavier = (this.total_viewed_80_clavier / this.total_movies_80_clavier * 100).toFixed(1)
-        this.nineties_percent_clavier = (this.total_viewed_90_clavier / this.total_movies_90_clavier * 100).toFixed(1)
-        this.millenial_percent_clavier = (this.total_viewed_2000_clavier / this.total_movies_2000_clavier * 100).toFixed(1)
-        this.tens_percent_clavier = (this.total_viewed_2010_clavier / this.total_movies_2010_clavier * 100).toFixed(1)
-        this.twenties_percent_clavier = (this.total_viewed_2020_clavier / this.total_movies_2020_clavier * 100).toFixed(1)
+        this.seventies_percent_clavier = (this.total_viewed_70_clavier / this.total_movies_70_clavier * 100).toFixed(0)
+        this.eighties_percent_clavier = (this.total_viewed_80_clavier / this.total_movies_80_clavier * 100).toFixed(0)
+        this.nineties_percent_clavier = (this.total_viewed_90_clavier / this.total_movies_90_clavier * 100).toFixed(0)
+        this.millenial_percent_clavier = (this.total_viewed_2000_clavier / this.total_movies_2000_clavier * 100).toFixed(0)
+        this.tens_percent_clavier = (this.total_viewed_2010_clavier / this.total_movies_2010_clavier * 100).toFixed(0)
+        this.twenties_percent_clavier = (this.total_viewed_2020_clavier / this.total_movies_2020_clavier * 100).toFixed(0)
 
         this.total_viewed_clavier = this.total_viewed_70_clavier + this.total_viewed_80_clavier + this.total_viewed_90_clavier + this.total_viewed_2000_clavier + this.total_viewed_2010_clavier + this.total_viewed_2020_clavier
-        this.total_percent_clavier = (this.total_viewed_clavier / this.total_movies_clavier * 100).toFixed(1)
+        this.total_percent_clavier = (this.total_viewed_clavier / this.total_movies_clavier * 100).toFixed(0)
       },
 
       //user modifications functions
@@ -450,5 +461,7 @@
 </script>
 
 <style scoped lang='scss'>
-
+  .flexbox {
+    display: flex;
+  }
 </style>
