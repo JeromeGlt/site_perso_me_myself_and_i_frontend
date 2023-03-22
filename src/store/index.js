@@ -59,7 +59,6 @@ export default createStore({
         if(!data.message) {
           router.push('/movies/' + data.userId)
         }
-        console.log(data)
         localStorage.setItem('token', data.token)
       })
       .catch(err => console.log(err))
@@ -81,7 +80,6 @@ export default createStore({
         if(!data.message) {
             router.push('/movies/' + data.userId)
         }
-        console.log(data)
         localStorage.setItem('token', data.token)
       })
       .catch(err => console.log(err))
@@ -150,6 +148,32 @@ export default createStore({
       })
       .then(res => res.json())
       .then(data => console.log(data))
+      .catch(err => console.log(err))
+    },
+
+    verification_user_id({ dispatch }, userId) {
+
+      let storageToken = localStorage.getItem('token')
+
+      fetch('http://localhost:3001/api/user/' + userId, {
+        headers: {
+          'Accept': 'application/json',
+          'Authorization': 'Bearer ' + storageToken
+        }
+      })
+      .then(res => res.json())
+      .then(data => {
+        console.log(data)
+        if(!data.message) {
+          dispatch('get_viewed_movies', data.user_id)
+          console.log(data.user_id)
+          console.log(data.message)
+        }else{
+          console.log(data.user_id)
+          console.log(data.message)
+          router.push('/login')
+        }
+      })
       .catch(err => console.log(err))
     },
 

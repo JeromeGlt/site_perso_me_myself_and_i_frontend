@@ -326,7 +326,7 @@
 
         this.userId_url = url[1]
 
-        this.$store.dispatch('get_viewed_movies', this.userId_url)
+        this.$store.dispatch('verification_user_id', this.userId_url)
       },
       get_datas(event) {
         let actor = event.target.value
