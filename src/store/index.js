@@ -102,14 +102,11 @@ export default createStore({
 
     modifyUsername({ dispatch }, { modifyData, userId }) {
 
-      let storageToken = localStorage.getItem('token')
-
       fetch(process.env.VUE_APP_URL_API + 'api/user/' + userId, {
         method: 'put',
         headers: {
           'Accept': 'application/json',
-          'Content-Type': 'application/json',
-          'Authorization': 'Bearer ' + storageToken
+          'Content-Type': 'application/json'
         },
         body: JSON.stringify(modifyData)
       })
@@ -120,13 +117,10 @@ export default createStore({
 
     modifyImage({ dispatch }, { modifyImage, userId }) {
 
-      let storageToken = localStorage.getItem('token')
-
       fetch(process.env.VUE_APP_URL_API + 'api/user/modifyImage/' + userId, {
           method: 'put',
           headers: {
-              'Accept': 'application/json',
-              'Authorization': 'Bearer ' + storageToken
+              'Accept': 'application/json'
           },
           body: modifyImage
       })
@@ -137,13 +131,10 @@ export default createStore({
 
     deleteUser({ state }) {
 
-      let storageToken = localStorage.getItem('token')
-
       fetch(process.env.VUE_APP_URL_API + 'api/user/' + state.userId, {
         method: 'delete',
         headers: {
-          'Accept': 'application/json',
-          'Authorization': 'Bearer ' + storageToken
+          'Accept': 'application/json'
         }
       })
       .then(res => res.json())
