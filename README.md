@@ -1,5 +1,9 @@
 # frontend
 
+Create a .env file with : 
+VUE_APP_URL_API=your_backend_url
+# like 'http://localhost:3000/'
+
 ## Project setup
 ```
 npm install

@@ -46,7 +46,7 @@ export default createStore({
     // users functions
     submitSignup({ commit }, signupData) {
       
-      fetch('http://localhost:3001/api/user/signup', {
+      fetch(process.env.VUE_APP_URL_API + 'api/user/signup', {
         method: 'post',
         headers: {
           'Accept': 'application/json',
@@ -66,7 +66,7 @@ export default createStore({
 
     submitLogin({ commit }, loginData) {
 
-      fetch('http://localhost:3001/api/user/login', {
+      fetch(process.env.VUE_APP_URL_API + 'user/login', {
         method: 'post',
         headers: {
           'Accept': 'application/json',
@@ -89,7 +89,7 @@ export default createStore({
 
       let storageToken = localStorage.getItem('token')
 
-      fetch('http://localhost:3001/api/user/', {
+      fetch(process.env.VUE_APP_URL_API + 'api/user/', {
         headers: {
           'Accept': 'application/json',
           'Authorization': 'Bearer ' + storageToken
@@ -104,7 +104,7 @@ export default createStore({
 
       let storageToken = localStorage.getItem('token')
 
-      fetch('http://localhost:3001/api/user/' + userId, {
+      fetch(process.env.VUE_APP_URL_API + 'api/user/' + userId, {
         method: 'put',
         headers: {
           'Accept': 'application/json',
@@ -122,7 +122,7 @@ export default createStore({
 
       let storageToken = localStorage.getItem('token')
 
-      fetch('http://localhost:3001/api/user/modifyImage/' + userId, {
+      fetch(process.env.VUE_APP_URL_API + 'api/user/modifyImage/' + userId, {
           method: 'put',
           headers: {
               'Accept': 'application/json',
@@ -139,7 +139,7 @@ export default createStore({
 
       let storageToken = localStorage.getItem('token')
 
-      fetch('http://localhost:3001/api/user/' + state.userId, {
+      fetch(process.env.VUE_APP_URL_API + 'api/user/' + state.userId, {
         method: 'delete',
         headers: {
           'Accept': 'application/json',
@@ -155,7 +155,7 @@ export default createStore({
 
       let storageToken = localStorage.getItem('token')
 
-      fetch('http://localhost:3001/api/user/' + userId, {
+      fetch(process.env.VUE_APP_URL_API + 'api/user/' + userId, {
         headers: {
           'Accept': 'application/json',
           'Authorization': 'Bearer ' + storageToken
@@ -182,7 +182,7 @@ export default createStore({
 
       let actor = movieData.actor
 
-      fetch('http://localhost:3001/api/movie/', {
+      fetch(process.env.VUE_APP_URL_API + 'api/movie/', {
         method: 'post',
         headers: {
           'Accept': 'application/json',
@@ -198,7 +198,7 @@ export default createStore({
 
     getAllMovies({ commit }, actor) {
 
-      fetch('http://localhost:3001/api/movie/' + actor, {
+      fetch(process.env.VUE_APP_URL_API + 'api/movie/' + actor, {
         headers: {
           'Accept': 'application/json'
         }
@@ -218,7 +218,7 @@ export default createStore({
 
     modifyMovie({ dispatch }, { movieData, id }) {
 
-      fetch('http://localhost:3001/api/movie/' + id, {
+      fetch(process.env.VUE_APP_URL_API + 'api/movie/' + id, {
         method: 'put',
         headers: {
           'Accept': 'application/json',
@@ -234,7 +234,7 @@ export default createStore({
 
     deleteMovie({ dispatch }, { id, actor }) {
 
-      fetch('http://localhost:3001/api/movie/' + id, {
+      fetch(process.env.VUE_APP_URL_API + 'api/movie/' + id, {
         method: 'delete',
         headers: {
           'Accept': 'application/json'
@@ -249,7 +249,7 @@ export default createStore({
     //associations functions
     create_viewed_movie({ dispatch }, { userId, movieId, decade, actor }) {
 
-      fetch('http://localhost:3001/api/viewed_movie/' + userId + '/' + movieId + '/' + decade + '/' + actor, {
+      fetch(process.env.VUE_APP_URL_API + 'api/viewed_movie/' + userId + '/' + movieId + '/' + decade + '/' + actor, {
         method: 'post',
         headers: {
           'Accept': 'application/json'
@@ -263,7 +263,7 @@ export default createStore({
 
     get_viewed_movies({ commit }, userId) {
 
-      fetch('http://localhost:3001/api/viewed_movie/' + userId, {
+      fetch(process.env.VUE_APP_URL_API + 'api/viewed_movie/' + userId, {
         headers: {
           'Accept': 'application/json'
         }
@@ -277,7 +277,7 @@ export default createStore({
 
     destroy_viewed_movie({ dispatch }, { userId, movieId }) {
 
-      fetch('http://localhost:3001/api/viewed_movie/destroy/' + userId + '/' + movieId, {
+      fetch(process.env.VUE_APP_URL_API + 'api/viewed_movie/destroy/' + userId + '/' + movieId, {
         method: 'delete',
         headers: {
           'Accept': 'application/json'
