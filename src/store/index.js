@@ -31,6 +31,9 @@ export default createStore({
     UPDATE_IMAGEURL (state, imageUrl) {
       state.imageUrl = imageUrl
     },
+    UPDATE_MESSAGE (state, message) {
+      state.message = message
+    },
     MOVIES_BELMONDO (state, data) {
       state.movies_belmondo = data
     },
