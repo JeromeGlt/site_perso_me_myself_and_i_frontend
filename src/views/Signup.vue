@@ -1,25 +1,24 @@
 <template>
   <div>
-    <div>
-      <p>Remplissez les deux champs afin de créer votre compte</p>
-      <div>
-        <label>Pseudo</label>
-        <input type="text" name="username" v-model="username" @input="usernameInput">
-        <div v-if="alertUsername">Le pseudo doit contenir entre 5 et 40 caractères. Seuls les lettres, points et tirets sont autorisés</div>
+    <h1>Me, myself and I</h1>
+    <p id="rule_signup">Remplissez les deux champs et ajoutez une image afin de créer votre compte.</p>
+    <div class="form">
+      <div class="input">
+        <input type="text" name="username" v-model="username" @input="usernameInput" @focus="clear_alert" placeholder="Pseudo">
+        <div class="alert" v-if="alertUsername">Le pseudo doit contenir entre 5 et 40 caractères. Seuls les lettres, points et tirets sont autorisés.</div>
       </div>
-      <div>
-        <label>Mot de passe</label>
-        <input type="password" name="password" v-model="password" @input="passwordInput">
-        <div v-if="alertPassword">Le mot de passe doit contenir entre 8 et 100 caractères dont une minuscule, une majuscule et un chiffre</div>
+      <div class="input">
+        <input type="password" name="password" v-model="password" @input="passwordInput" placeholder="Mot de passe">
+        <div class="alert" v-if="alertPassword">Le mot de passe doit contenir entre 8 et 100 caractères dont une minuscule, une majuscule et un chiffre.</div>
       </div>
-      <div>
-        <label>Ajouter votre image</label>
-        <input type="file" name="imageUrl" @change="uploadFile($event)">
-        <div v-if="!this.imageUrl">Veuillez choisir une image de profil</div>
+      <div class="input_image">
+        <label>Choisir une image...
+          <input type="file" name="imageUrl" @change="uploadFile($event)" @unfocus="verification_image">
+        </label>
       </div>
-      <p v-if="!this.username || !this.password || !this.imageUrl || alertUsername || alertPassword">Veuillez remplir les trois champs</p>
-      <button v-if="this.username && this.password && this.imageUrl && !alertUsername && !alertPassword" @click="submit">Créer mon compte</button>
-      <p >Si vous avez déjà un compte, <router-link to="/login">cliquez ici !</router-link></p>
+      <p class="alert" v-if="this.message">Pseudo déjà utilisé</p>
+      <button id="submit_signup" v-if="this.username && this.password && this.imageUrl && !alertUsername && !alertPassword" @click="submit">Créer mon compte</button>
+      <p class="link">Si vous avez déjà un compte, <router-link to="/login">cliquez ici !</router-link></p>
     </div>
   </div>
 </template>
@@ -56,6 +55,9 @@
           this.alertPassword = false
         }
       },
+      clear_alert() {
+        this.$store.commit('UPDATE_MESSAGE', '')
+      },
       submit() {
 
         let signupData = new FormData()
@@ -74,6 +76,14 @@
   }
 </script>
 
-<style scoped lang='scss'>
+<style scoped>
+  #rule_signup {
+    margin-top: 2rem;
+    text-align: center;
+  }
+
+  #submit_signup {
+    margin-top: 1rem;
+  }
 
 </style>
