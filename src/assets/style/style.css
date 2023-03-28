@@ -1,0 +1,21 @@
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+body {
+  background-color: #070761;;
+}
+a {
+  text-decoration: none;
+}
+#app {
+  font-family: DejaVu Sans, Verdana, Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  color: #fff;
+}
+
+/* titre en Impact */
+/* texte en DejaVu Sans */
+/* texte "en plus" en Verdana ? */
