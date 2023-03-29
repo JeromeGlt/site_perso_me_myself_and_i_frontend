@@ -69,7 +69,7 @@ export default createStore({
 
     submitLogin({ commit }, loginData) {
 
-      fetch(process.env.VUE_APP_URL_API + 'user/login', {
+      fetch(process.env.VUE_APP_URL_API + 'api/user/login', {
         method: 'post',
         headers: {
           'Accept': 'application/json',

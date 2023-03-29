@@ -1,19 +1,18 @@
 <template>
   <div>
-    <div>
-      <h1>BIENVENUE</h1>
-      <div>
-        <label>Pseudo</label>
-        <input type="text" name="user_name" v-model="username">
+    <h1>Me, myself and I</h1>
+    <h2 class="rule">Merci de renseigner votre nom d'utilisateur ainsi que votre un mot de passe afin de vous connecter.</h2>
+    <div class="form">
+      <div class="input">
+        <input type="text" name="user_name" v-model="username" placeholder="Pseudo" @focus="clear_alert">
+        <div class="alert" v-if="message === 'Username not found'">Nom d'utilisateur introuvable</div>
       </div>
-      <div>
-        <label>Mot de passe</label>
-        <input type="password" name="user_password" v-model="password">
+      <div class="input">
+        <input type="password" name="user_password" v-model="password" placeholder="Mot de passe" @focus="clear_alert">
+        <div class="alert" v-if="message === 'incorrect password'">Mot de passe incorrect</div>
       </div>
-      <p v-if="!this.username || !this.password">Veuillez remplir les champs pour vous connecter</p>
-      <button v-if="this.username && this.password" @click="login">Connexion</button>
-      <p >Si vous n'avez pas encore créé de compte, <router-link to='/signup'>cliquez ici</router-link> !</p>
-      <div v-if="message">{{ message }}</div>
+      <button v-if="this.username && this.password && !this.message" @click="login">Connexion</button>
+      <p v-else class="link">Si vous n'avez pas encore créé de compte, <router-link to='/signup'>cliquez ici.</router-link></p>
     </div>
   </div>
 </template>
@@ -41,7 +40,13 @@
         }
 
         this.$store.dispatch('submitLogin', loginData)
+      },
+      clear_alert() {
+        this.$store.commit('UPDATE_MESSAGE', '')
       }
+    },
+    mounted() {
+      this.clear_alert()
     }
   }
 </script>
