@@ -65,7 +65,6 @@ button:hover {
 }
 .input input {
   padding: 0.5rem 0 0.5rem 0.3rem;
-  /* width: 80%; */
   color: #070761;
   font-size: 1.1em;
   border: none;
@@ -80,7 +79,8 @@ button:hover {
 }
 .input ::placeholder {
   font-style: italic;
-  color: rgba(2, 0, 104, 0.6)
+  font-size: 0.9em;
+  color: rgba(2, 0, 104, 0.7)
 }
 .input_image {
   padding-top: 1rem;
@@ -96,7 +96,6 @@ button:hover {
   color: #070761;
   padding: 1rem;
   cursor: pointer;
-  /* width: 70%; */
   transition: 0s ease-in;
 }
 .input_image label:hover {
@@ -109,9 +108,9 @@ button:hover {
   display: none;
 }
 .alert {
-  color: red;
+  color: #070761;
   font-size: 0.8em;
-  background-color: rgba(255, 0, 0, 0.1);
+  background-color: rgba(255, 0, 0, 0.4);
   text-align: left;
   margin-top: 1em;
   padding: 0.3rem;
@@ -119,4 +118,49 @@ button:hover {
 .link {
   text-align: left;
   margin: 1rem 0;
+}
+
+@media screen and (min-width: 1200px) {
+  a:visited {
+    color: #fff;
+  }
+  button {
+    background-color: #fff;
+    border: 1px solid #fff;
+    color: #0c0c44;
+  }
+  button:hover {
+    background-color: #0c0c44;
+    color: #fff;
+  }
+  .form {
+    color: #fff;
+    background-color: #0c0c44;
+    border: 1px solid #fff;
+  }
+  .input input {
+    background-color: #0c0c44;
+    color: #fff;
+    border-bottom: 1px solid #fff;
+  }
+  .input input:focus {
+    border-bottom: 2px solid #fff;
+    color: #fff;
+  }
+  .input ::placeholder {
+    color: rgba(255, 255, 255, 0.8)
+  }
+  .input_image label {
+    background-color: #0c0c44;
+    border-bottom: solid 1px #fff;
+    border-left: solid 1px #fff;
+    color: #fff;
+  }
+  .input_image label:hover {
+    border-bottom: 2px solid #fff;
+    border-left: 2px solid #fff;
+  }
+  .alert {
+    color: #fff;
+  }
 }
