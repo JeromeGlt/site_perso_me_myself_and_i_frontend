@@ -8,6 +8,7 @@
 }
 body {
   background-color: #0c0c44;
+  /* position: relative; */
 }
 a {
   text-decoration: none;
@@ -118,6 +119,55 @@ button:hover {
 .link {
   text-align: left;
   margin: 1rem 0;
+}
+#movies_explication {
+  margin: 3rem 0;
+  padding: 0 1rem;
+}
+#movies_explication p {
+  margin: 1rem 0;
+  padding: 0 1rem;
+}
+#user {
+  display: flex;
+  justify-content: center;
+  margin-top: 2rem;
+}
+#user_image {
+  width: 120px;
+  height: 120px;
+  border: solid 1px #fff;
+  border-radius: 50%;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+#container_icons {
+  display: flex;
+  flex-direction: column;
+  margin: 1rem 0 0 1rem;
+}
+#container_icons img {
+  margin: 0 0 0.4rem 0;
+}
+.icons {
+  cursor: pointer;
+  width: 25px;
+}
+.table {
+  margin: 0 auto;
+  text-align: center;
+  border-collapse: collapse;
+}
+.table td{
+  padding: 0.7em;
+  border: solid 1px #fff;
+}
+#image_movies {
+  position: absolute;
+  width: 250px;
+  /* bottom: 0px; */
+  left: 50px;
 }
 
 @media screen and (min-width: 1200px) {

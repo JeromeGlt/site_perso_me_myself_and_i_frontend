@@ -2,85 +2,100 @@
   <div>
     <div>
       <h1>Cinéma français</h1>
-      <div>
-        <p v-if="!userId_url">Ici, vous pourrez créer votre propre tableau de visionnages</p>
-        <p>Par exemple, voici le mien avec les films de Depardieu :</p>
-        <table>
-          <tr>
-            <td>Décennies</td>
-            <td>Films tournés</td>
-            <td>Films vus</td>
-          </tr>
-          <tr>
-            <td>Années 70</td>
-            <td>37</td>
-            <td>29 - 78%</td>
-          </tr>
-          <tr>
-            <td>Années 80</td>
-            <td>29</td>
-            <td>26 - 90%</td>
-          </tr>
-          <tr>
-            <td>Années 90</td>
-            <td>31</td>
-            <td>26 - 84%</td>
-          </tr>
-          <tr>
-            <td>Années 2000</td>
-            <td>50</td>
-            <td>37 - 74%</td>
-          </tr>
-          <tr>
-            <td>Années 2010</td>
-            <td>44</td>
-            <td>27 - 61%</td>
-          </tr>
-          <tr>
-            <td>Années 2020</td>
-            <td>10</td>
-            <td>8 - 80%</td>
-          </tr>
-          <tr>
-            <td>Total</td>
-            <td>201</td>
-            <td>153 - 76%</td>
-          </tr>
-        </table>
-        <p v-if="!userId_url">Vous voulez créer les vôtres ? <router-link to="/login">Connectez-vous</router-link> ou <router-link to="/signup">créez un compte</router-link></p>
+      <div id="user">
+          <div id="user_image" :style="{ backgroundImage: 'url(' + imageUrl + ')' }"></div>
+        <div id="container_icons">
+          <img v-if="icon_modify_username" class="icons" src="../../public/images/rewrite.svg" title="Modifier le pseudo" @click="modify_username_input"/>
+          <img v-if="icon_modify_image" class="icons" src="../../public/images/image.svg" title="Modifier l'image" @click="modify_image_input"/>
+          <img v-if="icon_delete_user" class="icons" src="../../public/images/delete.svg" title="Supprimer le profil" @click="deleteUser_alert"/>
+        </div>
       </div>
-      <div v-if="userId_url">
-        <p @click="modify_username_input">Modifier le nom d'utilisateur</p>
-        <div v-if="modify_username_section">
-          <div>
-            <label>Pseudo</label>
+      <!-- Suppression du compte -->
+      <div v-if="delete_user_section" id="question_delete_user">
+        <div id="question">
+          <p>Êtes-vous sûr ?</p>
+        </div>
+        <div class="choice_delete">
+          <p @click="deleteUser(userId)">Oui</p>
+        </div>
+        <div class="choice_delete">
+          <p @click="no_deleteUser_alert">Non</p>
+        </div>
+      </div>
+      <!-- Modification de l'image d'utilisateur -->
+      <div v-if="modify_image_section">
+        <div class="input_image">
+          <label>Choisir une image...
+            <input type="file" name="imageUrl_modify" @change="commitImageProfile">
+          </label>
+        </div>
+          <button v-if="this.imageUrl_modify" @click="modifyImage(userId)">Envoyer</button>
+          <button title="Annuler" @click="no_modify_image_section">X</button>
+      </div>
+      <!-- Modification du nom d'utilisateur -->
+      <div v-if="modify_username_section">
+        <div class="input">
+          <div class="flexbox" id="input_modify_username">
             <input type="text" name="username" v-model="username" @input="commitUsername">
-            <div v-if="alertUsername">Le pseudo doit contenir entre 5 et 40 caractères. Seuls les lettres, points et tirets sont autorisés</div>
-            <button @click="modifyUsername(userId)">Enregistrer</button>
+            <button title="Annuler" @click="no_modify_username_section">X</button>
           </div>
-        </div>
-        <p @click="deleteUser_alert">Supprimer le profil</p>
-        <div v-if="delete_user_section">
-          <p>Etes-vous sûr ? <span @click="deleteUser(userId)">Oui</span> <span @click="no_deleteUser_alert">Non</span></p>
+          <div class="alert" v-if="alertUsername">Doit contenir entre 5 et 40 caractères. Seuls les lettres, points et tirets sont autorisés</div>
+          <button id="submit_modify_username" v-else @click="modifyUsername(userId)">Enregistrer</button>
         </div>
       </div>
-      <div v-if="userId_url">
-        <div>
-          <img :src="imageUrl" alt="image de l'utilisateur"/>
-        </div>
-        <p @click="modify_image_input">Modifier l'image du profil</p>
-        <div v-if="modify_image_section">
-          <label>Choisir une image...</label>
-          <input type="file" name="imageUrl_modify" @change="commitImageProfile">
-          <div>
-            <p v-if="!this.imageUrl_modify">Veuillez sélectionner une nouvelle image</p>
-            <button v-if="this.imageUrl_modify" @click="modifyImage(userId)">Envoyer</button>
-            <button title="Annuler" @click="no_modify_image_section">X</button>
-          </div>
-        </div>
-        <p>{{ username }}, vous pouvez créer ici vos tableaux de visionnages</p>
+      <!-- Explications de la création des tableaux -->
+      <div id="movies_explication">
+        <p v-if="!userId_url">Ici, vous pouvez créer vos propres tableaux de visionnages.</p>
+        <p v-if="!userId_url">Je vous donne la possibilité de le faire pour Jean-Paul Belmondo et Christian Clavier.</p>
+        <p>{{ username }}, vous pouvez créer ici vos tableaux de visionnages.</p>
+        <p>Le principe est de cocher les films que vous avez vus de ces acteurs, ce qui créera les tableaux.</p>
+        <p>Par exemple, ici le tableau de mes visionnages de la filmographie de Gérard Depardieu:</p>
       </div>
+      <table class="table">
+        <tr>
+          <td>Décennies</td>
+          <td>Films tournés</td>
+          <td>Films vus</td>
+        </tr>
+        <tr>
+          <td>Années 70</td>
+          <td>37</td>
+          <td>29 - 78%</td>
+        </tr>
+        <tr>
+          <td>Années 80</td>
+          <td>29</td>
+          <td>26 - 90%</td>
+        </tr>
+        <tr>
+          <td>Années 90</td>
+          <td>31</td>
+          <td>26 - 84%</td>
+        </tr>
+        <tr>
+          <td>Années 2000</td>
+          <td>50</td>
+          <td>37 - 74%</td>
+        </tr>
+        <tr>
+          <td>Années 2010</td>
+          <td>44</td>
+          <td>27 - 61%</td>
+        </tr>
+        <tr>
+          <td>Années 2020</td>
+          <td>10</td>
+          <td>8 - 80%</td>
+        </tr>
+        <tr>
+          <td>Total</td>
+          <td>201</td>
+          <td>153 - 76%</td>
+        </tr>
+      </table>
+      <p class="link" v-if="!userId_url">Vous voulez créer les vôtres ? <router-link to="/login">Connectez-vous</router-link> ou <router-link to="/signup">créez un compte</router-link>.</p>
     </div>
+
     <!-- Select pour choisir l'acteur -->
     <div v-if="userId_url">
       <label>Choisissez votre acteur</label>
@@ -89,6 +104,7 @@
         <option>Clavier</option>
       </select>
     </div>
+
     <!-- Seulement visible par l'administrateur -->
     <div v-if="isAdmin">
       <label>Acteur</label>
@@ -115,8 +131,10 @@
       </select>
       <button @click="submitMovie"></button>
     </div>
+
+    <!-- Affichage des tableaux -->
     <div class="flexbox">
-      <!-- Affichage du tableau -->
+      <!-- Tableau Belmondo -->
       <div v-if="array_belmondo">
         <p @click="close_belmondo">fermer</p>
         <table>
@@ -162,7 +180,7 @@
           </tr>
         </table>
         <button @click="calculate_belmondo">Rafraichir</button>
-        <!-- films -->
+        <!-- films Belmondo -->
         <div>
           <ul>
             <li v-for="movie in movies_belmondo" :key="movie.title">
@@ -171,6 +189,7 @@
           </ul>
         </div>
       </div>
+      <!-- Tableau Clavier -->
       <div v-if="array_clavier">
         <p @click="close_clavier">fermer</p>
         <table>
@@ -216,7 +235,7 @@
           </tr>
         </table>
         <button @click="calculate_clavier">Rafraichir</button>
-        <!-- films -->
+        <!-- films Clavier -->
         <div>
           <ul>
             <li v-for="movie in movies_clavier" :key="movie.title">
@@ -226,8 +245,72 @@
         </div>
       </div> 
     </div>
+    <img id="image_movies" src="../../public/images/de_funes.png" />
   </div>
 </template>
+
+<style scoped>
+  .link {
+    margin-top: 3rem;
+    padding-left: 2rem;
+  }
+  .link a {
+    color: #fff;
+  }
+  .flexbox {
+    display: flex;
+  }
+  .input {
+    width: 70%;
+    margin: 2rem auto 0 auto;
+    background-color: #0c0c44;
+  }
+  .input input {
+    width: 100%;
+  }
+  .alert {
+    color: #fff;
+  }
+  #submit_modify_username {
+    border-radius: 0px;
+  }
+  #input_modify_image {
+    display: flex;
+  }
+  .input_image {
+    width: 50%;
+  }
+  #question_delete_user {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    width: 55%;
+    background-color: rgba(255, 0, 0, 0.4);
+    color: #fff;
+    margin: 2rem auto 0 auto;
+    padding-left: 0.3rem;
+    border-radius: 10px;
+    text-align: center;
+    transition: 0.5s ease-in-out;
+  }
+  #question {
+    width: 50%;
+  }
+  .choice_delete {
+    width: 25%;
+    padding: 0.8rem 0;
+    border: 1px solid rgba(255, 0, 0, 0);
+    border-radius: 10px;
+    cursor: pointer;
+  }
+  .choice_delete:hover {
+    background-color: #0c0c44;
+    border: 1px solid rgba(255, 0, 0, 0.4);
+    border-radius: 10px;
+    transition: 0.5s ease-in-out;
+  }
+
+</style>
 
 <script>
   import { mapState } from 'vuex'
@@ -251,8 +334,11 @@
     },
     data: () => ({
       userId_url:'',
-      modify_username_section: false,
+      icon_modify_username: false,
+      modify_username_section: true,
+      icon_modify_image: true,
       modify_image_section: false,
+      icon_delete_user: true,
       delete_user_section: false,
       alertUsername: false,
       array_belmondo: false,
@@ -435,6 +521,7 @@
       //user modifications functions
       modify_username_input() {
         this.modify_username_section = true
+        this.icon_modify_username = false
       },
       commitUsername(event) {
         if(/[^a-zA-Z-_.âàäçéêèëîïôöûü]/i.test(event.target.value) || event.target.value.length < 5 || event.target.value.length > 40) {
@@ -446,6 +533,9 @@
       },
       modify_image_input() {
         this.modify_image_section = true
+        this.icon_modify_image = false
+        this.modify_username_section = false
+        this.delete_user_section = false
       },
       commitImageProfile(event) {
         this.$store.commit('UPDATE_IMAGEURL', event.target.files[0])
@@ -469,14 +559,23 @@
       },
       no_modify_image_section() {
         this.modify_image_section = false
+        this.icon_modify_image = true
+      },
+      no_modify_username_section() {
+        this.modify_username_section = false
+        this.icon_modify_username = true
       },
 
       // user deletion functions
       deleteUser_alert() {
         this.delete_user_section = true
+        this.icon_delete_user = false
+        this.modify_image_section = false
+        this.modify_username_section = false
       },
       no_deleteUser_alert() {
         this.delete_user_section = false
+        this.icon_delete_user = true
       },
       deleteUser() {
         this.$store.dispatch('deleteUser')
@@ -506,8 +605,3 @@
   }
 </script>
 
-<style scoped lang='scss'>
-  .flexbox {
-    display: flex;
-  }
-</style>
