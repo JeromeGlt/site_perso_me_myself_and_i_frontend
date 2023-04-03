@@ -141,7 +141,11 @@ export default createStore({
         }
       })
       .then(res => res.json())
-      .then(data => console.log(data))
+      .then(data => {
+        if(data.message === 'Deleted user') {
+          router.push('/signup')
+        }
+      })
       .catch(err => console.log(err))
     },
 
@@ -157,14 +161,9 @@ export default createStore({
       })
       .then(res => res.json())
       .then(data => {
-        console.log(data)
         if(!data.message) {
           dispatch('get_viewed_movies', data.user_id)
-          console.log(data.user_id)
-          console.log(data.message)
         }else{
-          console.log(data.user_id)
-          console.log(data.message)
           router.push('/login')
         }
       })
