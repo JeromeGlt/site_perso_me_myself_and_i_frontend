@@ -80,7 +80,7 @@
         <tr>
           <td>Années 2010</td>
           <td>44</td>
-          <td>27 - 61%</td>
+          <td>28 - 63%</td>
         </tr>
         <tr>
           <td>Années 2020</td>
@@ -90,7 +90,7 @@
         <tr>
           <td>Total</td>
           <td>201</td>
-          <td>156 - 77%</td>
+          <td>157 - 78%</td>
         </tr>
       </table>
       <p class="link" v-if="!userId_url">Vous voulez créer les vôtres ? <router-link to="/login">Connectez-vous</router-link> ou <router-link to="/signup">créez un compte</router-link>.</p>
@@ -182,14 +182,16 @@
           </tr>
         
         </table>
-        <button @click="calculate_belmondo">Rafraichir</button>
-        <!-- films Belmondo -->
-        <div>
-          <ul>
-            <li v-for="movie in movies_belmondo" :key="movie.title">
-              <showMovies :movieData="movie"/>
-            </li>
-          </ul>
+        <div class="movies_choice">
+          <button @click="calculate_belmondo">Rafraichir</button>
+          <!-- films Belmondo -->
+          <div>
+            <ul>
+              <li v-for="movie in movies_belmondo" :key="movie.title">
+                <showMovies :movieData="movie"/>
+              </li>
+            </ul>
+          </div>
         </div>
       </div>
       <!-- Tableau Clavier -->
@@ -239,14 +241,16 @@
             <td>{{ total_viewed_clavier }} - {{ total_percent_clavier }}%</td>
           </tr>
         </table>
-        <button @click="calculate_clavier">Rafraichir</button>
-        <!-- films Clavier -->
-        <div>
-          <ul>
-            <li v-for="movie in movies_clavier" :key="movie.title">
-              <showMovies :movieData="movie"/>
-            </li>
-          </ul>
+        <div class="movies_choice">
+          <button @click="calculate_clavier">Rafraichir</button>
+          <!-- films Clavier -->
+          <div>
+            <ul>
+              <li v-for="movie in movies_clavier" :key="movie.title">
+                <showMovies :movieData="movie"/>
+              </li>
+            </ul>
+          </div>
         </div>
       </div> 
     </div>
@@ -347,7 +351,6 @@
   }
   .show_tables {
     margin-top: 4rem;
-    text-align: center;
   }
   .show_tables table {
     position: relative;
@@ -373,7 +376,7 @@
     display: none;
   }
   .show_tables button {
-    margin: 2rem 0;
+    margin: 2rem 0 2rem 2rem;
     background-color: #0c0c44;
     border: 1px solid #fff;
     border-radius: 0px;
@@ -386,10 +389,16 @@
   }
   .show_tables ul {
     list-style: none;
-    margin-left: 2rem;
   }
-  .show_tables li {
-    margin: 1rem 0;
+  .movies_choice {
+    position: relative;
+  }
+  .movies_choice button {
+    position: sticky;
+    top: 800px;
+  }
+  .movies_choice button:hover {
+    border: 1px solid #0c0c44;
   }
 
 </style>

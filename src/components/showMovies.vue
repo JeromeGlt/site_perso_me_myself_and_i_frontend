@@ -1,42 +1,51 @@
 <template>
   <div>
-    <div class="flexbox" :id="this.movieData.id" v-if="no_viewed_movie" @click="create_viewed_movie(this.userId, this.movieData.id, this.movieData.decade, this.movieData.actor)">
-      <p>{{ movieData.year }} -</p>
-      <p>{{ movieData.title }} -</p>
-      <p>{{ movieData.director }} -</p>
+    <!-- Films non vus -->
+    <div id="container_no_viewed_movies">
+    <div class="movies no_viewed_movie" :id="this.movieData.id" v-if="no_viewed_movie" @click="create_viewed_movie(this.userId, this.movieData.id, this.movieData.decade, this.movieData.actor)">
+      <p class="data_year">{{ movieData.year }}</p> &nbsp;
+      <p class="data_title">{{ movieData.title }}</p> &nbsp;
+      <p class="data_director">{{ movieData.director }}</p>
       <p @click="deleteMovie(movieData.id)" v-if="isAdmin">X</p>
-      <p>-</p>
       <p @click="modify_movie_section_open" v-if="isAdmin">M</p>
-      <div v-if="modify_movie_section">
-        <label>Acteur</label>
-        <select v-model="actor">
-          <option>Belmondo</option>
-          <option>Clavier</option>
-        </select>
-        <label>Titre</label>
-        <input type="text" v-model="title">
-        <label>Réalisateur</label>
-        <input type="text" v-model="director">
-        <label>Année</label>
-        <input type="number" v-model="year">
-        <label>Décennie</label>
-        <select v-model="decade">
-          <option>50</option>
-          <option>60</option>
-          <option>70</option>
-          <option>80</option>
-          <option>90</option>
-          <option>2000</option>
-          <option>10</option>
-          <option>20</option>
-        </select>
-        <button @click="modifyMovie(movieData.id)"></button>
-      </div>
     </div>
-    <div class="flexbox viewed_text" v-if="viewed_movie" @click="destroy_viewed_movie(this.userId, this.movieData.id)">
-      <p>{{ movieData.year }} -</p>
-      <p>{{ movieData.title }} -</p>
-      <p>{{ movieData.director }} -</p>
+    </div>
+
+    <!-- Modification du film -->
+    <div v-if="modify_movie_section">
+      <label>Acteur</label>
+      <select v-model="actor">
+        <option>Belmondo</option>
+        <option>Clavier</option>
+      </select>
+      <label>Titre</label>
+      <input type="text" v-model="title">
+      <label>Réalisateur</label>
+      <input type="text" v-model="director">
+      <label>Année</label>
+      <input type="number" v-model="year">
+      <label>Décennie</label>
+      <select v-model="decade">
+        <option>50</option>
+        <option>60</option>
+        <option>70</option>
+        <option>80</option>
+        <option>90</option>
+        <option>2000</option>
+        <option>10</option>
+        <option>20</option>
+      </select>
+      <button @click="modifyMovie(movieData.id)"></button>
+    </div>
+
+    <!-- Films vus -->
+    <div id="container_viewed_movies" v-if="viewed_movie" @click="destroy_viewed_movie(this.userId, this.movieData.id)">
+      <div class="movies viewed_movie">
+        <p class="data_year">{{ movieData.year }}</p> &nbsp;
+        <p class="data_title">{{ movieData.title }}</p> &nbsp;
+        <p class="data_director">{{ movieData.director }}</p>
+      </div>
+      <img class="icons" title="film vu" src="../../public/images/viewed.svg"/>
     </div>
   </div>
 </template>
@@ -123,10 +132,46 @@ export default {
 </script>
 
 <style scoped lang="scss">
-  .flexbox {
+  .movies {
     display: flex;
+    width: 80%;
+    padding: 0.5rem;
+    border-radius: 10px;
+    color: #0c0c44;
+    cursor: pointer;
+    transition: 0.5s ease-in-out;
   }
-  .viewed_text {
-    text-decoration: underline overline;
+  .movies:hover {
+    width: 90%;
+    transition: 0.5s ease-in-out;
+  }
+  #container_no_viewed_movies {
+    margin: 2rem 0 2rem 2rem;
+  }
+  .data_year {
+    width: 15%;
+  }
+  .data_title {
+    width: 65%;
+    font-style: italic;
+  }
+  .data_director {
+    width: 20%;
+  }
+  .no_viewed_movie {
+    background-color: #fff;
+  }
+  #container_viewed_movies {
+    margin: 2rem 0 2rem 2rem;
+    display: flex;
+    align-items: center;
+  }
+  #container_viewed_movies .icons {
+    height: 35px;
+    margin-left: 0.5rem;
+  }
+  .viewed_movie {
+    background-color: rgba(100, 100, 250, 0.5);
+    color: #fff;
   }
 </style>
