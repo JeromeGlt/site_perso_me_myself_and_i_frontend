@@ -2,8 +2,8 @@
   <div>
     <div>
       <h1>Cinéma français</h1>
-      <div id="user">
-          <div id="user_image" :style="{ backgroundImage: 'url(' + imageUrl + ')' }"></div>
+      <div id="user" v-if="userId_url">
+        <div id="user_image" :style="{ backgroundImage: 'url(' + imageUrl + ')' }"></div>
         <div id="container_icons">
           <img v-if="icon_modify_username" class="icons" src="../../public/images/rewrite.svg" title="Modifier le pseudo" @click="modify_username_input"/>
           <img v-if="icon_modify_image" class="icons" src="../../public/images/image.svg" title="Modifier l'image" @click="modify_image_input"/>
@@ -11,7 +11,7 @@
         </div>
       </div>
       <!-- Suppression du compte -->
-      <div v-if="delete_user_section" id="question_delete_user">
+      <div v-if="delete_user_section && userId_url" id="question_delete_user">
         <div id="question">
           <p>Êtes-vous sûr ?</p>
         </div>
@@ -23,31 +23,31 @@
         </div>
       </div>
       <!-- Modification de l'image d'utilisateur -->
-      <div v-if="modify_image_section">
+      <div id="modify_image_section" v-if="modify_image_section && userId_url">
         <div class="input_image">
           <label>Choisir une image...
             <input type="file" name="imageUrl_modify" @change="commitImageProfile">
           </label>
+          <button class="change_border" title="Annuler" @click="no_modify_image_section">X</button>
         </div>
-          <button v-if="this.imageUrl_modify" @click="modifyImage(userId)">Envoyer</button>
-          <button title="Annuler" @click="no_modify_image_section">X</button>
+        <button id="submit_modify_image" v-if="this.imageUrl_modify" @click="modifyImage(userId)">Envoyer</button>
       </div>
       <!-- Modification du nom d'utilisateur -->
-      <div v-if="modify_username_section">
+      <div v-if="modify_username_section && userId_url">
         <div class="input">
-          <div class="flexbox" id="input_modify_username">
+          <div class="flexbox">
             <input type="text" name="username" v-model="username" @input="commitUsername">
-            <button title="Annuler" @click="no_modify_username_section">X</button>
+            <button class="change_border" title="Annuler" @click="no_modify_username_section">X</button>
           </div>
           <div class="alert" v-if="alertUsername">Doit contenir entre 5 et 40 caractères. Seuls les lettres, points et tirets sont autorisés</div>
-          <button id="submit_modify_username" v-else @click="modifyUsername(userId)">Enregistrer</button>
+          <button class="change_border" id="submit_modify_username" v-else @click="modifyUsername(userId)">Enregistrer</button>
         </div>
       </div>
       <!-- Explications de la création des tableaux -->
       <div id="movies_explication">
         <p v-if="!userId_url">Ici, vous pouvez créer vos propres tableaux de visionnages.</p>
-        <p v-if="!userId_url">Je vous donne la possibilité de le faire pour Jean-Paul Belmondo et Christian Clavier.</p>
-        <p>{{ username }}, vous pouvez créer ici vos tableaux de visionnages.</p>
+        <p v-if="userId_url">{{ username }}, vous pouvez créer ici vos propres tableaux de visionnages.</p>
+        <p>Je vous donne la possibilité de le faire pour Jean-Paul Belmondo et Christian Clavier.</p>
         <p>Le principe est de cocher les films que vous avez vus de ces acteurs, ce qui créera les tableaux.</p>
         <p>Par exemple, ici le tableau de mes visionnages de la filmographie de Gérard Depardieu:</p>
       </div>
@@ -60,7 +60,7 @@
         <tr>
           <td>Années 70</td>
           <td>37</td>
-          <td>29 - 78%</td>
+          <td>32 - 86%</td>
         </tr>
         <tr>
           <td>Années 80</td>
@@ -90,14 +90,14 @@
         <tr>
           <td>Total</td>
           <td>201</td>
-          <td>153 - 76%</td>
+          <td>156 - 77%</td>
         </tr>
       </table>
       <p class="link" v-if="!userId_url">Vous voulez créer les vôtres ? <router-link to="/login">Connectez-vous</router-link> ou <router-link to="/signup">créez un compte</router-link>.</p>
     </div>
 
     <!-- Select pour choisir l'acteur -->
-    <div v-if="userId_url">
+    <div v-if="userId_url" id="actor_choice">
       <label>Choisissez votre acteur</label>
       <select v-model="actor" @input="get_datas">
         <option>Belmondo</option>
@@ -133,11 +133,13 @@
     </div>
 
     <!-- Affichage des tableaux -->
-    <div class="flexbox">
-      <!-- Tableau Belmondo -->
-      <div v-if="array_belmondo">
-        <p @click="close_belmondo">fermer</p>
-        <table>
+    <div>
+      <!-- Tableau Belmondo v-if="array_belmondo"-->
+      <div  class="show_tables">
+        <table class="table">
+        <div class="cancel_array">
+          <img class="icons" src="../../public/images/delete.svg" title="Fermer le tableau" @click="close_belmondo"/>
+        </div>
           <tr>
             <td>Décennies</td>
             <td>Films tournés</td>
@@ -178,6 +180,7 @@
             <td>{{ total_movies_belmondo }}</td>
             <td>{{ total_viewed_belmondo }} - {{ total_percent_belmondo }}%</td>
           </tr>
+        
         </table>
         <button @click="calculate_belmondo">Rafraichir</button>
         <!-- films Belmondo -->
@@ -190,9 +193,11 @@
         </div>
       </div>
       <!-- Tableau Clavier -->
-      <div v-if="array_clavier">
-        <p @click="close_clavier">fermer</p>
-        <table>
+      <div v-if="array_clavier" class="show_tables">
+        <table class="table">
+        <div class="cancel_array">
+          <img class="icons" src="../../public/images/delete.svg" title="Fermer le tableau" @click="close_clavier"/>
+        </div>
           <tr>
             <td>Décennies</td>
             <td>Films tournés</td>
@@ -274,11 +279,30 @@
   #submit_modify_username {
     border-radius: 0px;
   }
-  #input_modify_image {
+  .change_border {
+    border-left: none;
+    border-top: none;
+    border-right: none;
+    border-radius: 0px;
+  }
+  #modify_image_section {
+    width: 60%;
     display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 2rem auto 0 auto;
   }
   .input_image {
-    width: 50%;
+    padding: 0;
+    margin: 0 auto;
+    flex-direction: row;
+  }
+  .input_image label {
+    margin-bottom: 0;
+  }
+  #submit_modify_image {
+    width: 100%;
+    border-radius: 0px;
   }
   #question_delete_user {
     display: flex;
@@ -309,6 +333,64 @@
     border-radius: 10px;
     transition: 0.5s ease-in-out;
   }
+  #actor_choice {
+    margin: 2rem 0 2rem 2rem;
+  }
+  #actor_choice select {
+    width: 25%;
+    height: 25px;
+    margin-left: 1rem;
+  }
+  #actor_choice select>option {
+    font-size: 1.5em;
+    color: #0c0c44;
+  }
+  .show_tables {
+    margin-top: 4rem;
+    text-align: center;
+  }
+  .show_tables table {
+    position: relative;
+  }
+  .show_tables table:hover img {
+    display: block;
+  }
+  .show_tables table:hover .cancel_array {
+    border-top: 1px solid #fff;
+    border-left: 1px solid #fff;
+    border-bottom: 1px solid #fff;
+  }
+  .cancel_array {
+    position: absolute;
+    width: 40px;
+    height: 43px;
+    left: -40px;
+    padding: 0.38rem 0.4rem;
+    border: 1px solid rgba(255, 255, 255, 0);
+    border-radius: 10px 0px 0px 10px;
+  }
+  .cancel_array img {
+    display: none;
+  }
+  .show_tables button {
+    margin: 2rem 0;
+    background-color: #0c0c44;
+    border: 1px solid #fff;
+    border-radius: 0px;
+    transition: 1s ease-in-out;
+  }
+  .show_tables button:hover {
+    background-color: #fff;
+    color: #0c0c44;
+    transition: 1s ease-in-out;
+  }
+  .show_tables ul {
+    list-style: none;
+    margin-left: 2rem;
+  }
+  .show_tables li {
+    margin: 1rem 0;
+  }
 
 </style>
 
@@ -334,8 +416,8 @@
     },
     data: () => ({
       userId_url:'',
-      icon_modify_username: false,
-      modify_username_section: true,
+      icon_modify_username: true,
+      modify_username_section: false,
       icon_modify_image: true,
       modify_image_section: false,
       icon_delete_user: true,
@@ -548,6 +630,7 @@
 
         this.$store.dispatch('modifyUsername', { modifyData, userId })
         this.modify_username_section = false
+        this.icon_modify_username = true
       },
       modifyImage(userId) {
         let modifyImage = new FormData()
@@ -556,6 +639,7 @@
         this.$store.dispatch('modifyImage', { modifyImage, userId })
         this.$store.dispatch('getUser')
         this.modify_image_section = !this.modify_image_section
+        this.icon_modify_image = true
       },
       no_modify_image_section() {
         this.modify_image_section = false

@@ -83,5 +83,11 @@
   #submit_signup {
     margin-top: 1rem;
   }
+  .input_image label:hover {
+    border-bottom: 2px solid #070761;
+    border-left: 2px solid #070761;
+    margin-bottom: 1.95rem;
+    transition: 0s ease-in;
+  }
 
 </style>
