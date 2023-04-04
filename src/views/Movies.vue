@@ -134,8 +134,8 @@
 
     <!-- Affichage des tableaux -->
     <div id="container_arrays">
-      <!-- Tableau Belmondo v-if="array_belmondo" -->
-      <div class="show_tables" >
+      <!-- Tableau Belmondo -->
+      <div v-if="array_belmondo" class="show_tables" >
         <table class="table">
         <h3>Belmondo</h3>
         <div class="cancel_array">
@@ -195,8 +195,8 @@
           </div>
         </div>
       </div>
-      <!-- Tableau Clavier v-if="array_clavier"  -->
-      <div class="show_tables">
+      <!-- Tableau Clavier -->
+      <div v-if="array_clavier" class="show_tables">
         <table class="table">
         <h3>Clavier</h3>
         <div class="cancel_array">
