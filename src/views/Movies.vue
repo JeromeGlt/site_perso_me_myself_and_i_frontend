@@ -48,8 +48,8 @@
         <p v-if="!userId_url">Ici, vous pouvez créer vos propres tableaux de visionnages.</p>
         <p v-if="userId_url">{{ username }}, vous pouvez créer ici vos propres tableaux de visionnages.</p>
         <p>Je vous donne la possibilité de le faire pour Jean-Paul Belmondo et Christian Clavier.</p>
-        <p>Le principe est de cocher les films que vous avez vus de ces acteurs, ce qui créera les tableaux.</p>
-        <p>Par exemple, ici le tableau de mes visionnages de la filmographie de Gérard Depardieu:</p>
+        <p>Le principe est de cliquer sur les films que vous avez vus, ce qui créera les tableaux.</p>
+        <p>Par exemple, voici mes visionnages de la filmographie de Gérard Depardieu:</p>
       </div>
       <table class="table">
         <tr>
@@ -133,10 +133,11 @@
     </div>
 
     <!-- Affichage des tableaux -->
-    <div>
-      <!-- Tableau Belmondo v-if="array_belmondo"-->
-      <div  class="show_tables">
+    <div id="container_arrays">
+      <!-- Tableau Belmondo v-if="array_belmondo" -->
+      <div class="show_tables" >
         <table class="table">
+        <h3>Belmondo</h3>
         <div class="cancel_array">
           <img class="icons" src="../../public/images/delete.svg" title="Fermer le tableau" @click="close_belmondo"/>
         </div>
@@ -194,9 +195,10 @@
           </div>
         </div>
       </div>
-      <!-- Tableau Clavier -->
-      <div v-if="array_clavier" class="show_tables">
+      <!-- Tableau Clavier v-if="array_clavier"  -->
+      <div class="show_tables">
         <table class="table">
+        <h3>Clavier</h3>
         <div class="cancel_array">
           <img class="icons" src="../../public/images/delete.svg" title="Fermer le tableau" @click="close_clavier"/>
         </div>
@@ -395,10 +397,29 @@
   }
   .movies_choice button {
     position: sticky;
-    top: 800px;
+    top: 10rem;
   }
   .movies_choice button:hover {
     border: 1px solid #0c0c44;
+  }
+  .movies_choice button:active {
+    background-color: #0c0c44;
+    color: #fff;
+    transition: 0.3s;
+  }
+  @media screen and (min-width: 1200px) {
+    #actor_choice select {
+    width: 15%;
+    }
+    #container_arrays {
+      display: flex;
+    }
+    .show_tables {
+      width: 50%;
+    }
+    button {
+      color: #fff;
+    }
   }
 
 </style>
