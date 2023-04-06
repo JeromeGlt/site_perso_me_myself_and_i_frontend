@@ -3,7 +3,7 @@
     <div>
       <h1>Cinéma français</h1>
       <div id="user" v-if="userId_url">
-        <div id="user_image" :style="{ backgroundImage: 'url(' + imageUrl + ')' }"></div>
+        <div class="user_image" :style="{ backgroundImage: 'url(' + imageUrl + ')' }"></div>
         <div id="container_icons">
           <img v-if="icon_modify_username" class="icons" src="../../public/images/rewrite.svg" title="Modifier le pseudo" @click="modify_username_input"/>
           <img v-if="icon_modify_image" class="icons" src="../../public/images/image.svg" title="Modifier l'image" @click="modify_image_input"/>
