@@ -10,6 +10,14 @@ body {
   background-color: #0c0c44;
   /* position: relative; */
 }
+footer {
+  display: flex;
+  flex-direction: column;
+  height: 250px;
+  margin-top: 2rem;
+  padding: 1rem 0 0 1rem;
+  background-color: black;
+}
 a {
   text-decoration: none;
 }
