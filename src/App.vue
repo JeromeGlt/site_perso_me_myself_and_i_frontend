@@ -1,19 +1,19 @@
 <template>
   <router-view/>
   <footer>
-    <div class="relative_container" @click="link_linkedin">
+    <div class="link_container" @click="link_linkedin">
       <img src="../public/images/linkedin.svg" title ="Lien Linkedin" class="icons"/>
       <p>Mon Linkedin</p>
     </div>
-    <div class="relative_container" @click="link_github">
+    <div class="link_container" @click="link_github">
       <img src="../public/images/github.svg" title="Lien Github" class="icons"/>
       <p>Mon Github</p>
     </div>
-    <div class="relative_container">
+    <div class="link_container">
       <img src="../public/images/download.svg" title="Télécharger mon CV" class="icons"/>
-      <a href="../public/docs/cv_jerome_gallot.pdf" download="cv_jerome_gallot">Télécharger mon CV</a>
+      <a href="/docs/cv_jerome_gallot.pdf" download="cv_jerome_gallot">Télécharger mon CV</a>
     </div>
-    <div class="relative_container">
+    <div class="link_container">
       <img src="../public/images/mail.svg" title="Contactez-moi" class="icons"/>
       <a href="mailto:jeromegallot.devweb@gmail.com">Contactez-moi !</a>
     </div>
@@ -42,17 +42,32 @@
   a:visited {
     color: #fff;
   }
-  .relative_container {
+  .link_container {
     height: 50px;
     padding: 0.2rem;
     display: flex;
     align-items: center;
     cursor: pointer;
   }
-  .relative_container img{
+  .link_container img{
     margin: 1rem;
   }
-  .relative_container p {
+  .link_container p {
     margin-left: 0.5rem;
+  }
+
+  @media screen and (min-width: 1200px) {
+    footer {
+      width: 100%;
+      height: 100px;
+      flex-direction: row;
+      justify-content: space-around;
+      position: fixed;
+      bottom: 0px;
+      z-index: -1;
+    }
+    .link_container img {
+      margin-left: 0;
+    }
   }
 </style>
