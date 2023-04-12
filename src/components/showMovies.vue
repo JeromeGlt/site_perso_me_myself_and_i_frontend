@@ -76,7 +76,8 @@ export default {
     })
   },
   props: [
-    'movieData'
+    'movieData',
+    'calculate'
   ],
   methods: {
     check_viewed_movies() {
@@ -116,12 +117,14 @@ export default {
       this.$store.dispatch('create_viewed_movie', { userId, movieId, decade, actor })
       this.no_viewed_movie = false
       this.viewed_movie = true
+      this.calculate
     },
     destroy_viewed_movie(userId, movieId) {
 
       this.$store.dispatch('destroy_viewed_movie', { userId, movieId })
       this.viewed_movie = false
       this.no_viewed_movie = true
+      this.calculate
     }
   },
   mounted() {
@@ -131,22 +134,22 @@ export default {
 }
 </script>
 
-<style scoped lang="scss">
+<style scoped>
   .movies {
     display: flex;
-    width: 80%;
     padding: 0.5rem;
     border-radius: 10px;
     color: #0c0c44;
     cursor: pointer;
     transition: 0.5s ease-in-out;
+    width: 100%;
   }
   .movies:hover {
     width: 90%;
     transition: 0.5s ease-in-out;
   }
   #container_no_viewed_movies {
-    margin: 2rem 0 2rem 2rem;
+    margin: 2rem 0;
   }
   .data_year {
     width: 15%;
@@ -162,7 +165,7 @@ export default {
     background-color: #fff;
   }
   #container_viewed_movies {
-    margin: 2rem 0 2rem 2rem;
+    margin: 2rem 0;
     display: flex;
     align-items: center;
   }
