@@ -1,23 +1,34 @@
 <template>
-  <router-view/>
-  <footer>
-    <div class="link_container" @click="link_linkedin">
-      <img src="../public/images/linkedin.svg" title ="Lien Linkedin" class="icons"/>
-      <p>Mon Linkedin</p>
-    </div>
-    <div class="link_container" @click="link_github">
-      <img src="../public/images/github.svg" title="Lien Github" class="icons"/>
-      <p>Mon Github</p>
-    </div>
-    <div class="link_container">
-      <img src="../public/images/download.svg" title="Télécharger mon CV" class="icons"/>
-      <a href="/docs/cv_jerome_gallot.pdf" download="cv_jerome_gallot">Télécharger mon CV</a>
-    </div>
-    <div class="link_container">
-      <img src="../public/images/mail.svg" title="Contactez-moi" class="icons"/>
-      <a href="mailto:jeromegallot.devweb@gmail.com">Contactez-moi !</a>
-    </div>
-  </footer>
+  <div id="caca_relatif">
+    <router-view/>
+    <footer>
+      <div class="laptop_footer">
+        <div class="link_container" @click="link_linkedin">
+          <img src="../public/images/linkedin.svg" title ="Lien Linkedin" class="icons"/>
+          <p>Mon Linkedin</p>
+        </div>
+        <div class="link_container" @click="link_github">
+          <img src="../public/images/github.svg" title="Lien Github" class="icons"/>
+          <p>Mon Github</p>
+        </div>
+        <div class="link_container">
+          <img src="../public/images/download.svg" title="Télécharger mon CV" class="icons"/>
+          <a href="/docs/cv_jerome_gallot.pdf" download="cv_jerome_gallot">Télécharger mon CV</a>
+        </div>
+        <div class="link_container">
+          <img src="../public/images/mail.svg" title="Contactez-moi" class="icons"/>
+          <a href="mailto:jeromegallot.devweb@gmail.com">Contactez-moi!</a>
+        </div>
+        <div class="link_container">
+          <img src="../public/images/cinema.svg" title="Découvrez mon backend" class="icons"/>
+          <routerLink to="signup">Créez un compte</routerLink>
+        </div>
+      </div>
+      <div class="link_container credits">
+        <p>Merci à SumberRejeki, riajulislam, Pixel perfect, Icongeek26 et Freepik pour les icônes.</p>
+      </div>
+    </footer>
+  </div>
 </template>
 
 <script>
@@ -55,19 +66,31 @@
   .link_container p {
     margin-left: 0.5rem;
   }
+  .credits {
+    cursor: default;
+    font-size: 0.7em;
+    color: rgba(250, 250, 250, 0.8)
+  }
 
   @media screen and (min-width: 1200px) {
+    #caca_relatif {
+      min-height: 100vh;
+      position: relative;
+    }
     footer {
       width: 100%;
       height: 100px;
-      flex-direction: row;
+      flex-direction: column;
       justify-content: space-around;
-      position: fixed;
+      position: absolute;
       bottom: 0px;
-      z-index: -1;
     }
     .link_container img {
       margin-left: 0;
+    }
+    .laptop_footer {
+      display: flex;
+      justify-content: space-around;
     }
   }
 </style>

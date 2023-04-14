@@ -8,12 +8,11 @@
 }
 body {
   background-color: #0c0c44;
-  /* position: relative; */
 }
 footer {
   display: flex;
   flex-direction: column;
-  height: 250px;
+  height: 330px;
   margin-top: 2rem;
   padding: 1rem 0 0 1rem;
   background-color: black;
@@ -27,7 +26,6 @@ a:visited {
 h1 {
   font-family: Impact, Haettenschweiler, Verdana, sans-serif;
   text-align-last: center;
-  margin-top: 3rem;
   font-size: 2.5em;
   letter-spacing: .15rem;
 }
