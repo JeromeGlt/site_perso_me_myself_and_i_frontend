@@ -3,5 +3,6 @@ import App from './App.vue'
 import router from './router'
 import store from './store'
 import showMovies from './components/showMovies'
+import footerComponent from './components/footer'
 
-createApp(App).use(store).use(router).component('showMovies', showMovies).mount('#app')
+createApp(App).use(store).use(router).component('showMovies', showMovies, 'footerComponent', footerComponent).mount('#app')

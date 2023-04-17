@@ -249,7 +249,7 @@
         </div>
       </div> 
     </div>
-    <img id="image_movies" src="../../public/images/de_funes.png" />
+    <footerComponent/>
   </div>
 </template>
 
@@ -410,11 +410,13 @@
 <script>
   import { mapState } from 'vuex'
   import showMovies from '../components/showMovies.vue'
+  import footerComponent from '../components/footer.vue'
 
   export default {
     name: 'WatchedMovies',
-    component: {
-      showMovies
+    components: {
+      showMovies,
+      footerComponent
     },
     computed: {
       ...mapState({

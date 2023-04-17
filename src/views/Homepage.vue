@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div id="relative_container">
     <section>
       <h1 class="text-shadow">Me, myself and I</h1>
     </section>
@@ -66,16 +66,19 @@
         </div>
       </div>
     </div>
+    <footerComponent/>
   </div>
 </template>
 
 <script>
 
+import footerComponent from '../components/footer.vue'
+
 export default {
   name: 'HomePage',
 
   components: {
-    
+    footerComponent
   },
   data: () => ({
     innerWidthMobile: false
@@ -201,6 +204,14 @@ export default {
   }
 
   @media screen and (min-width: 1200px) {
+    #relative_container {
+      min-height: 100vh;
+      position: relative;
+    }
+    #footer {
+      position: absolute;
+      bottom: 0;
+    }
     h2 {
       cursor: default;
     }
