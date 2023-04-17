@@ -163,12 +163,6 @@ button:hover {
   padding: 0.7em;
   border: solid 1px #fff;
 }
-#image_movies {
-  position: absolute;
-  width: 250px;
-  /* bottom: 0px; */
-  left: 50px;
-}
 
 @media screen and (min-width: 1200px) {
   a:visited {
