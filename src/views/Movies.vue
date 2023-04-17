@@ -137,10 +137,10 @@
       <!-- Tableau Belmondo -->
       <div v-if="array_belmondo" class="show_tables" >
         <table class="table">
-        <h3>Belmondo</h3>
-        <div class="cancel_array">
-          <img class="icons" src="../../public/images/delete.svg" title="Fermer le tableau" @click="close_belmondo"/>
-        </div>
+          <h3>Belmondo</h3>
+          <div class="cancel_array">
+            <img class="icons" src="../../public/images/delete.svg" title="Fermer le tableau" @click="close_belmondo"/>
+          </div>
           <tr>
             <td>Décennies</td>
             <td>Films tournés</td>
@@ -181,27 +181,23 @@
             <td>{{ total_movies_belmondo }}</td>
             <td>{{ total_viewed_belmondo }} - {{ total_percent_belmondo }}%</td>
           </tr>
-        
         </table>
-        <div class="movies_choice">
-          <button @click="calculate_belmondo">Rafraichir</button>
-          <!-- films Belmondo -->
-          <div>
-            <ul>
-              <li v-for="movie in movies_belmondo" :key="movie.title">
-                <showMovies :movieData="movie"/>
-              </li>
-            </ul>
-          </div>
+        <!-- films Belmondo -->
+        <div class="movies_container">
+          <ul>
+            <li v-for="movie in movies_belmondo" :key="movie.title">
+              <showMovies :movieData="movie" :calculate="this.calculate_belmondo()"/>
+            </li>
+          </ul>
         </div>
       </div>
       <!-- Tableau Clavier -->
       <div v-if="array_clavier" class="show_tables">
         <table class="table">
-        <h3>Clavier</h3>
-        <div class="cancel_array">
-          <img class="icons" src="../../public/images/delete.svg" title="Fermer le tableau" @click="close_clavier"/>
-        </div>
+          <h3>Clavier</h3>
+          <div class="cancel_array">
+            <img class="icons" src="../../public/images/delete.svg" title="Fermer le tableau" @click="close_clavier"/>
+          </div>
           <tr>
             <td>Décennies</td>
             <td>Films tournés</td>
@@ -243,16 +239,13 @@
             <td>{{ total_viewed_clavier }} - {{ total_percent_clavier }}%</td>
           </tr>
         </table>
-        <div class="movies_choice">
-          <button @click="calculate_clavier">Rafraichir</button>
-          <!-- films Clavier -->
-          <div>
-            <ul>
-              <li v-for="movie in movies_clavier" :key="movie.title">
-                <showMovies :movieData="movie"/>
-              </li>
-            </ul>
-          </div>
+        <!-- films Clavier -->
+        <div class="movies_container">
+          <ul>
+            <li v-for="movie in movies_clavier" :key="movie.title">
+              <showMovies :movieData="movie" :calculate="this.calculate_clavier()"/>
+            </li>
+          </ul>
         </div>
       </div> 
     </div>
@@ -355,7 +348,8 @@
     margin-top: 4rem;
   }
   .show_tables table {
-    position: relative;
+    width: 80%;
+    margin-left: 2rem;
   }
   .show_tables table:hover img {
     display: block;
@@ -392,20 +386,9 @@
   .show_tables ul {
     list-style: none;
   }
-  .movies_choice {
-    position: relative;
-  }
-  .movies_choice button {
-    position: sticky;
-    top: 10rem;
-  }
-  .movies_choice button:hover {
-    border: 1px solid #0c0c44;
-  }
-  .movies_choice button:active {
-    background-color: #0c0c44;
-    color: #fff;
-    transition: 0.3s;
+  .movies_container {
+    width: 80%;
+    margin-left: 2rem;
   }
   @media screen and (min-width: 1200px) {
     #actor_choice select {

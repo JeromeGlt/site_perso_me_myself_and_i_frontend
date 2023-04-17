@@ -8,27 +8,63 @@
     </div>
     <div class="main_roller">
       <div class="roller">
-        <span id="rolltext">Jérôme, 31 ans<br>
-          Développeur web junior<br>
-          J'adore faire des tartes aux pommes alsaciennes,<br>
-          mais pas que! J'aime bien coder aussi.<br>
-          Ça occupe même une bonne partie de mes journées.
+        <span id="rolltext">Jérôme, 31 ans, développeur web junior<br>
+          J'adore faire des tartes aux pommes alsaciennes!<br>
+          J'aime bien coder aussi.<br>
+          Ça occupe même une bonne partie de mes journées.<br>
+          <routerLink class="link_head" to="/signup">Cliquez ici et laissez-vous guider à la découverte d'une de mes passions!</routerLink>
         </span>
       </div>
     </div>
-    <h2>C'est qui lui ?</h2>
-    <div class="container_presentation sentences">
-      <span class="presentation">Je vois le développement web comme un travail de magicien: on crée les tours un à un mineucieusement pour offrir un spectacle à la fin.</span>
-      <span class="presentation">Avec des lignes de code, j'ai le pouvoir de donner vie à des idées et c'est ça qui me plaît.</span>
-      <span class="presentation">Que vous cherchiez à créer un site web pour votre entreprise ou votre chat, un blog ou une application, j'en ai l'envie</span>
-      <span class="presentation">Je cherche un CDI au sein d'une entreprise ouverte et organisée, qui me permettra de compléter mes connaissances.</span>
-      <span class="presentation">Bienvenue dans mon monde !</span>
-    </div>
-    <h2>Il sait faire quoi ?</h2>
-    <div class="container_presentation sentences">
-      <span class="presentation">J'ai suivi une formation de développeur web chez OpenClassrooms et ai travaillé 9 mois et demi dans une entreprise en tant que dev web.</span>
-      <span class="presentation">J'ai créé ce site en utilisant Vue.js (avec vuex).</span>
-      <span class="presentation">Côté back, j'ai utilisé Nodejs avec l'ORM Express et une base de données MySQL. Pourquoi faire?<routerLink class="link_presentation" to="/movies"> Allez voir!</routerLink></span>
+    <div class="laptop_flexbox">
+      <div class="rubric" @click="show_text($event)">
+        <h2>C'est qui lui ?</h2>
+        <div class="container_presentation sentences">
+          <p class="presentation">Venant du monde du spectacle, je vois le développement web comme un travail de magicien: on crée les tours un à un, mineucieusement, pour offrir un show à la fin.</p>
+          <p class="presentation">Avec des lignes de code, j'ai le pouvoir de donner vie à des idées et c'est ça qui me plaît. Plus je découvre, plus je peux créer et plus j'adore ça.</p>
+          <p class="presentation">Que vous cherchiez à créer un site web pour votre entreprise ou votre chat, un blog ou une application, j'en ai l'envie.</p>
+        </div>
+      </div>
+      <div class="rubric" @click="show_text($event)">
+        <h2>Son expérience</h2>
+        <div class="container_presentation sentences">
+          <p class="presentation">J'ai validé une formation de développeur web chez OpenClassrooms avec 7 projets et ai travaillé 9 mois et demi dans une entreprise en tant que dev web.</p>
+          <p class="presentation">En plus de maintenir des sites existants, j'y ai géré le développement d'un gros projet. C'était évidemment stressant pour un junior, mais je l'ai amené à terme.</p>
+          <p class="presentation">J'ai quitté l'entreprise car la vision du poste ne me correspondait pas ainsi que les technologies utilisées et le salaire.</p>
+        </div>
+      </div>
+      <div class="rubric" @click="show_text($event)">
+        <h2>Ses hard skills</h2>
+        <div class="container_presentation sentences">
+          <p class="presentation">J'ai créé ce site en utilisant Vue.js (avec vuex), un framework que j'affectionne.</p>
+          <p class="presentation">Envie de tester mes connaissances en back ?<routerLink class="link_presentation" to="/signup"> C'est ici!</routerLink></p>
+          <p class="presentation">J'ai utilisé Node.js avec Sequelize, l'ORM Express ainsi qu'une base de données MySQL.</p>
+        </div>
+      </div>
+      <div class="rubric" @click="show_text($event)">
+        <h2>Ses soft skills</h2>
+        <div class="container_presentation sentences">
+          <p class="presentation">Je suis perfectionniste. J'aime le code propre, logique.</p>
+          <p class="presentation">Je suis organisé. Je sais gérer mes tâches et atteindre mes objectifs.</p>
+          <p class="presentation">Je suis curieux. Intéressé par tout ce qui est partagé avec passion, je ne demande qu'à être nourri de nouvelles choses.</p>
+        </div>
+      </div>
+      <div class="rubric" @click="show_text($event)">
+        <h2>Sa recherche</h2>
+        <div class="container_presentation sentences">
+          <p class="presentation">Je cherche un CDI au sein d'une entreprise ouverte et organisée qui me permettra de compléter mes connaissances.</p>
+          <p class="presentation">Idéalement, j'aimerais pouvoir coder du back et du front. Je ne souhaite pas choisir entre les deux actuellement. Je veux être le plus complet possible.</p>
+          <p class="presentation">Le long terme ne me fait pas peur, au contraire. Construire l'avenir de l'entreprise, mener à bien des projets, c'est ce que je souhaite faire.</p>
+        </div>
+      </div>
+      <div class="rubric" @click="show_text($event)">
+        <h2>Ses passions</h2>
+        <div class="container_presentation sentences">
+          <p class="presentation">Outre un développeur, vous avez affaire à un musicien et à un passionné de cinéma français.</p>
+          <p class="presentation">Je vous invite d'ailleurs à aller voir ce que j'ai créé <routerLink class="link_presentation" to="/signup">ici!</routerLink></p>
+          <p class="presentation">Nous pouvons ajouter à cela ma chienne qui représente beaucoup pour moi et les balades en nature qui, après quelques heures de code, me font toujours un bien fou.</p>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -37,12 +73,18 @@
 
 export default {
   name: 'HomePage',
+
   components: {
     
   },
+  data: () => ({
+    innerWidthMobile: false
+  }),
   methods: {
-
+    show_text(event) {
+      event.target.querySelector('.container_presentation').classList.toggle('show_content')
     }
+  }
 }
 </script>
 
@@ -72,6 +114,7 @@ export default {
   section {
     color: #fff;
     text-transform: uppercase;
+    padding-top: 3rem;
   }
   .text-shadow {
     font-style: italic;
@@ -119,46 +162,57 @@ export default {
     animation: slide 10s infinite;  
   }
   .container_presentation {
-    max-height: 0px;
     margin-top: 1rem;
     background-color: rgba(0, 0, 0, 0.4);
-    transition: max-height 3s;
-  }
-  /*.container_presentation:hover span{
-    opacity: 1;
-  }*/
-  span {
-    display: block;
+    clip-path: polygon(0% 0%, 100% 0%, 100% 0%, 0% 0%);
+    transition: all ease-in-out 1s;
   }
   h2 {
     margin: 2rem 0 0 1rem;
     font-style: italic;
+    cursor: pointer;
+    pointer-events: none;
   }
-  h2:hover + .container_presentation{
-    max-height: 500px;
+  .show_content {
+    padding: 0.1rem 0 0.1rem 0.1rem;
+    clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%);
   }
-  h2:hover + .container_presentation span {
-    opacity: 1;
+  .show_content .presentation {
+    height: auto !important;
+    opacity: 1 !important;
+    transition: all 1s;
   }
-  .sentences span {
-    opacity: 0;
-    transition: opacity 1300ms;
-  }
-  .sentences span:nth-child(1)  { transition-delay:  200ms }
-  .sentences span:nth-child(2)  { transition-delay:  400ms }
-  .sentences span:nth-child(3)  { transition-delay:  600ms }
-  .sentences span:nth-child(4)  { transition-delay:  800ms }
-  .sentences span:nth-child(5)  { transition-delay:  1000ms }
-  /*.sentences span:nth-child(6)  { transition-delay:  600ms }
-  .sentences span:nth-child(7)  { transition-delay:  400ms }
-  .sentences span:nth-child(8)  { transition-delay:  900ms }
-  .sentences span:nth-child(9)  { transition-delay:  700ms }*/
+  .sentences p:nth-child(1)  { transition-delay:  200ms }
+  .sentences p:nth-child(2)  { transition-delay:  400ms }
+  .sentences p:nth-child(3)  { transition-delay:  600ms }
   .presentation {
-    margin: 1rem 2rem 0 2rem;
+    height: 0px;
+    opacity: 0;
     line-height: 25px;
+    margin: 1rem 2rem;
+    transition: height 1s;
   }
   .link_presentation {
     color: #fff;
     font-weight: bold;
+  }
+  .link_head {
+    color: #fff;
+  }
+
+  @media screen and (min-width: 1200px) {
+    h2 {
+      cursor: default;
+    }
+    .laptop_flexbox {
+      display: flex;
+      justify-content: space-around;
+      flex-wrap: nowrap;
+      margin: 1rem 0 0 3rem;
+    }
+    .rubric {
+      width: 16.6%;
+      margin-bottom: 8rem;
+    }
   }
 </style>
