@@ -10,8 +10,8 @@ export default createStore({
     imageUrl: '',
     message_movie:'',
     message_user: '',
-    movies_belmondo: [],
-    movies_clavier: [],
+    actors: [],
+    movies: [],
     viewed_movies: []
   },
   getters: {
@@ -34,11 +34,11 @@ export default createStore({
     UPDATE_MESSAGE (state, message) {
       state.message = message
     },
-    MOVIES_BELMONDO (state, data) {
-      state.movies_belmondo = data
+    MOVIES (state, data) {
+      state.movies = data
     },
-    MOVIES_CLAVIER (state, data) {
-      state.movies_clavier = data
+    ACTORS (state, data) {
+      state.actors = data
     },
     VIEWED_MOVIES (state, data) {
       state.viewed_movies = data
@@ -189,6 +189,17 @@ export default createStore({
       .catch(err => console.log(err))
     },
 
+    getActors({ commit }) {
+      fetch(process.env.VUE_APP_URL_API + 'api/movie/actors/list', {
+        headers: {
+          'Accept': 'application/json'
+        }
+      })
+      .then(res => res.json())
+      .then(data => commit('ACTORS', data.actors))
+      .catch(err => console.log(err))
+    },
+
     getAllMovies({ commit }, actor) {
 
       fetch(process.env.VUE_APP_URL_API + 'api/movie/' + actor, {
@@ -197,15 +208,7 @@ export default createStore({
         }
       })
       .then(res => res.json())
-      .then(data => {
-        for(let i = 0; i < data.length; i++) {
-          if(data[i].actor === 'Belmondo') {
-            commit('MOVIES_BELMONDO', data)
-          }else if(data[i].actor === 'Clavier') {
-            commit('MOVIES_CLAVIER', data)
-          }
-        }
-      })
+      .then(data => commit('MOVIES', data))
       .catch(err => console.log(err))
     },
 
@@ -264,6 +267,7 @@ export default createStore({
       .then(res => res.json())
       .then(data => {
         commit('VIEWED_MOVIES', data)
+        console.log(data)
       })
       .catch(err => console.log(err))
     },
