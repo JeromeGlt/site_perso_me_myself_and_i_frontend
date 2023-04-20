@@ -68,14 +68,18 @@ export default {
     font-size: 0.7em;
     color: rgba(250, 250, 250, 0.8)
   }
+  #footer {
+    background-color: black;
+    width: 100%;
+  }
 
   @media screen and (min-width: 1200px) {
     #footer {
-      background-color: black;
-      width: 100%;
       height: 100px;
       flex-direction: column;
       justify-content: space-around;
+      position: absolute;
+      bottom: 0;
     }
     .link_container img {
       margin-left: 0;
