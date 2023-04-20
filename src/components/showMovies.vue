@@ -76,8 +76,7 @@ export default {
     })
   },
   props: [
-    'movieData',
-    'calculate'
+    'movieData'
   ],
   methods: {
     check_viewed_movies() {
@@ -88,7 +87,6 @@ export default {
           this.no_viewed_movie = false
         }
       }
-      // console.log(this.viewed_movies[0])
     },
     deleteMovie(id) {
 
@@ -117,18 +115,15 @@ export default {
       this.$store.dispatch('create_viewed_movie', { userId, movieId, decade, actor })
       this.no_viewed_movie = false
       this.viewed_movie = true
-      this.calculate
     },
     destroy_viewed_movie(userId, movieId) {
 
       this.$store.dispatch('destroy_viewed_movie', { userId, movieId })
       this.viewed_movie = false
       this.no_viewed_movie = true
-      this.calculate
     }
   },
   mounted() {
-    // this.get_viewed_movies(),
     this.check_viewed_movies()
   }
 }

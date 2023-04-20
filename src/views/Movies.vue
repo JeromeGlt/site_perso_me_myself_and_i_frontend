@@ -49,50 +49,7 @@
         <p v-if="userId_url">{{ username }}, vous pouvez créer ici vos propres tableaux de visionnages.</p>
         <p>Je vous donne la possibilité de le faire pour Jean-Paul Belmondo et Christian Clavier.</p>
         <p>Le principe est de cliquer sur les films que vous avez vus, ce qui créera les tableaux.</p>
-        <p>Par exemple, voici mes visionnages de la filmographie de Gérard Depardieu:</p>
       </div>
-      <table class="table">
-        <tr>
-          <td>Décennies</td>
-          <td>Films tournés</td>
-          <td>Films vus</td>
-        </tr>
-        <tr>
-          <td>Années 70</td>
-          <td>37</td>
-          <td>32 - 86%</td>
-        </tr>
-        <tr>
-          <td>Années 80</td>
-          <td>29</td>
-          <td>26 - 90%</td>
-        </tr>
-        <tr>
-          <td>Années 90</td>
-          <td>31</td>
-          <td>26 - 84%</td>
-        </tr>
-        <tr>
-          <td>Années 2000</td>
-          <td>50</td>
-          <td>37 - 74%</td>
-        </tr>
-        <tr>
-          <td>Années 2010</td>
-          <td>44</td>
-          <td>28 - 63%</td>
-        </tr>
-        <tr>
-          <td>Années 2020</td>
-          <td>10</td>
-          <td>8 - 80%</td>
-        </tr>
-        <tr>
-          <td>Total</td>
-          <td>201</td>
-          <td>157 - 78%</td>
-        </tr>
-      </table>
       <p class="link" v-if="!userId_url">Vous voulez créer les vôtres ? <router-link to="/login">Connectez-vous</router-link> ou <router-link to="/signup">créez un compte</router-link>.</p>
     </div>
 
@@ -100,8 +57,7 @@
     <div v-if="userId_url" id="actor_choice">
       <label>Choisissez votre acteur</label>
       <select v-model="actor" @input="get_datas">
-        <option>Belmondo</option>
-        <option>Clavier</option>
+        <option v-for="actor in actors" :key="actor">{{ actor }}</option>
       </select>
     </div>
 
@@ -131,127 +87,243 @@
       </select>
       <button @click="submitMovie"></button>
     </div>
-
-    <!-- Affichage des tableaux -->
-    <div id="container_arrays">
-      <!-- Tableau Belmondo -->
-      <div v-if="array_belmondo" class="show_tables" >
-        <table class="table">
-          <h3>Belmondo</h3>
-          <div class="cancel_array">
-            <img class="icons" src="../../public/images/delete.svg" title="Fermer le tableau" @click="close_belmondo"/>
-          </div>
-          <tr>
-            <td>Décennies</td>
-            <td>Films tournés</td>
-            <td>Films vus</td>
-          </tr>
-          <tr>
-            <td>Années 50</td>
-            <td>{{ total_movies_50_belmondo }}</td>
-            <td>{{ total_viewed_50_belmondo }} - {{ fifties_percent_belmondo }}%</td>
-          </tr>
-          <tr>
-            <td>Années 60</td>
-            <td>{{ total_movies_60_belmondo }}</td>
-            <td>{{ total_viewed_60_belmondo }} - {{ sixties_percent_belmondo }}%</td>
-          </tr>
-          <tr>
-            <td>Années 70</td>
-            <td>{{ total_movies_70_belmondo }}</td>
-            <td>{{ total_viewed_70_belmondo }} - {{ seventies_percent_belmondo }}%</td>
-          </tr>
-          <tr>
-            <td>Années 80</td>
-            <td>{{ total_movies_80_belmondo }}</td>
-            <td>{{ total_viewed_80_belmondo }} - {{ eighties_percent_belmondo }}%</td>
-          </tr>
-          <tr>
-            <td>Années 90</td>
-            <td>{{ total_movies_90_belmondo }}</td>
-            <td>{{ total_viewed_90_belmondo }} - {{ nineties_percent_belmondo }}%</td>
-          </tr>
-          <tr>
-            <td>Années 2000</td>
-            <td>{{ total_movies_2000_belmondo }}</td>
-            <td>{{ total_viewed_2000_belmondo }} - {{ millenial_percent_belmondo }}%</td>
-          </tr>
-          <tr>
-            <td>Total</td>
-            <td>{{ total_movies_belmondo }}</td>
-            <td>{{ total_viewed_belmondo }} - {{ total_percent_belmondo }}%</td>
-          </tr>
-        </table>
-        <!-- films Belmondo -->
-        <div class="movies_container">
-          <ul>
-            <li v-for="movie in movies_belmondo" :key="movie.title">
-              <showMovies :movieData="movie" :calculate="this.calculate_belmondo()"/>
-            </li>
-          </ul>
+    <!-- Tableau -->
+    <div class="show_tables" v-if="this.stats">
+      <table class="table">
+        <h3>{{ this.actor }}</h3>
+        <div class="cancel_array">
+          <img class="icons" src="../../public/images/delete.svg" title="Fermer le tableau" @click="close"/>
         </div>
+        <tr>
+          <td>Décennies</td>
+          <td>Films tournés</td>
+          <td>Films vus</td>
+        </tr>
+        <tr v-for="(value, decade) in stats" :key="decade">
+          <td>Années {{ decade }}</td>
+          <td>{{ value.producedMovies }}</td>
+          <td>{{ value.viewedMovies }} - {{ value.percent }}%</td>
+        </tr>
+        <tr>
+          <td>Total</td>
+          <td>{{  }}</td>
+          <td></td>
+        </tr>
+      </table>
+      <!-- films -->
+      <div class="movies_container">
+        <ul>
+          <li v-for="movie in movies" :key="movie.title">
+            <showMovies :movieData="movie" />
+          </li>
+        </ul>
       </div>
-      <!-- Tableau Clavier -->
-      <div v-if="array_clavier" class="show_tables">
-        <table class="table">
-          <h3>Clavier</h3>
-          <div class="cancel_array">
-            <img class="icons" src="../../public/images/delete.svg" title="Fermer le tableau" @click="close_clavier"/>
-          </div>
-          <tr>
-            <td>Décennies</td>
-            <td>Films tournés</td>
-            <td>Films vus</td>
-          </tr>
-          <tr>
-            <td>Années 70</td>
-            <td>{{ total_movies_70_clavier }}</td>
-            <td>{{ total_viewed_70_clavier }} - {{ seventies_percent_clavier }}%</td>
-          </tr>
-          <tr>
-            <td>Années 80</td>
-            <td>{{ total_movies_80_clavier }}</td>
-            <td>{{ total_viewed_80_clavier }} - {{ eighties_percent_clavier }}%</td>
-          </tr>
-          <tr>
-            <td>Années 90</td>
-            <td>{{ total_movies_90_clavier }}</td>
-            <td>{{ total_viewed_90_clavier }} - {{ nineties_percent_clavier }}%</td>
-          </tr>
-          <tr>
-            <td>Années 2000</td>
-            <td>{{ total_movies_2000_clavier }}</td>
-            <td>{{ total_viewed_2000_clavier }} - {{ millenial_percent_clavier }}%</td>
-          </tr>
-          <tr>
-            <td>Années 2010</td>
-            <td>{{ total_movies_2010_clavier }}</td>
-            <td>{{ total_viewed_2010_clavier }} - {{ tens_percent_clavier }}%</td>
-          </tr>
-          <tr>
-            <td>Années 2020</td>
-            <td>{{ total_movies_2020_clavier }}</td>
-            <td>{{ total_viewed_2020_clavier }} - {{ twenties_percent_clavier }}%</td>
-          </tr>
-          <tr>
-            <td>Total</td>
-            <td>{{ total_movies_clavier }}</td>
-            <td>{{ total_viewed_clavier }} - {{ total_percent_clavier }}%</td>
-          </tr>
-        </table>
-        <!-- films Clavier -->
-        <div class="movies_container">
-          <ul>
-            <li v-for="movie in movies_clavier" :key="movie.title">
-              <showMovies :movieData="movie" :calculate="this.calculate_clavier()"/>
-            </li>
-          </ul>
-        </div>
-      </div> 
     </div>
-    <footerComponent/>
   </div>
 </template>
+
+<script>
+  import { mapState } from 'vuex'
+  import showMovies from '../components/showMovies.vue'
+
+  export default {
+    name: 'WatchedMovies',
+    components: {
+      showMovies
+    },
+    computed: {
+      ...mapState({
+        username: state => state.username,
+        userId: state => state.userId,
+        imageUrl: state => state.imageUrl,
+        isAdmin: state => state.isAdmin,
+        movies: state => state.movies,
+        viewed_movies: state => state.viewed_movies,
+        actors: state => state.actors
+      })
+    },
+    data: () => ({      
+      userId_url:'',
+      icon_modify_username: true,
+      modify_username_section: false,
+      icon_modify_image: true,
+      modify_image_section: false,
+      icon_delete_user: true,
+      delete_user_section: false,
+      alertUsername: false,
+      imageUrl_modify: '',
+      actor: '',
+      title: '',
+      director: '',
+      year: null,
+      decade: null,
+      stats: null
+    }),
+    methods: {
+
+      // get functions
+      getUser() {
+        this.$store.dispatch('getUser')
+      },
+      get_viewed_movies() {
+
+        let url = window.location.href.split('http://localhost:8080/#/movies/')
+
+        this.userId_url = url[1]
+
+        this.$store.dispatch('verification_user_id', this.userId_url)
+      },
+      getActors() {
+        this.$store.dispatch('getActors')
+      },
+      get_datas(event) {
+        this.actor = event.target.value
+
+        this.$store.dispatch('getAllMovies', this.actor)
+      },
+      close() {
+        this.stats = null
+      },
+      calculate() {
+
+        if(this.movies.length === 0){
+          return null
+        }
+
+        const result = this.movies.reduce((acc, curr) => {
+
+          const hasDecade = Object.prototype.hasOwnProperty.call(acc, curr.decade)
+
+          if(!hasDecade) {
+            const viewedMovies = this.checkViewedMovie(curr.id) ? 1 : 0
+
+            acc[curr.decade] = {
+              producedMovies: 1,
+              viewedMovies,
+              percent: viewedMovies * 100
+            }
+          }else{
+            const previousProducedMovies = acc[curr.decade].producedMovies
+            const producedMovies = previousProducedMovies + 1
+            const previousViewedMovies = acc[curr.decade].viewedMovies
+            const viewedMovies = this.checkViewedMovie(curr.id) ? previousViewedMovies + 1 : previousViewedMovies
+        
+            acc[curr.decade] = {
+              producedMovies,
+              viewedMovies,
+              percent: viewedMovies / producedMovies * 100
+            }
+          }
+
+          return acc
+
+        }, {})
+
+        console.log({result})
+
+        this.stats = result
+      },
+      checkViewedMovie(movieId) {
+        return this.viewed_movies.find(viewed_movie => viewed_movie.movieId === movieId)
+      },
+
+      //user modifications functions
+      modify_username_input() {
+        this.modify_username_section = true
+        this.icon_modify_username = false
+      },
+      commitUsername(event) {
+        if(/[^a-zA-Z-_.âàäçéêèëîïôöûü]/i.test(event.target.value) || event.target.value.length < 5 || event.target.value.length > 40) {
+          return this.alertUsername = true
+        } else {
+          this.alertUsername = false
+          this.$store.commit('UPDATE_USERNAME', event.target.value)
+        }
+      },
+      modify_image_input() {
+        this.modify_image_section = true
+        this.icon_modify_image = false
+        this.modify_username_section = false
+        this.delete_user_section = false
+      },
+      commitImageProfile(event) {
+        this.$store.commit('UPDATE_IMAGEURL', event.target.files[0])
+        this.imageUrl_modify = this.imageUrl
+      },
+      modifyUsername(userId) {
+        let modifyData = {
+          username: this.username
+        }
+
+        this.$store.dispatch('modifyUsername', { modifyData, userId })
+        this.modify_username_section = false
+        this.icon_modify_username = true
+      },
+      modifyImage(userId) {
+        let modifyImage = new FormData()
+        modifyImage.append('imageUrl', this.imageUrl)
+
+        this.$store.dispatch('modifyImage', { modifyImage, userId })
+        this.$store.dispatch('getUser')
+        this.modify_image_section = !this.modify_image_section
+        this.icon_modify_image = true
+      },
+      no_modify_image_section() {
+        this.modify_image_section = false
+        this.icon_modify_image = true
+      },
+      no_modify_username_section() {
+        this.modify_username_section = false
+        this.icon_modify_username = true
+      },
+
+      // user deletion functions
+      deleteUser_alert() {
+        this.delete_user_section = true
+        this.icon_delete_user = false
+        this.modify_image_section = false
+        this.modify_username_section = false
+      },
+      no_deleteUser_alert() {
+        this.delete_user_section = false
+        this.icon_delete_user = true
+      },
+      deleteUser() {
+        this.$store.dispatch('deleteUser')
+      },
+
+      // movie creation function
+      submitMovie() {
+        let movieData = {
+          title: this.title,
+          director: this.director,
+          actor: this.actor,
+          year: this.year,
+          decade: this.decade
+        }
+
+        this.$store.dispatch('createMovie', movieData)
+
+        this.title = ''
+        this.director = ''
+        this.year = ''
+      }
+    },
+    watch: {
+      movies() {
+        this.calculate()
+      },
+      viewed_movies() {
+        this.calculate()
+      }
+    },
+    created() {
+      this.get_viewed_movies(),
+      this.getActors(),
+      this.getUser()
+    }
+  }
+</script>
 
 <style scoped>
   .link {
@@ -345,11 +417,11 @@
     color: #0c0c44;
   }
   .show_tables {
-    margin-top: 4rem;
+    margin: 4rem auto 0 auto;
+    padding-bottom: 150px;
   }
   .show_tables table {
     width: 80%;
-    margin-left: 2rem;
   }
   .show_tables table:hover img {
     display: block;
@@ -363,13 +435,16 @@
     position: absolute;
     width: 40px;
     height: 43px;
-    left: -40px;
+    left: 8px;
     padding: 0.38rem 0.4rem;
     border: 1px solid rgba(255, 255, 255, 0);
     border-radius: 10px 0px 0px 10px;
   }
   .cancel_array img {
     display: none;
+  }
+  #container_arrays {
+    margin-left: 1rem;
   }
   .show_tables button {
     margin: 2rem 0 2rem 2rem;
@@ -388,17 +463,18 @@
   }
   .movies_container {
     width: 80%;
-    margin-left: 2rem;
+    margin: 0 auto;
   }
   @media screen and (min-width: 1200px) {
     #actor_choice select {
-    width: 15%;
+      width: 15%;
     }
     #container_arrays {
       display: flex;
     }
     .show_tables {
       width: 50%;
+      padding-bottom: 200px;
     }
     button {
       color: #fff;
@@ -406,301 +482,3 @@
   }
 
 </style>
-
-<script>
-  import { mapState } from 'vuex'
-  import showMovies from '../components/showMovies.vue'
-  import footerComponent from '../components/footer.vue'
-
-  export default {
-    name: 'WatchedMovies',
-    components: {
-      showMovies,
-      footerComponent
-    },
-    computed: {
-      ...mapState({
-        username: state => state.username,
-        userId: state => state.userId,
-        imageUrl: state => state.imageUrl,
-        isAdmin: state => state.isAdmin,
-        movies_belmondo: state => state.movies_belmondo,
-        movies_clavier: state => state.movies_clavier,
-        viewed_movies: state => state.viewed_movies
-      }),
-    },
-    data: () => ({
-      userId_url:'',
-      icon_modify_username: true,
-      modify_username_section: false,
-      icon_modify_image: true,
-      modify_image_section: false,
-      icon_delete_user: true,
-      delete_user_section: false,
-      alertUsername: false,
-      array_belmondo: false,
-      array_clavier: false,
-      imageUrl_modify: '',
-      actor: '',
-      title: '',
-      director: '',
-      year: null,
-      decade: null,
-
-      total_movies_50_belmondo: 7,
-      total_movies_60_belmondo: 39,
-      total_movies_70_belmondo: 14,
-      total_movies_80_belmondo: 9,
-      total_movies_90_belmondo: 6,
-      total_movies_2000_belmondo: 3,
-      total_movies_belmondo: 78,
-
-      total_movies_70_clavier: 15,
-      total_movies_80_clavier: 13,
-      total_movies_90_clavier: 10,
-      total_movies_2000_clavier: 11,
-      total_movies_2010_clavier: 16,
-      total_movies_2020_clavier: 4,
-      total_movies_clavier: 69,
-
-      total_viewed_50_belmondo: 0,
-      total_viewed_60_belmondo: 0,
-      total_viewed_70_belmondo: 0,
-      total_viewed_80_belmondo: 0,
-      total_viewed_90_belmondo: 0,
-      total_viewed_2000_belmondo: 0,
-
-      total_viewed_70_clavier: 0,
-      total_viewed_80_clavier: 0,
-      total_viewed_90_clavier: 0,
-      total_viewed_2000_clavier: 0,
-      total_viewed_2010_clavier: 0,
-      total_viewed_2020_clavier: 0,
-
-      fifties_percent_belmondo: 0,
-      sixties_percent_belmondo: 0,
-      seventies_percent_belmondo: 0,
-      eighties_percent_belmondo: 0,
-      nineties_percent_belmondo: 0,
-      millenial_percent_belmondo: 0,
-
-      seventies_percent_clavier: 0,
-      eighties_percent_clavier: 0,
-      nineties_percent_clavier: 0,
-      millenial_percent_clavier: 0,
-      tens_percent_clavier: 0,
-      twenties_percent_clavier: 0,
-
-      total_viewed_belmondo: 0,
-      total_percent_belmondo: 0,
-
-      total_viewed_clavier: 0,
-      total_percent_clavier: 0
-    }),
-    methods: {
-
-      // get functions
-      getUser() {
-        this.$store.dispatch('getUser')
-      },
-      get_viewed_movies() {
-
-        let url = window.location.href.split('http://localhost:8080/#/movies/')
-
-        this.userId_url = url[1]
-
-        this.$store.dispatch('verification_user_id', this.userId_url)
-      },
-      get_datas(event) {
-        let actor = event.target.value
-
-        this.$store.dispatch('getAllMovies', actor)
-        // variabiliser quel array doit s'afficher en fonction de la valeur de actor
-        if(event.target.value === 'Belmondo') {
-          this.array_belmondo = true
-          this.calculate_belmondo()
-        } else if(event.target.value === 'Clavier') {
-          this.array_clavier = true
-          this.calculate_clavier()
-        }
-      },
-      close_belmondo() {
-        this.array_belmondo = false
-      },
-      close_clavier() {
-        this.array_clavier = false
-      },
-      calculate_belmondo() {
-
-        let total_viewed_50_array_belmondo = []
-        let total_viewed_60_array_belmondo = []
-        let total_viewed_70_array_belmondo = []
-        let total_viewed_80_array_belmondo = []
-        let total_viewed_90_array_belmondo = []
-        let total_viewed_2000_array_belmondo = []
-
-        for(let i = 0; i < this.viewed_movies.length; i++) {
-          if(this.viewed_movies[i].decade === 50 && this.viewed_movies[i].actor === 'Belmondo') {
-            total_viewed_50_array_belmondo.push(this.viewed_movies[i])
-          }else if(this.viewed_movies[i].decade === 60 && this.viewed_movies[i].actor === 'Belmondo') {
-            total_viewed_60_array_belmondo.push(this.viewed_movies[i])
-          }else if(this.viewed_movies[i].decade === 70 && this.viewed_movies[i].actor === 'Belmondo') {
-            total_viewed_70_array_belmondo.push(this.viewed_movies[i])
-          }else if(this.viewed_movies[i].decade === 80 && this.viewed_movies[i].actor === 'Belmondo') {
-            total_viewed_80_array_belmondo.push(this.viewed_movies[i])
-          }else if(this.viewed_movies[i].decade === 90 && this.viewed_movies[i].actor === 'Belmondo') {
-            total_viewed_90_array_belmondo.push(this.viewed_movies[i])
-          }else if(this.viewed_movies[i].decade === 2000 && this.viewed_movies[i].actor === 'Belmondo') {
-            total_viewed_2000_array_belmondo.push(this.viewed_movies[i])
-          }
-        }
-
-        this.total_viewed_50_belmondo = total_viewed_50_array_belmondo.length
-        this.total_viewed_60_belmondo = total_viewed_60_array_belmondo.length
-        this.total_viewed_70_belmondo = total_viewed_70_array_belmondo.length
-        this.total_viewed_80_belmondo = total_viewed_80_array_belmondo.length
-        this.total_viewed_90_belmondo = total_viewed_90_array_belmondo.length
-        this.total_viewed_2000_belmondo = total_viewed_2000_array_belmondo.length
-
-        this.fifties_percent_belmondo = (this.total_viewed_50_belmondo / this.total_movies_50_belmondo * 100).toFixed(0)
-        this.sixties_percent_belmondo = (this.total_viewed_60_belmondo / this.total_movies_60_belmondo * 100).toFixed(0)
-        this.seventies_percent_belmondo = (this.total_viewed_70_belmondo / this.total_movies_70_belmondo * 100).toFixed(0)
-        this.eighties_percent_belmondo = (this.total_viewed_80_belmondo / this.total_movies_80_belmondo * 100).toFixed(0)
-        this.nineties_percent_belmondo = (this.total_viewed_90_belmondo / this.total_movies_90_belmondo * 100).toFixed(0)
-        this.millenial_percent_belmondo = (this.total_viewed_2000_belmondo / this.total_movies_2000_belmondo * 100).toFixed(0)
-
-        this.total_viewed_belmondo = this.total_viewed_50_belmondo + this.total_viewed_60_belmondo + this.total_viewed_70_belmondo + this.total_viewed_80_belmondo + this.total_viewed_90_belmondo + this.total_viewed_2000_belmondo
-        this.total_percent_belmondo = (this.total_viewed_belmondo / this.total_movies_belmondo * 100).toFixed(0)
-      },
-      calculate_clavier() {
-
-        let total_viewed_70_array_clavier = []
-        let total_viewed_80_array_clavier = []
-        let total_viewed_90_array_clavier = []
-        let total_viewed_2000_array_clavier = []
-        let total_viewed_2010_array_clavier = []
-        let total_viewed_2020_array_clavier = []
-
-        for(let i = 0; i < this.viewed_movies.length; i++) {
-          if(this.viewed_movies[i].decade === 70 && this.viewed_movies[i].actor === 'Clavier') {
-            total_viewed_70_array_clavier.push(this.viewed_movies[i])
-          }else if(this.viewed_movies[i].decade === 80 && this.viewed_movies[i].actor === 'Clavier') {
-            total_viewed_80_array_clavier.push(this.viewed_movies[i])
-          }else if(this.viewed_movies[i].decade === 90 && this.viewed_movies[i].actor === 'Clavier') {
-            total_viewed_90_array_clavier.push(this.viewed_movies[i])
-          }else if(this.viewed_movies[i].decade === 2000 && this.viewed_movies[i].actor === 'Clavier') {
-            total_viewed_2000_array_clavier.push(this.viewed_movies[i])
-          }else if(this.viewed_movies[i].decade === 2010 && this.viewed_movies[i].actor === 'Clavier') {
-            total_viewed_2010_array_clavier.push(this.viewed_movies[i])
-          }else if(this.viewed_movies[i].decade === 2020 && this.viewed_movies[i].actor === 'Clavier') {
-            total_viewed_2020_array_clavier.push(this.viewed_movies[i])
-          }
-        }
-
-        this.total_viewed_70_clavier = total_viewed_70_array_clavier.length
-        this.total_viewed_80_clavier = total_viewed_80_array_clavier.length
-        this.total_viewed_90_clavier = total_viewed_90_array_clavier.length
-        this.total_viewed_2000_clavier = total_viewed_2000_array_clavier.length
-        this.total_viewed_2010_clavier = total_viewed_2010_array_clavier.length
-        this.total_viewed_2020_clavier = total_viewed_2020_array_clavier.length
-
-        this.seventies_percent_clavier = (this.total_viewed_70_clavier / this.total_movies_70_clavier * 100).toFixed(0)
-        this.eighties_percent_clavier = (this.total_viewed_80_clavier / this.total_movies_80_clavier * 100).toFixed(0)
-        this.nineties_percent_clavier = (this.total_viewed_90_clavier / this.total_movies_90_clavier * 100).toFixed(0)
-        this.millenial_percent_clavier = (this.total_viewed_2000_clavier / this.total_movies_2000_clavier * 100).toFixed(0)
-        this.tens_percent_clavier = (this.total_viewed_2010_clavier / this.total_movies_2010_clavier * 100).toFixed(0)
-        this.twenties_percent_clavier = (this.total_viewed_2020_clavier / this.total_movies_2020_clavier * 100).toFixed(0)
-
-        this.total_viewed_clavier = this.total_viewed_70_clavier + this.total_viewed_80_clavier + this.total_viewed_90_clavier + this.total_viewed_2000_clavier + this.total_viewed_2010_clavier + this.total_viewed_2020_clavier
-        this.total_percent_clavier = (this.total_viewed_clavier / this.total_movies_clavier * 100).toFixed(0)
-      },
-
-      //user modifications functions
-      modify_username_input() {
-        this.modify_username_section = true
-        this.icon_modify_username = false
-      },
-      commitUsername(event) {
-        if(/[^a-zA-Z-_.âàäçéêèëîïôöûü]/i.test(event.target.value) || event.target.value.length < 5 || event.target.value.length > 40) {
-          return this.alertUsername = true
-        } else {
-          this.alertUsername = false
-          this.$store.commit('UPDATE_USERNAME', event.target.value)
-        }
-      },
-      modify_image_input() {
-        this.modify_image_section = true
-        this.icon_modify_image = false
-        this.modify_username_section = false
-        this.delete_user_section = false
-      },
-      commitImageProfile(event) {
-        this.$store.commit('UPDATE_IMAGEURL', event.target.files[0])
-        this.imageUrl_modify = this.imageUrl
-      },
-      modifyUsername(userId) {
-        let modifyData = {
-          username: this.username
-        }
-
-        this.$store.dispatch('modifyUsername', { modifyData, userId })
-        this.modify_username_section = false
-        this.icon_modify_username = true
-      },
-      modifyImage(userId) {
-        let modifyImage = new FormData()
-        modifyImage.append('imageUrl', this.imageUrl)
-
-        this.$store.dispatch('modifyImage', { modifyImage, userId })
-        this.$store.dispatch('getUser')
-        this.modify_image_section = !this.modify_image_section
-        this.icon_modify_image = true
-      },
-      no_modify_image_section() {
-        this.modify_image_section = false
-        this.icon_modify_image = true
-      },
-      no_modify_username_section() {
-        this.modify_username_section = false
-        this.icon_modify_username = true
-      },
-
-      // user deletion functions
-      deleteUser_alert() {
-        this.delete_user_section = true
-        this.icon_delete_user = false
-        this.modify_image_section = false
-        this.modify_username_section = false
-      },
-      no_deleteUser_alert() {
-        this.delete_user_section = false
-        this.icon_delete_user = true
-      },
-      deleteUser() {
-        this.$store.dispatch('deleteUser')
-      },
-
-      // movie creation function
-      submitMovie() {
-        let movieData = {
-          title: this.title,
-          director: this.director,
-          actor: this.actor,
-          year: this.year,
-          decade: this.decade
-        }
-
-        this.$store.dispatch('createMovie', movieData)
-
-        this.title = ''
-        this.director = ''
-        this.year = ''
-      }
-    },
-    created() {
-      this.get_viewed_movies(),
-      this.getUser()
-    }
-  }
-</script>
-
