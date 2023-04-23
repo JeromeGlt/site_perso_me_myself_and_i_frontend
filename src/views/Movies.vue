@@ -167,7 +167,7 @@
       },
       get_viewed_movies() {
 
-        let url = window.location.href.split('http://localhost:8080/#/movies/')
+        let url = window.location.href.split(process.env.VUE_APP_URL)
 
         this.userId_url = url[1]
 
