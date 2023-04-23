@@ -16,7 +16,7 @@
         </span>
       </div>
     </div>
-    <div class="laptop_flexbox">
+    <div id="my_presentation">
       <div class="rubric" @click="show_text($event)">
         <h2>C'est qui lui ?</h2>
         <div class="container_presentation sentences">
@@ -157,9 +157,13 @@ export default {
     top: 0;
     animation: slide 10s infinite;  
   }
+  #my_presentation {
+    padding-bottom: 4rem;
+  }
   .container_presentation {
     margin-top: 1rem;
-    background-color: rgba(0, 0, 0, 0.4);
+    background-color: #fff;
+    color: #070761;
     clip-path: polygon(0% 0%, 100% 0%, 100% 0%, 0% 0%);
     transition: all ease-in-out 1s;
   }
@@ -185,7 +189,7 @@ export default {
     height: 0px;
     opacity: 0;
     line-height: 25px;
-    margin: 1rem 2rem;
+    margin: 1rem 1rem;
     transition: height 1s;
   }
   .link_presentation {
@@ -200,11 +204,12 @@ export default {
     h2 {
       cursor: default;
     }
-    .laptop_flexbox {
+    #my_presentation {
       display: flex;
       justify-content: space-around;
       flex-wrap: nowrap;
       margin: 1rem 0 0 3rem;
+      padding-bottom: 0;
     }
     .rubric {
       width: 16.6%;
