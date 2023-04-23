@@ -11,7 +11,7 @@
       </div>
       <div class="link_container">
         <img src="../../public/images/download.svg" title="Télécharger mon CV" class="icons"/>
-        <a href="/docs/cv_jerome_gallot.pdf" download="cv_jerome_gallot">Télécharger mon CV</a>
+        <a href="/docs/CV_jerome_gallot.pdf" download="cv_jerome_gallot">Télécharger mon CV</a>
       </div>
       <div class="link_container">
         <img src="../../public/images/mail.svg" title="Contactez-moi" class="icons"/>
