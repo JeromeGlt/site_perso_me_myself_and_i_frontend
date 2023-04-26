@@ -1,6 +1,8 @@
 <template>
   <div>
-    <h1>Me, myself and I</h1>
+    <section>
+      <h1 class="text-shadow">Me, myself and I</h1>
+    </section>
     <h2 class="rule">Merci de renseigner votre nom d'utilisateur ainsi que votre un mot de passe afin de vous connecter.</h2>
     <div class="form">
       <div class="input">
@@ -51,6 +53,6 @@
   }
 </script>
 
-<style scoped lang='scss'>
+<style scoped>
 
 </style>

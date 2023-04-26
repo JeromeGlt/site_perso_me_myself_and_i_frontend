@@ -1,7 +1,7 @@
 <template>
   <div>
     <div>
-      <h1>Cinéma français</h1>
+      <h1>Quel est votre intérêt pour le cinéma français ?</h1>
       <div id="user" v-if="userId_url">
         <div class="user_image" :style="{ backgroundImage: 'url(' + imageUrl + ')' }"></div>
         <div id="container_icons">
@@ -167,7 +167,7 @@
       },
       get_viewed_movies() {
 
-        let url = window.location.href.split(process.env.VUE_APP_URL)
+        let url = window.location.href.split('http://localhost:8080/#/movies/')
 
         this.userId_url = url[1]
 

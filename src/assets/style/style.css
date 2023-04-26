@@ -8,6 +8,23 @@
 body {
   background: linear-gradient(to top right, #000, #32006e);
 }
+section {
+  color: #fff;
+  text-transform: uppercase;
+  padding-top: 3rem;
+}
+.text-shadow {
+  font-style: italic;
+  text-transform: uppercase;
+  color: transparent;
+  -webkit-text-stroke: #fff;
+  -webkit-text-stroke-width: 1px;
+  transition: all 0.5s ease-in-out;
+  letter-spacing: 0.2em;
+}
+.text-shadow:hover {
+  color: #fff;
+}
 footer {
   display: flex;
   flex-direction: column;
@@ -179,11 +196,11 @@ button:hover {
   }
   .form {
     color: #fff;
-    background-color: #0c0c44;
+    background-color: transparent;
     border: 1px solid #fff;
   }
   .input input {
-    background-color: #0c0c44;
+    background-color: transparent;
     color: #fff;
     border-bottom: 1px solid #fff;
   }
@@ -195,7 +212,7 @@ button:hover {
     color: rgba(255, 255, 255, 0.8)
   }
   .input_image label {
-    background-color: #0c0c44;
+    background-color: transparent;
     border-bottom: solid 1px #fff;
     border-left: solid 1px #fff;
     color: #fff;

@@ -37,8 +37,9 @@
         <h2>Ses hard skills</h2>
         <div class="container_presentation sentences">
           <p class="presentation">J'ai créé ce site en utilisant Vue.js (avec vuex), un framework que j'affectionne.</p>
-          <p class="presentation">Envie de tester mes connaissances en back ?<routerLink class="link_presentation" to="/signup"> C'est ici!</routerLink></p>
-          <p class="presentation">J'ai utilisé Node.js avec Sequelize, l'ORM Express ainsi qu'une base de données MySQL.</p>
+          <p class="presentation">Envie de tester mes connaissances en back ?<routerLink class="link_presentation" to="/signup"> C'est ici.</routerLink></p>
+          <p class="presentation">J'y ai créé une API REST avec Node.js (Sequelize), l'ORM Express ainsi qu'une base de données MySQL.</p>
+          <p class="presentation">J'ai également des notions de JQuery, PHP, Python, Sass, SQL, Mongoose.</p>
         </div>
       </div>
       <div class="rubric" @click="show_text($event)">
@@ -107,23 +108,6 @@ export default {
     }
   }
 
-  section {
-    color: #fff;
-    text-transform: uppercase;
-    padding-top: 3rem;
-  }
-  .text-shadow {
-    font-style: italic;
-    text-transform: uppercase;
-    color: transparent;
-    -webkit-text-stroke: #fff;
-    -webkit-text-stroke-width: 1px;
-    transition: all 0.5s ease-in-out;
-    letter-spacing: 0.2em;
-  }
-  .text-shadow:hover {
-    color: #fff;
-  }
   #jerome_image {
     width: 120px;
     height: 120px;
@@ -182,9 +166,10 @@ export default {
     opacity: 1 !important;
     transition: all 1s;
   }
-  .sentences p:nth-child(1)  { transition-delay:  200ms }
-  .sentences p:nth-child(2)  { transition-delay:  400ms }
+  .sentences p:nth-child(1)  { transition-delay:  400ms }
+  .sentences p:nth-child(2)  { transition-delay:  200ms }
   .sentences p:nth-child(3)  { transition-delay:  600ms }
+  .sentences p:nth-child(4)  { transition-delay:  800ms }
   .presentation {
     height: 0px;
     opacity: 0;
@@ -193,7 +178,7 @@ export default {
     transition: height 1s;
   }
   .link_presentation {
-    color: #fff;
+    color: #070761;
     font-weight: bold;
   }
   .link_head {

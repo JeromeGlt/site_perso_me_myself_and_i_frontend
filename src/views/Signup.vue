@@ -1,6 +1,8 @@
 <template>
   <div>
-    <h1>Me, myself and I</h1>
+    <section>
+      <h1 class="text-shadow">Me, myself and I</h1>
+    </section>
     <h2 class="rule">Merci d'inscrire un nom d'utilisateur, un mot de passe et de choisir une image afin de créer votre compte.</h2>
     <div class="form">
       <div class="input">
@@ -84,8 +86,6 @@
     margin-top: 1rem;
   }
   .input_image label:hover {
-    border-bottom: 2px solid #070761;
-    border-left: 2px solid #070761;
     margin-bottom: 1.95rem;
     transition: 0s ease-in;
   }
