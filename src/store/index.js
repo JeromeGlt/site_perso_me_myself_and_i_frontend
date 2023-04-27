@@ -60,7 +60,7 @@ export default createStore({
       .then(data => {
         commit('USER', data)
         if(!data.message) {
-          router.push('/movies/' + data.userId)
+          router.push('/movies/')
         }
         localStorage.setItem('token', data.token)
       })
@@ -81,7 +81,7 @@ export default createStore({
       .then(data => {
         commit('USER', data)
         if(!data.message) {
-            router.push('/movies/' + data.userId)
+            router.push('/movies')
         }
         localStorage.setItem('token', data.token)
       })
@@ -144,27 +144,6 @@ export default createStore({
       .then(data => {
         if(data.message === 'Deleted user') {
           router.push('/signup')
-        }
-      })
-      .catch(err => console.log(err))
-    },
-
-    verification_user_id({ dispatch }, userId) {
-
-      let storageToken = localStorage.getItem('token')
-
-      fetch(process.env.VUE_APP_URL_API + 'api/user/' + userId, {
-        headers: {
-          'Accept': 'application/json',
-          'Authorization': 'Bearer ' + storageToken
-        }
-      })
-      .then(res => res.json())
-      .then(data => {
-        if(!data.message) {
-          dispatch('get_viewed_movies', data.user_id)
-        }else{
-          router.push('/login')
         }
       })
       .catch(err => console.log(err))
@@ -257,17 +236,19 @@ export default createStore({
       .catch(err => console.log(err))
     },
 
-    get_viewed_movies({ commit }, userId) {
+    get_viewed_movies({ commit }) {
 
-      fetch(process.env.VUE_APP_URL_API + 'api/viewed_movie/' + userId, {
+      let storageToken = localStorage.getItem('token')
+
+      fetch(process.env.VUE_APP_URL_API + 'api/viewed_movie/', {
         headers: {
-          'Accept': 'application/json'
+          'Accept': 'application/json',
+          'Authorization': 'Bearer ' + storageToken
         }
       })
       .then(res => res.json())
       .then(data => {
         commit('VIEWED_MOVIES', data)
-        console.log(data)
       })
       .catch(err => console.log(err))
     },

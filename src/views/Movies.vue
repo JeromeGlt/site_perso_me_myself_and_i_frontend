@@ -1,8 +1,10 @@
 <template>
   <div>
     <div>
-      <h1>Quel est votre intérêt pour le cinéma français ?</h1>
-      <div id="user" v-if="userId_url">
+      <section>
+        <h1 class="text-shadow">Votre intérêt pour le cinéma français</h1>
+      </section>
+      <div id="user">
         <div class="user_image" :style="{ backgroundImage: 'url(' + imageUrl + ')' }"></div>
         <div id="container_icons">
           <img v-if="icon_modify_username" class="icons" src="../../public/images/rewrite.svg" title="Modifier le pseudo" @click="modify_username_input"/>
@@ -11,7 +13,7 @@
         </div>
       </div>
       <!-- Suppression du compte -->
-      <div v-if="delete_user_section && userId_url" id="question_delete_user">
+      <div v-if="delete_user_section" id="question_delete_user">
         <div id="question">
           <p>Êtes-vous sûr ?</p>
         </div>
@@ -23,7 +25,7 @@
         </div>
       </div>
       <!-- Modification de l'image d'utilisateur -->
-      <div id="modify_image_section" v-if="modify_image_section && userId_url">
+      <div id="modify_image_section" v-if="modify_image_section">
         <div class="input_image">
           <label>Choisir une image...
             <input type="file" name="imageUrl_modify" @change="commitImageProfile">
@@ -33,7 +35,7 @@
         <button id="submit_modify_image" v-if="this.imageUrl_modify" @click="modifyImage(userId)">Envoyer</button>
       </div>
       <!-- Modification du nom d'utilisateur -->
-      <div v-if="modify_username_section && userId_url">
+      <div v-if="modify_username_section">
         <div class="input">
           <div class="flexbox">
             <input type="text" name="username" v-model="username" @input="commitUsername">
@@ -45,48 +47,20 @@
       </div>
       <!-- Explications de la création des tableaux -->
       <div id="movies_explication">
-        <p v-if="!userId_url">Ici, vous pouvez créer vos propres tableaux de visionnages.</p>
-        <p v-if="userId_url">{{ username }}, vous pouvez créer ici vos propres tableaux de visionnages.</p>
+        <p>{{ username }}, vous pouvez créer ici vos propres tableaux de visionnages.</p>
         <p>Je vous donne la possibilité de le faire pour Jean-Paul Belmondo et Christian Clavier.</p>
         <p>Le principe est de cliquer sur les films que vous avez vus, ce qui créera les tableaux.</p>
       </div>
-      <p class="link" v-if="!userId_url">Vous voulez créer les vôtres ? <router-link to="/login">Connectez-vous</router-link> ou <router-link to="/signup">créez un compte</router-link>.</p>
     </div>
 
     <!-- Select pour choisir l'acteur -->
-    <div v-if="userId_url" id="actor_choice">
+    <div id="actor_choice">
       <label>Choisissez votre acteur</label>
       <select v-model="actor" @input="get_datas">
         <option v-for="actor in actors" :key="actor">{{ actor }}</option>
       </select>
     </div>
 
-    <!-- Seulement visible par l'administrateur -->
-    <div v-if="isAdmin">
-      <label>Acteur</label>
-      <select v-model="actor">
-        <option>Belmondo</option>
-        <option>Clavier</option>
-      </select>
-      <label>Titre</label>
-      <input type="text" v-model="title">
-      <label>Réalisateur</label>
-      <input type="text" v-model="director">
-      <label>Année</label>
-      <input type="number" v-model="year">
-      <label>Décennie</label>
-      <select v-model="decade">
-        <option>50</option>
-        <option>60</option>
-        <option>70</option>
-        <option>80</option>
-        <option>90</option>
-        <option>2000</option>
-        <option>10</option>
-        <option>20</option>
-      </select>
-      <button @click="submitMovie"></button>
-    </div>
     <!-- Tableau -->
     <div class="show_tables" v-if="this.stats">
       <table class="table">
@@ -106,8 +80,8 @@
         </tr>
         <tr>
           <td>Total</td>
-          <td>{{  }}</td>
-          <td></td>
+          <td>{{ this.sum_produced }}</td>
+          <td>{{ this.sum_viewed }} - {{ this.total_percent }}%</td>
         </tr>
       </table>
       <!-- films -->
@@ -142,8 +116,7 @@
         actors: state => state.actors
       })
     },
-    data: () => ({      
-      userId_url:'',
+    data: () => ({
       icon_modify_username: true,
       modify_username_section: false,
       icon_modify_image: true,
@@ -157,7 +130,10 @@
       director: '',
       year: null,
       decade: null,
-      stats: null
+      stats: null,
+      sum_produced: 0,
+      sum_viewed: 0,
+      total_percent: 0
     }),
     methods: {
 
@@ -166,12 +142,7 @@
         this.$store.dispatch('getUser')
       },
       get_viewed_movies() {
-
-        let url = window.location.href.split('http://localhost:8080/#/movies/')
-
-        this.userId_url = url[1]
-
-        this.$store.dispatch('verification_user_id', this.userId_url)
+        this.$store.dispatch('get_viewed_movies')
       },
       getActors() {
         this.$store.dispatch('getActors')
@@ -207,11 +178,12 @@
             const producedMovies = previousProducedMovies + 1
             const previousViewedMovies = acc[curr.decade].viewedMovies
             const viewedMovies = this.checkViewedMovie(curr.id) ? previousViewedMovies + 1 : previousViewedMovies
+            let rounded_percent = viewedMovies / producedMovies * 100
         
             acc[curr.decade] = {
               producedMovies,
               viewedMovies,
-              percent: viewedMovies / producedMovies * 100
+              percent: rounded_percent.toFixed(0),
             }
           }
 
@@ -219,12 +191,28 @@
 
         }, {})
 
-        console.log({result})
-
         this.stats = result
+
+        this.total_movies()
       },
       checkViewedMovie(movieId) {
         return this.viewed_movies.find(viewed_movie => viewed_movie.movieId === movieId)
+      },
+      total_movies() {
+        let movies_stats = this.stats
+        this.sum_produced = 0
+        this.sum_viewed = 0
+        this.total_percent = 0
+
+        let stats_array = Object.keys(movies_stats).map(function(key) {
+          return [Number(key), movies_stats[key]]
+        })
+
+        stats_array.forEach(element => this.sum_produced += element[1].producedMovies)
+        stats_array.forEach(element => this.sum_viewed += element[1].viewedMovies)
+
+        let rounded_percent = this.sum_viewed / this.sum_produced * 100
+        this.total_percent = rounded_percent.toFixed(0)
       },
 
       //user modifications functions
