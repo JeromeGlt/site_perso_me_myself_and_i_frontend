@@ -3,6 +3,7 @@
     <section>
       <h1 class="text-shadow">Me, myself and I</h1>
     </section>
+    <showErrors/>
     <div id="jerome_image">
       <img title="photo de Jérôme" src="../../public/images/jerome.jpg"/>
     </div>
@@ -71,18 +72,22 @@
 </template>
 
 <script>
+  import showErrors from '../components/error.vue'
 
-export default {
-  name: 'HomePage',
-  data: () => ({
-    innerWidthMobile: false
-  }),
-  methods: {
-    show_text(event) {
-      event.target.querySelector('.container_presentation').classList.toggle('show_content')
+  export default {
+    name: 'HomePage',
+    components: {
+      showErrors
+    },
+    data: () => ({
+      innerWidthMobile: false
+    }),
+    methods: {
+      show_text(event) {
+        event.target.querySelector('.container_presentation').classList.toggle('show_content')
+      }
     }
   }
-}
 </script>
 
 <style scoped>

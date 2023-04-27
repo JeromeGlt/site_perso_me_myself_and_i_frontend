@@ -4,5 +4,6 @@ import router from './router'
 import store from './store'
 import showMovies from './components/showMovies'
 import footerComponent from './components/footer'
+import showErrors from './components/error'
 
-createApp(App).use(store).use(router).component('showMovies', showMovies, 'footerComponent', footerComponent).mount('#app')
+createApp(App).use(store).use(router).component('showMovies', showMovies, 'footerComponent', footerComponent, 'showErrors', showErrors).mount('#app')

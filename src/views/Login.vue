@@ -3,6 +3,7 @@
     <section>
       <h1 class="text-shadow">Me, myself and I</h1>
     </section>
+    <showErrors/>
     <h2 class="rule">Merci de renseigner votre nom d'utilisateur ainsi que votre un mot de passe afin de vous connecter.</h2>
     <div class="form">
       <div class="input">
@@ -21,9 +22,13 @@
 
 <script>
   import { mapState } from 'vuex'
+  import showErrors from '../components/error.vue'
 
   export default {
     name: 'LogIn',
+    components: {
+      showErrors
+    },
     computed: {
       ...mapState({
         message: state => state.message

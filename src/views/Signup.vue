@@ -3,6 +3,7 @@
     <section>
       <h1 class="text-shadow">Me, myself and I</h1>
     </section>
+    <showErrors/>
     <h2 class="rule">Merci d'inscrire un nom d'utilisateur, un mot de passe et de choisir une image afin de créer votre compte.</h2>
     <div class="form">
       <div class="input">
@@ -27,9 +28,13 @@
 
 <script>
   import { mapState } from 'vuex'
+  import showErrors from '../components/error.vue'
 
   export default {
     name: 'SignUp',
+    components: {
+      showErrors
+    },
     computed: {
       ...mapState({
         message: state => state.message

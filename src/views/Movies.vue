@@ -4,6 +4,7 @@
       <section>
         <h1 class="text-shadow">Votre intérêt pour le cinéma français</h1>
       </section>
+      <showErrors/>
       <div id="user">
         <div class="user_image" :style="{ backgroundImage: 'url(' + imageUrl + ')' }"></div>
         <div id="container_icons">
@@ -99,11 +100,13 @@
 <script>
   import { mapState } from 'vuex'
   import showMovies from '../components/showMovies.vue'
+  import showErrors from '../components/error.vue'
 
   export default {
     name: 'WatchedMovies',
     components: {
-      showMovies
+      showMovies,
+      showErrors
     },
     computed: {
       ...mapState({
