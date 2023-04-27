@@ -12,7 +12,8 @@ export default createStore({
     message_user: '',
     actors: [],
     movies: [],
-    viewed_movies: []
+    viewed_movies: [],
+    error: ''
   },
   getters: {
   },
@@ -42,6 +43,9 @@ export default createStore({
     },
     VIEWED_MOVIES (state, data) {
       state.viewed_movies = data
+    },
+    ERROR (state, data) {
+      state.error = data
     }
   },
   actions: {
@@ -64,7 +68,9 @@ export default createStore({
         }
         localStorage.setItem('token', data.token)
       })
-      .catch(err => console.log(err))
+      .catch(err => {
+        commit('ERROR', err)
+      })
     },
 
     submitLogin({ commit }, loginData) {
@@ -81,11 +87,13 @@ export default createStore({
       .then(data => {
         commit('USER', data)
         if(!data.message) {
-            router.push('/movies')
+          router.push('/movies')
         }
         localStorage.setItem('token', data.token)
       })
-      .catch(err => console.log(err))
+      .catch(err => {
+        commit('ERROR', err)
+      })
     },
 
     getUser({ commit }) {
@@ -99,11 +107,19 @@ export default createStore({
         }
       })
       .then(res => res.json())
-      .then(data => commit('USER', data))
-      .catch(err => console.log(err))
+      .then(data => {
+        commit('USER', data)
+        if(data.message) {
+          router.push('/login')
+        }
+      })
+      .catch(err => {
+        commit('ERROR', err)
+        router.push('/login')
+      })
     },
 
-    modifyUsername({ dispatch }, { modifyData, userId }) {
+    modifyUsername({ dispatch, commit }, { modifyData, userId }) {
 
       fetch(process.env.VUE_APP_URL_API + 'api/user/' + userId, {
         method: 'put',
@@ -115,10 +131,12 @@ export default createStore({
       })
       .then(res => res.json())
       .then(data => dispatch('getUser', data))
-      .catch(err => console.log(err))
+      .catch(err => {
+        commit('ERROR', err)
+      })
     },
 
-    modifyImage({ dispatch }, { modifyImage, userId }) {
+    modifyImage({ dispatch, commit }, { modifyImage, userId }) {
 
       fetch(process.env.VUE_APP_URL_API + 'api/user/modifyImage/' + userId, {
           method: 'put',
@@ -129,10 +147,12 @@ export default createStore({
       })
       .then(res => res.json())
       .then(data => dispatch('getUser', data))
-      .catch(err => console.log(err))
+      .catch(err => {
+        commit('ERROR', err)
+      })
     },
 
-    deleteUser({ state }) {
+    deleteUser({ state, commit }) {
 
       fetch(process.env.VUE_APP_URL_API + 'api/user/' + state.userId, {
         method: 'delete',
@@ -146,29 +166,14 @@ export default createStore({
           router.push('/signup')
         }
       })
-      .catch(err => console.log(err))
+      .catch(err => {
+        commit('ERROR', err)
+      })
     },
 
     // movies functions
-    createMovie({ dispatch }, movieData) {
-
-      let actor = movieData.actor
-
-      fetch(process.env.VUE_APP_URL_API + 'api/movie/', {
-        method: 'post',
-        headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(movieData)
-      })
-      .then(() => {
-        dispatch('getAllMovies', actor)
-      })
-      .catch(err => console.log(err))
-    },
-
     getActors({ commit }) {
+
       fetch(process.env.VUE_APP_URL_API + 'api/movie/actors/list', {
         headers: {
           'Accept': 'application/json'
@@ -176,7 +181,9 @@ export default createStore({
       })
       .then(res => res.json())
       .then(data => commit('ACTORS', data.actors))
-      .catch(err => console.log(err))
+      .catch(err => {
+        commit('ERROR', err)
+      })
     },
 
     getAllMovies({ commit }, actor) {
@@ -188,41 +195,13 @@ export default createStore({
       })
       .then(res => res.json())
       .then(data => commit('MOVIES', data))
-      .catch(err => console.log(err))
-    },
-
-    modifyMovie({ dispatch }, { movieData, id }) {
-
-      fetch(process.env.VUE_APP_URL_API + 'api/movie/' + id, {
-        method: 'put',
-        headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(movieData)
+      .catch(err => {
+        commit('ERROR', err)
       })
-      .then(() => {
-        dispatch('getAllMovies', movieData.actor)
-      })
-      .catch(err => console.log(err))
-    },
-
-    deleteMovie({ dispatch }, { id, actor }) {
-
-      fetch(process.env.VUE_APP_URL_API + 'api/movie/' + id, {
-        method: 'delete',
-        headers: {
-          'Accept': 'application/json'
-        }
-      })
-      .then(() => {
-        dispatch('getAllMovies', actor)
-      })
-      .catch(err => console.log(err))
     },
 
     //associations functions
-    create_viewed_movie({ dispatch }, { userId, movieId, decade, actor }) {
+    create_viewed_movie({ dispatch, commit }, { userId, movieId, decade, actor }) {
 
       fetch(process.env.VUE_APP_URL_API + 'api/viewed_movie/' + userId + '/' + movieId + '/' + decade + '/' + actor, {
         method: 'post',
@@ -233,7 +212,9 @@ export default createStore({
       .then(() =>{
         dispatch('get_viewed_movies', userId)
       })
-      .catch(err => console.log(err))
+      .catch(err => {
+        commit('ERROR', err)
+      })
     },
 
     get_viewed_movies({ commit }) {
@@ -250,10 +231,12 @@ export default createStore({
       .then(data => {
         commit('VIEWED_MOVIES', data)
       })
-      .catch(err => console.log(err))
+      .catch(err => {
+        commit('ERROR', err)
+      })
     },
 
-    destroy_viewed_movie({ dispatch }, { userId, movieId }) {
+    destroy_viewed_movie({ dispatch, commit }, { userId, movieId }) {
 
       fetch(process.env.VUE_APP_URL_API + 'api/viewed_movie/destroy/' + userId + '/' + movieId, {
         method: 'delete',
@@ -264,7 +247,9 @@ export default createStore({
       .then(() => {
         dispatch('get_viewed_movies', userId)
       })
-      .catch(err => console.log(err))
+      .catch(err => {
+        commit('ERROR', err)
+      })
     }
 
   },
