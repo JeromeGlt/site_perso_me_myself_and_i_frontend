@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div id="movies_body">
     <div>
       <section>
         <h1 class="text-shadow">Votre intérêt pour le cinéma français</h1>
@@ -317,6 +317,9 @@
 </script>
 
 <style scoped>
+  #movies_body {
+    margin-bottom: 11rem;
+  }
   .link {
     margin-top: 3rem;
     padding-left: 2rem;
@@ -413,6 +416,7 @@
   }
   .show_tables table {
     width: 80%;
+    position: relative;
   }
   .show_tables table:hover img {
     display: block;
@@ -426,7 +430,7 @@
     position: absolute;
     width: 40px;
     height: 43px;
-    left: 8px;
+    left: -40px;
     padding: 0.38rem 0.4rem;
     border: 1px solid rgba(255, 255, 255, 0);
     border-radius: 10px 0px 0px 10px;
