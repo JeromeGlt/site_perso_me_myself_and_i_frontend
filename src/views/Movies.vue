@@ -318,7 +318,7 @@
 
 <style scoped>
   #movies_body {
-    margin-bottom: 11rem;
+    margin-bottom: 10rem;
   }
   .link {
     margin-top: 3rem;
@@ -461,6 +461,9 @@
     margin: 0 auto;
   }
   @media screen and (min-width: 1200px) {
+    #movies_body {
+      margin-bottom: 0;
+    }
     #actor_choice select {
       width: 15%;
     }

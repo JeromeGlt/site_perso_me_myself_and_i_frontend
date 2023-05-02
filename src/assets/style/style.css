@@ -123,7 +123,7 @@ button:hover {
   cursor: pointer;
   transition: 0s ease-in;
 }
-.input_image input::-webkit-file-upload-button {
+.input_image input::file-selector-button {
   display: none;
 }
 .alert {
