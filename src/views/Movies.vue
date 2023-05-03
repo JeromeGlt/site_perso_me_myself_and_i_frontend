@@ -222,6 +222,10 @@
       modify_username_input() {
         this.modify_username_section = true
         this.icon_modify_username = false
+        this.modify_image_section = false
+        this.icon_modify_image = true
+        this.delete_user_section = false
+        this.icon_delete_user = true
       },
       commitUsername(event) {
         if(/[^a-zA-Z-_.âàäçéêèëîïôöûü]/i.test(event.target.value) || event.target.value.length < 5 || event.target.value.length > 40) {
@@ -235,7 +239,9 @@
         this.modify_image_section = true
         this.icon_modify_image = false
         this.modify_username_section = false
+        this.icon_modify_username = true
         this.delete_user_section = false
+        this.icon_delete_user = true
       },
       commitImageProfile(event) {
         this.$store.commit('UPDATE_IMAGEURL', event.target.files[0])
@@ -272,7 +278,9 @@
       deleteUser_alert() {
         this.delete_user_section = true
         this.icon_delete_user = false
+        this.icon_modify_image = true
         this.modify_image_section = false
+        this.icon_modify_username = true
         this.modify_username_section = false
       },
       no_deleteUser_alert() {
@@ -475,6 +483,7 @@
       padding-bottom: 200px;
     }
     button {
+      background: transparent;
       color: #fff;
     }
   }

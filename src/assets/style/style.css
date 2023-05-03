@@ -193,41 +193,13 @@ button:hover {
   a:visited {
     color: #fff;
   }
-  button {
-    background-color: #fff;
-    border: 1px solid #fff;
-    color: #0c0c44;
-  }
-  button:hover {
-    background-color: #0c0c44;
-    color: #fff;
-  }
   .form {
     color: #fff;
     background-color: transparent;
     border: 1px solid #fff;
   }
-  .input input {
-    background-color: transparent;
-    color: #fff;
-    border-bottom: 1px solid #fff;
-  }
-  .input input:focus {
-    border-bottom: 2px solid #fff;
-    color: #fff;
-  }
   .input ::placeholder {
     color: rgba(255, 255, 255, 0.8)
-  }
-  .input_image label {
-    background-color: transparent;
-    border-bottom: solid 1px #fff;
-    border-left: solid 1px #fff;
-    color: #fff;
-  }
-  .input_image label:hover {
-    border-bottom: 2px solid #fff;
-    border-left: 2px solid #fff;
   }
   .alert {
     color: #fff;
